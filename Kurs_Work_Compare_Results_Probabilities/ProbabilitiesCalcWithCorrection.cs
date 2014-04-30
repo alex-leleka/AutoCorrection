@@ -106,7 +106,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private double CalculateCorrectResultProbability() // returns Correct Result Probability
             //taking into account the auto-correction
         {
-           // Потрібне грунтовне теоретичне пояснення!!!
+           // Потрібне теоретичне пояснення!!!
            // TODO: Визначити ймовірність правильної роботи функції на основі
            //       ймовірностей  правильної роботи для кожного окремого результату
            // double probability = 1.0;
@@ -131,22 +131,14 @@ namespace Diplom_Work_Compare_Results_Probabilities
         public double[] CalculateCorrectResultProbabilityArr() // returns Correct Result Probability
         //taking into account the auto-correction
         {
+            // TODO: fuction refactoring, the next code consist from hotfixes
+            // 1
             CalculateTurnInProbabilityMatrix();
             // 2
             CreateTransformedTruthTable();
             // 3
             CalculateCorrectResultProbablitiesArray();
-            // Потрібне грунтовне теоретичне пояснення!!!
-            // TODO: Визначити ймовірність правильної роботи функції на основі
-            //       ймовірностей  правильної роботи для кожного окремого результату
-            // double probability = 1.0;
-            // for (int i = 0; i < _amountOfLinesInTruthTable; i++)
-            // {
-            //     probability *= _correctResultProbablitiesArray[i];
-            // }
-            // return probability;
-
-            // функція повертає наижню границю ймовірності правильної роботи функції
+            
             double min_probability = 1.0;
             double average_probability = 0;
             for (int i = 0; i < _amountOfLinesInTruthTable; i++)

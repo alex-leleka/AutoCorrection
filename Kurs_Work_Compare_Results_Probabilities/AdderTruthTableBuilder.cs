@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
+using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -177,21 +178,31 @@ namespace Diplom_Work_Compare_Results_Probabilities
             return intTable;
         }
     }
-    class AdderTruthTable
+    class AdderTruthTable : AbstractBooleanFuntionWithInputDistortion
     {
         public List<bool[]> functionValue;
-        public int inputDigits;
-        public int resultDigits;
-        public AdderTruthTable(int inputDigitsInt, int resultDigitsInt,int operandsBits)
+        public AdderTruthTable(int inputDigitsInt, int resultDigitsInt,int operandsBits) : base(inputDigitsInt, resultDigitsInt)
         {
-            inputDigits = inputDigitsInt;
-            resultDigits = resultDigitsInt;
             int linesCount = 1 << operandsBits;// = 2 ipower of inputDigits
             functionValue = new List<bool[]>(linesCount);
             for (int i = 0; i < linesCount; i++)
             {
-                functionValue.Add(new bool[resultDigits]);
+                functionValue.Add(new bool[OutputNumberOfDigits]);
             }
+        }
+        // return f(i-th operand)
+        public override BitArray GetResultByLineIndex(ulong index)
+        {
+            return new BitArray(functionValue[Convert.ToInt32(index)]);
+        }
+        // return f(operand)
+        public override BitArray GetResult(BitArray operand)
+        {
+            if (operand.Length > 31)
+                throw new ArgumentException("Argument length shall be at most 31 bits.");
+            int[] array = new int[1];
+            operand.CopyTo(array, 0);
+            return new BitArray(functionValue[array[0]]);
         }
     }
 }

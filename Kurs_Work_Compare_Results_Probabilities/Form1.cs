@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -53,6 +55,44 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             tableGridView.AutoResizeRowHeadersWidth(
                 DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+        }
+        private void showTable(AbstractBooleanFuntionWithInputDistortion table)
+        {
+            DataView v = TruthTableView.GetView(table);
+            tableGridView.DataSource = v;
+            foreach (DataGridViewRow row in tableGridView.Rows)
+            {
+                if (row.IsNewRow) continue;
+                row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
+            }
+            tableGridView.AutoResizeRowHeadersWidth(
+                DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+            
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string[] text;// = new string[1];
+            text = textBoolFunction.Lines;
+            //text[0] = "x[0] || x[1] || x[2] && x[3]";
+            int bitsInput = Convert.ToInt32(numericDigitsCount.Value);
+            showTable(new BooleanFunctionAnalytic(bitsInput, text.Length, text));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            int digitsInput = 4, digitsOutput = 1;
+            double[] distortionto1Probability = { 0.0, 0.0, 0.0, 0.0 };
+            double[] distortionto0Probability = { 0.0, 0.0, 0.0, 0.0 };
+            double[] distortiontoInverseProbability = { 0.5, 0.5, 0.5, 0.5 };
+            double[] zeroProbability = { 0.5, 0.5, 0.5, 0.5 };
+            string[] func = new string[1];
+            func[0] = "(x[0] ^ x[1]) ^ (x[2] ^ x[3])";
+            var f = new BooleanFunctionAnalytic(digitsInput, digitsOutput, func);
+            f.SetDistortionProbabilitiesVectors(distortionto0Probability, distortionto1Probability, distortiontoInverseProbability);
+            ProbabilitiesGxyCalc pGxy = new ProbabilitiesGxyCalc(f, zeroProbability);
+            var actual = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, true));
+            var actual1 = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, false));
+            var Ge = actual1.Gce + actual.Gce + actual1.Gee + actual.Gee;
         }
      }
 }
