@@ -26,7 +26,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             // P(Z=Z') = P(X'=X) = for(int i = 0; i < n; i++){ P *= x[i].correctValue }
             // where n - number of digits of input
             double correctAnswerProbability = 1;
-            double multiplier = 16384;
+            double multiplier = 1048576;
             correctAnswerProbability *= multiplier; // to reduce the error of a floating-point number multiplication
             for (int i = 0; i < _inputNumberOfDigits; i++)
             {

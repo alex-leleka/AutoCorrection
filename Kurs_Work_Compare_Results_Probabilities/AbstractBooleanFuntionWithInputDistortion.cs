@@ -38,7 +38,14 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
                 else throw new Exception("Wrong size of distortion probability array");
             }
         }
-
+        /// <summary>
+        /// Array of probability vectors. Index values correspond to
+        /// correctValue 0,  distortionToZero 1, distortionToOne 2, distortionToInverse 3
+        /// </summary>
+        public double[][] ProbabilityVectors
+        {
+            get { return new double[][] {_correctValueProbability, _distortionToZeroProbability, _distortionToOneProbability, _distortionToInverseProbability}; }
+        }
         public double[] DistortionToOneProbability { get { return _distortionToOneProbability; }
             set
             {

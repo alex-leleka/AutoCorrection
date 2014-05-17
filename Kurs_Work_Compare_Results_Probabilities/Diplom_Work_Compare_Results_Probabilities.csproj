@@ -75,6 +75,7 @@
     <Compile Include="AbstractBooleanFuntionWithInputDistortion.cs" />
     <Compile Include="AnalyticFunctionBuilder.cs" />
     <Compile Include="BooleanFunctionAnalytic.cs" />
+    <Compile Include="BooleanFunctionDllImport.cs" />
     <Compile Include="BooleanFunctionTruthTable.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -87,6 +88,7 @@
     <Compile Include="ProbabilitiesCalculatorAbstract.cs" />
     <Compile Include="ProbabilitiesCalcWithCorrection.cs" />
     <Compile Include="ProbabilitiesGxyCalc.cs" />
+    <Compile Include="ProbGxyCalcSuperposition.cs" />
     <Compile Include="ProductClasses.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
