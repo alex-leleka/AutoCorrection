@@ -55,8 +55,9 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             tableGridView.AutoResizeRowHeadersWidth(
                 DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+             
         }
-        private void showTable(AbstractBooleanFuntionWithInputDistortion table)
+        private void showTable(BooleanFuntionWithInputDistortion table)
         {
             DataView v = TruthTableView.GetView(table);
             tableGridView.DataSource = v;
@@ -93,6 +94,21 @@ namespace Diplom_Work_Compare_Results_Probabilities
             var actual = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, true));
             var actual1 = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, false));
             var Ge = actual1.Gce + actual.Gce + actual1.Gee + actual.Gee;
+            var G = Ge + actual.G0 + actual.Gc + actual1.Gc;
+            string[] func1 = new string[1];
+            string[] func2 = new string[1];
+            func1[0] = "(x[0] ^ x[1]) ^ x[2]";
+            func2[0] = "x[0] ^ x[1]";
+            var digitsInputf1 = 3;
+            var digitsInputf2 = 2;
+            var f1 = new BooleanFunctionAnalytic(digitsInputf1, digitsOutput, func1);
+            var f2 = new BooleanFunctionAnalytic(digitsInputf2, digitsOutput, func2);
+            InputDistortionProbabilities inpDist = 
+                new InputDistortionProbabilities(distortionto0Probability, distortionto1Probability,
+                    distortiontoInverseProbability, zeroProbability);
+            ProbGxyCalcSuperposition pSprPos = new ProbGxyCalcSuperposition(f1, f2, inpDist);
+            var actual2 = pSprPos.GetGprobabilitesResult(new BitArray(digitsOutput, true));
+            var actual3 = pSprPos.GetGprobabilitesResult(new BitArray(digitsOutput, false));
         }
      }
 }

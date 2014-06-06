@@ -9,7 +9,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
     /// Base class for Bool function. Uses as a pointer to instance of derived class.
     /// Provides interfaces for Boolean function operands and result
     /// </summary>
-    public abstract class AbstractBooleanFuntionWithInputDistortion
+    public abstract class BooleanFuntionWithInputDistortion
     {
         protected double[] _distortionToZeroProbability;
         protected double[] _distortionToOneProbability;
@@ -17,26 +17,35 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
         protected double[] _correctValueProbability;
         protected int _inputNumberOfDigits;
         protected int _outputNumberOfDigits;
-        public AbstractBooleanFuntionWithInputDistortion(double[] distortionToZeroProbability,
+        public BooleanFuntionWithInputDistortion(double[] distortionToZeroProbability,
             double[] distortionToOneProbability, double[] distortionToInverseProbability, int inputNumberOfDigits, int outputNumberOfDigits)
         {
             SetDistortionProbabilitiesVectors(distortionToZeroProbability, distortionToOneProbability, distortionToInverseProbability);
             _inputNumberOfDigits = inputNumberOfDigits;
             _outputNumberOfDigits = outputNumberOfDigits;
         }
-        public AbstractBooleanFuntionWithInputDistortion(int inputNumberOfDigits, int outputNumberOfDigits)
+        public BooleanFuntionWithInputDistortion(int inputNumberOfDigits, int outputNumberOfDigits)
         {
             _inputNumberOfDigits = inputNumberOfDigits;
             _outputNumberOfDigits = outputNumberOfDigits;
         }
         public int InputNumberOfDigits { get { return _inputNumberOfDigits; } }
         public int OutputNumberOfDigits { get { return _outputNumberOfDigits; } }
-        public double[] DistortionToZeroProbability { get { return _distortionToZeroProbability; }
+        public double[] DistortionToZeroProbability { 
+            get { return _distortionToZeroProbability; }
             set
             {
                 if (value.Length == _inputNumberOfDigits) _distortionToZeroProbability = value;
                 else throw new Exception("Wrong size of distortion probability array");
             }
+        }
+        public int Length
+        {
+            get { return 1 << _inputNumberOfDigits; }
+        }
+        public ulong LongLength
+        {
+            get { return 1ul << _inputNumberOfDigits; }
         }
         /// <summary>
         /// Array of probability vectors. Index values correspond to
@@ -66,7 +75,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
         ///and it will automaticly calculate new values.
         ///Note: you can not directly set CorrectValueProbability.
         ///</summary>
-        public double[] CorrectValueProbability { get { return _distortionToInverseProbability; } set { CalculateCorrectValueProbability(); } }
+        public double[] CorrectValueProbability { get { return _correctValueProbability; } set { CalculateCorrectValueProbability(); } }
         public void SetDistortionProbabilitiesVectors(double[] distortionToZeroProbability,
             double[] distortionToOneProbability, double[] distortionToInverseProbability)
         {
@@ -86,6 +95,8 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
         }
         private void CalculateCorrectValueProbability()
         {
+            if(null == _correctValueProbability)
+                _correctValueProbability = new double[_inputNumberOfDigits];
             for (int i = 0; i < _correctValueProbability.Length; i++)
             {
                 _correctValueProbability[i] = 1.0 - _distortionToOneProbability[i]
@@ -94,13 +105,13 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
         }
         public ulong GetULongLinesCount()
         {
-            return 1ul << _inputNumberOfDigits;
+            return 1ul << (_inputNumberOfDigits);
         }
         public int GetLinesCount()
         {
             if (_inputNumberOfDigits > 31)
                 throw new Exception("Int type is narrow to store truth table lines count.");
-            return 1 << _inputNumberOfDigits;
+            return 1 << (_inputNumberOfDigits);
         }
         public BitArray GetOperandByLineIndex(ulong index)
         {

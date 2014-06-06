@@ -7,10 +7,10 @@ using System.Text;
 namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
 {
 
-    class BooleanFunctionTruthTable : AbstractBooleanFuntionWithInputDistortion
+    class BooleanFunctionTruthTable : BooleanFuntionWithInputDistortion
     {
         private BitArray[] _resultArr;
-        BooleanFunctionTruthTable(int inputNumberOfDigits, int outputNumberOfDigits, BitArray[] resultArr)
+        public BooleanFunctionTruthTable(int inputNumberOfDigits, int outputNumberOfDigits, BitArray[] resultArr)
             : base(inputNumberOfDigits, outputNumberOfDigits)
         {
             _resultArr = new BitArray[resultArr.LongLength];
@@ -19,10 +19,11 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
                 _resultArr[i] = resultArr[i];
             }
         }
-        BooleanFunctionTruthTable(int inputNumberOfDigits, int outputNumberOfDigits)
+        public BooleanFunctionTruthTable(int inputNumberOfDigits, int outputNumberOfDigits)
             : base(inputNumberOfDigits, outputNumberOfDigits)
         {
         }
+
         public void SetResultTable(IList<int> resultsArr)
         {
             _resultArr = new BitArray[resultsArr.Count()];

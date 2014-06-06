@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
 {
-    public class BooleanFunctionAnalytic : AbstractBooleanFuntionWithInputDistortion
+    public class BooleanFunctionAnalytic : BooleanFuntionWithInputDistortion
     {
         private AnalyticFunctionBuilder _boolFunction;
         public BooleanFunctionAnalytic(int inputNumberOfDigits, int outputNumberOfDigits, string [] boolFunctions)

@@ -44,7 +44,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(555, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(97, 36);
+            this.button1.Size = new System.Drawing.Size(119, 36);
             this.button1.TabIndex = 0;
             this.button1.Text = "Load table";
             this.button1.UseVisualStyleBackColor = true;
@@ -57,14 +57,14 @@
             this.tableGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableGridView.Location = new System.Drawing.Point(-2, 0);
             this.tableGridView.Name = "tableGridView";
-            this.tableGridView.Size = new System.Drawing.Size(525, 486);
+            this.tableGridView.Size = new System.Drawing.Size(525, 507);
             this.tableGridView.TabIndex = 1;
             // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(555, 54);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(97, 36);
+            this.button2.Size = new System.Drawing.Size(119, 36);
             this.button2.TabIndex = 2;
             this.button2.Text = "Load distortion table";
             this.button2.UseVisualStyleBackColor = true;
@@ -72,9 +72,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(529, 453);
+            this.button3.Location = new System.Drawing.Point(538, 468);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(132, 23);
+            this.button3.Size = new System.Drawing.Size(151, 33);
             this.button3.TabIndex = 3;
             this.button3.Text = "BuildTable";
             this.button3.UseVisualStyleBackColor = true;
@@ -82,16 +82,17 @@
             // 
             // textBoolFunction
             // 
-            this.textBoolFunction.Location = new System.Drawing.Point(529, 311);
+            this.textBoolFunction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoolFunction.Location = new System.Drawing.Point(538, 326);
             this.textBoolFunction.Multiline = true;
             this.textBoolFunction.Name = "textBoolFunction";
-            this.textBoolFunction.Size = new System.Drawing.Size(132, 136);
+            this.textBoolFunction.Size = new System.Drawing.Size(151, 136);
             this.textBoolFunction.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(526, 287);
+            this.label1.Location = new System.Drawing.Point(535, 302);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(91, 13);
             this.label1.TabIndex = 5;
@@ -99,7 +100,7 @@
             // 
             // numericDigitsCount
             // 
-            this.numericDigitsCount.Location = new System.Drawing.Point(626, 285);
+            this.numericDigitsCount.Location = new System.Drawing.Point(643, 300);
             this.numericDigitsCount.Maximum = new decimal(new int[] {
             63,
             0,
@@ -111,7 +112,7 @@
             0,
             0});
             this.numericDigitsCount.Name = "numericDigitsCount";
-            this.numericDigitsCount.Size = new System.Drawing.Size(35, 20);
+            this.numericDigitsCount.Size = new System.Drawing.Size(46, 20);
             this.numericDigitsCount.TabIndex = 6;
             this.numericDigitsCount.Value = new decimal(new int[] {
             1,
@@ -121,9 +122,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(567, 161);
+            this.button4.Location = new System.Drawing.Point(555, 179);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(38, 34);
+            this.button4.Size = new System.Drawing.Size(62, 39);
             this.button4.TabIndex = 7;
             this.button4.Text = "button4";
             this.button4.UseVisualStyleBackColor = true;
@@ -133,7 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 488);
+            this.ClientSize = new System.Drawing.Size(701, 509);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.numericDigitsCount);
             this.Controls.Add(this.label1);

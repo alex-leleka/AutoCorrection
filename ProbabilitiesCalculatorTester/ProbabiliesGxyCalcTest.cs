@@ -148,11 +148,32 @@ namespace ProbabilitiesCalculatorTester
             var f = new BooleanFunctionAnalytic(digitsInput, digitsOutput, func);
             f.SetDistortionProbabilitiesVectors(distortionto0Probability, distortionto1Probability, distortiontoInverseProbability);
             ProbabilitiesGxyCalc pGxy = new ProbabilitiesGxyCalc(f, zeroProbability);
-            var actual = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, true));
-            Assert.AreEqual(expected_G0, actual.G0, 0.00001, "Fail for many operands G0");
-            Assert.AreEqual(expected_Gc, actual.Gc, 0.00001, "Fail for many operands Gc");
+            var actual1 = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, true));
+            var actual0 = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, false));
+            Assert.AreEqual(expected_G0, actual1.G0, 0.00001, "Fail for many operands G0");
+            Assert.AreEqual(expected_Gc, actual1.Gc, 0.00001, "Fail for many operands Gc");
             //Assert.AreEqual(expected_Gce, actual.Gce, 0.00001, "Fail for many operands Gce");
-            Assert.AreEqual(expected_Gee, actual.Gee, 0.00001, "Fail for many operands Gee");    
+            Assert.AreEqual(expected_Gee, actual1.Gee, 0.00001, "Fail for many operands Gee");
+            Assert.AreEqual(actual1.G0 + actual1.Gc + actual1.Gce + actual1.Gee
+                + actual0.Gc + actual0.Gce + actual0.Gee, 1.0, 0.001, "Fail sum of probabilities"); 
+        }
+        [TestMethod]
+        public void AutoCorrectionCalcCheck()
+        {
+            int digitsInput = 4, digitsOutput = 1;
+            double[] distortionto1Probability = { 0.1, 0.03, 0.1, 0.04 };
+            double[] distortionto0Probability = { 0.09, 0.01, 0.02, 0.03 };
+            double[] distortiontoInverseProbability = { 0.1, 0.05, 0.04, 0.08 };
+            double[] zeroProbability = { 0.5, 0.5, 0.5, 0.5 };
+            string[] func = new string[1];
+            func[0] = "(x[0]) & (x[2] | x[3])";
+            var f = new BooleanFunctionAnalytic(digitsInput, digitsOutput, func);
+            f.SetDistortionProbabilitiesVectors(distortionto0Probability, distortionto1Probability, distortiontoInverseProbability);
+            ProbabilitiesGxyCalc pGxy = new ProbabilitiesGxyCalc(f, zeroProbability);
+            var actual1 = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, true));
+            var actual0 = pGxy.GetGprobabilitesResult(new BitArray(digitsOutput, false));
+            Assert.AreEqual(actual1.G0 + actual1.Gc + actual1.Gce + actual1.Gee
+                + actual0.Gc + actual0.Gce + actual0.Gee, 1.0, 0.001, "Fail sum of probabilities");
         }/*
         [TestMethod]
         public void VariousProbabilitiesCheck()

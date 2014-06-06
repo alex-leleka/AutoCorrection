@@ -40,7 +40,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 return _probalityZero[index];
             return 1 - _probalityZero[index];
         }
-        private void CalcDeterminedDistortionProbabilities(AbstractBooleanFuntionWithInputDistortion truthTable)
+        private void CalcDeterminedDistortionProbabilities(BooleanFuntionWithInputDistortion truthTable)
         {
             const int BinaryDigitStates = 2;
             AllocateDeterminedDistortionProbalilitiesVectors(ref _autoCorrectionValueProbability, truthTable.CorrectValueProbability.Length);
@@ -51,6 +51,44 @@ namespace Diplom_Work_Compare_Results_Probabilities
             digitDistortionProbability[1] = truthTable.DistortionToOneProbability;
             for (int i = 0; i < truthTable.InputNumberOfDigits; i++)
             {
+                for (int digit = 0; digit < BinaryDigitStates; digit++)
+                {
+                    // gcaij = g(const_(aij)) * p_aij
+                    _autoCorrectionValueProbability[digit][i] = digitDistortionProbability[digit][i];// *ProbabilityZeroAndOne(digit, i);
+
+                    // geaij = (g(const_(not aij)) + p inv ) * p_aij
+                    _distortedValueProbability[digit][i] = (digitDistortionProbability[BinaryDigitStates - digit - 1][i] //digitDistortionProbability[!digit][i]
+                            + truthTable.DistortionToInverseProbability[i]);// *ProbabilityZeroAndOne(digit, i);
+                }
+            }
+        }
+        public ProductClasses(double[] correctValueProbability, double[][] autoCorrectionValueProbability,
+            double[][] distortedValueProbability, double[] probalityZero, BooleanFuntionWithInputDistortion truthTable)
+        {
+            _correctValueProbability = new double[2][];
+            _correctValueProbability[1] = _correctValueProbability[0] = new double[truthTable.InputNumberOfDigits];
+            AllocateDeterminedDistortionProbalilitiesVectors(ref _autoCorrectionValueProbability, truthTable.InputNumberOfDigits);
+            AllocateDeterminedDistortionProbalilitiesVectors(ref _distortedValueProbability, truthTable.InputNumberOfDigits);
+            //_probalityZero = new double[probalityZero.Length];
+            for (int i = 0; i < correctValueProbability.Length; i++)
+            {
+                _correctValueProbability[0][i + truthTable.InputNumberOfDigits - correctValueProbability.Length] = correctValueProbability[i];
+                _autoCorrectionValueProbability[0][i + truthTable.InputNumberOfDigits - correctValueProbability.Length] = 
+                    autoCorrectionValueProbability[0][i];
+                _autoCorrectionValueProbability[1][i + truthTable.InputNumberOfDigits - correctValueProbability.Length] = 
+                    autoCorrectionValueProbability[1][i];
+                _distortedValueProbability[0][i + truthTable.InputNumberOfDigits - correctValueProbability.Length] = 
+                    distortedValueProbability[0][i];
+                _distortedValueProbability[1][i + truthTable.InputNumberOfDigits - correctValueProbability.Length] = 
+                    distortedValueProbability[1][i];
+            }
+            const int BinaryDigitStates = 2;
+            double[][] digitDistortionProbability = new double[BinaryDigitStates][]; // temp variable
+            digitDistortionProbability[0] = truthTable.DistortionToZeroProbability;
+            digitDistortionProbability[1] = truthTable.DistortionToOneProbability;
+            for (int i = 0; i < truthTable.InputNumberOfDigits - correctValueProbability.Length; i++)
+            {
+                _correctValueProbability[0][i] = truthTable.CorrectValueProbability[i];
                 for (int digit = 0; digit < BinaryDigitStates; digit++)
                 {
                     // gcaij = g(const_(aij)) * p_aij
@@ -83,7 +121,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 _distortedValueProbability[1][i] = distortedValueProbability[1][i];
             }
         }
-        public ProductClasses(double[] probalityZero, AbstractBooleanFuntionWithInputDistortion truthTable)
+        public ProductClasses(double[] probalityZero, BooleanFuntionWithInputDistortion truthTable)
         {
             //if (_probalityZeroAndOne == null)
             //    throw new Exception("Error! Zero probalities for fucntion are not set.");
@@ -118,7 +156,12 @@ namespace Diplom_Work_Compare_Results_Probabilities
                  }
             }
         }
-        public double Kj0(BitArray tuple)
+        /// <summary>
+        /// Kj0
+        /// </summary>
+        /// <param name="tuple"></param>
+        /// <returns></returns>
+        public double GetNoDistortionClassProduct(BitArray tuple)
         {
             double d = 1.0;
             for(int i = 0; i < tuple.Length; i++)
@@ -134,7 +177,13 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             return d;
         }
-        public double Kjc(BitArray tuple/*Aj*/, ulong index)
+        /// <summary>
+        /// Kjc
+        /// </summary>
+        /// <param name="tuple"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public double GetAutoCorrectionClassProduct(BitArray tuple/*Aj*/, ulong index)
         {
             double d = 1.0;
             BitArray errorsVect = new BitArray(BitConverter.GetBytes(index));
@@ -161,10 +210,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             return d;
         }
-        public double Kje(BitArray tuple/*Aj*/, ulong index)
+        /// <summary>
+        /// Kje
+        /// </summary>
+        /// <param name="tuple"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public double GetDistortionClassProduct(BitArray tuple/*Aj*/, ulong index)
         {
             double d = 1.0;
-            var productsIndicator = binartToTernary(new BitArray(BitConverter.GetBytes(index)), _probalityZero.Length);
+            var productsIndicator = binaryToTernary(new BitArray(BitConverter.GetBytes(index)), _probalityZero.Length);
             for (int i = 0; i < tuple.Length; i++)
             {
    
@@ -182,7 +237,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             return d;
         }
-        private byte[] binartToTernary(BitArray number, int size)
+        private byte[] binaryToTernary(BitArray number, int size)
         {
             var ternary = new byte[size];
             int binIndex = 0;

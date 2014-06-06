@@ -37,7 +37,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             return _dataTable.AsDataView();
         }
-        public static DataView GetView(AbstractBooleanFuntionWithInputDistortion tTable)
+        public static DataView GetView(BooleanFuntionWithInputDistortion tTable)
         {
             var dataTable = new DataTable();
             //_dataTable column names and types
@@ -66,8 +66,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
             int maskA = maskB << _truthTable.InputNumberOfDigits;
             // add unsorted data to the DataTable and return.
             int[] intTable = AdderTruthTableBuilder.ConvertBoolArrToIntTable(_truthTable);
-             double[] distortionto1Probability =       { 0.1, 0.0, 0.3, 0.3, 0.1, 0.1, 0.0, 0.3, 0.3, 0.1 };
-            double[] distortionto0Probability =       { 0.3, 0.1, 0.2, 0.1, 0.2, 0.3, 0.1, 0.2, 0.1, 0.2 };
+            double[] distortionto1Probability = { 0.1, 0.0, 0.3, 0.3, 0.1, 0.1, 0.0, 0.3, 0.3, 0.1 };
+            double[] distortionto0Probability = { 0.3, 0.1, 0.2, 0.1, 0.2, 0.3, 0.1, 0.2, 0.1, 0.2 };
             double[] distortiontoInverseProbability = { 0.3, 0.5, 0.0, 0.2, 0.1, 0.3, 0.5, 0.0, 0.2, 0.1 };
 
             var pcalc = new ProbabilitiesCalcWithCorrection(distortionto0Probability, distortionto1Probability,

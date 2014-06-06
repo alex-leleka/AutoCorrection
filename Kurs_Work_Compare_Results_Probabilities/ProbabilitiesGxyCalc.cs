@@ -6,23 +6,14 @@ using System.Text;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 namespace Diplom_Work_Compare_Results_Probabilities
 {
-    /// <summary>
-    /// Ймовірносні характеристики результатів фунції, при зададаних детерміновах спотвореннях на вході.
-    /// </summary>
-    public struct Gprobabilites
+    
+    public class ProbabilitiesGxyCalc : IProbabilityGxyCalculator
     {
-        public double G0;
-        public double Gc;
-        public double Gce; // E1
-        public double Gee; // E2
-    }
-    public class ProbabilitiesGxyCalc
-    {
-        private AbstractBooleanFuntionWithInputDistortion _truthTable;
+        private BooleanFuntionWithInputDistortion _truthTable;
 
         // data members for calculating Gxy
         // input data
-        private ProductClasses _inputBitsDistortionsProbalities; // contain probabilites g0, gcaij, geaij, p0i, p1i
+        private ProductClasses _inputBitsDistortionsProbabilities; // contain probabilites g0, gcaij, geaij, p0i, p1i
         // next data stored in _truthTable
         //private double[] _distortionToZeroProbability; //g const0
         //private double[] _distortionToOneProbability; // g const1
@@ -34,7 +25,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         //private double[][] _autoCorrectionValueProbability; // gcaij
         //private double[][] _distortedValueProbability; // geaij
 
-        public ProbabilitiesGxyCalc(AbstractBooleanFuntionWithInputDistortion truthTable, double[] probalityZero)
+        public ProbabilitiesGxyCalc(BooleanFuntionWithInputDistortion truthTable, double[] probalityZero)
         {
             _truthTable = truthTable;
             // TODO: move probalityZero to truthTable class (AbstractBooleanFuntionWithInputDistortion)
@@ -49,8 +40,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
            //     _probalityZeroAndOne[0][i] = probalityZero[i];
            //     _probalityZeroAndOne[1][i] = 1 - probalityZero[i];
            // }
-            _inputBitsDistortionsProbalities = new ProductClasses(probalityZero, truthTable);
-        }
+            _inputBitsDistortionsProbabilities = new ProductClasses(probalityZero, truthTable);
+        }     
         // Get probability of correct (0||1) result == Result without distortion
         public double GetProbabilityG0Result(BitArray result)
         {
@@ -73,7 +64,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
             foreach (double g0 in _truthTable.CorrectValueProbability)
             {
-                pCorrectWithoutDistortion *= g0;// *_inputBitsDistortionsProbalities.ProbabilityZeroAndOne(Convert.ToInt32(tuple[index]), index);
+                pCorrectWithoutDistortion *= g0; // * _inputBitsDistortionsProbalities.ProbabilityZeroAndOne(tuple[index], index)
                 // p(Aj) = P(i=1,n){g0[i]*p[aij][i]}
                 ++index;
             }
@@ -91,7 +82,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 {
                     pGc += GetTupleProbabilityKjcClass(operandIt);
                 }
-            } while (AbstractBooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
+            } while (BooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
             return pGc;
         }
 
@@ -109,15 +100,17 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     int bitValue = Convert.ToInt32(tuple[i]); // value of i-th: zero or one
                     if (distortionVect[i])
                     {
-                        tempProbability *= _inputBitsDistortionsProbalities.AutoCorrectionValueProbability[bitValue][i] * _inputBitsDistortionsProbalities.ProbabilityZeroAndOne(bitValue,i);
+                        tempProbability *= _inputBitsDistortionsProbabilities.AutoCorrectionValueProbability[bitValue][i] 
+                            * _inputBitsDistortionsProbabilities.ProbabilityZeroAndOne(bitValue,i);
                     }
                     else
                     {
-                        tempProbability *= _truthTable.CorrectValueProbability[i] * _inputBitsDistortionsProbalities.ProbabilityZeroAndOne(bitValue, i);
+                        tempProbability *= _truthTable.CorrectValueProbability[i] 
+                            * _inputBitsDistortionsProbabilities.ProbabilityZeroAndOne(bitValue, i);
                     }
                 }
                 Kjc += tempProbability;
-            } while (AbstractBooleanFuntionWithInputDistortion.IncrementOperand(distortionVect));
+            } while (BooleanFuntionWithInputDistortion.IncrementOperand(distortionVect));
             return Kjc;
         }
         // Get probability of distorted (0||1) result == Result without distortion
@@ -155,7 +148,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 {
                     GetTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt);
                 }
-            } while (AbstractBooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
+            } while (BooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
             Gce = E1;
             Gee = E2;
         }
@@ -195,15 +188,15 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     switch (digits[i])
                     {
                         case CORRECT:
-                            tempProbability *= _truthTable.CorrectValueProbability[i] * _inputBitsDistortionsProbalities.ProbabilityZeroAndOne(operandIt[i], i);
+                            tempProbability *= _truthTable.CorrectValueProbability[i] * _inputBitsDistortionsProbabilities.ProbabilityZeroAndOne(operandIt[i], i);
                             distortionVect[i] = false;
                             break;
                         case AUTOCOR:
-                            tempProbability *= _inputBitsDistortionsProbalities.AutoCorrectionValueProbability[bitValue][i] * _inputBitsDistortionsProbalities.ProbabilityZeroAndOne(operandIt[i], i);
+                            tempProbability *= _inputBitsDistortionsProbabilities.AutoCorrectionValueProbability[bitValue][i] * _inputBitsDistortionsProbabilities.ProbabilityZeroAndOne(operandIt[i], i);
                             distortionVect[i] = false;
                             break;
                         case DIST:
-                            tempProbability *= _inputBitsDistortionsProbalities.DistortedValueProbability[bitValue][i] * _inputBitsDistortionsProbalities.ProbabilityZeroAndOne(!operandIt[i], i);
+                            tempProbability *= _inputBitsDistortionsProbabilities.DistortedValueProbability[bitValue][i] * _inputBitsDistortionsProbabilities.ProbabilityZeroAndOne(!operandIt[i], i);
                             distortionVect[i] = true;
                             break;
                         default:
@@ -251,6 +244,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 n = n / base3;
             }
             return v;
+        }
+        public int OutputNumberOfDigits()
+        {
+            return _truthTable.OutputNumberOfDigits;
         }
     }
 }

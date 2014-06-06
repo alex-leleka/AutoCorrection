@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.TruthTable.BooleanFuntionWithInputDistortion" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>KAAQQBCAABAKAAAIAAAAAAAEgA4AACAAAEAATAAAABA=</HashCode>
+      <FileName>BooleanFuntionWithInputDistortion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.TruthTable.AnalyticFunctionBuilder" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="Diplom_Work_Compare_Results_Probabilities.TruthTable.AnalyticFunctionBuilder.Func&lt;T&gt;" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>AnalyticFunctionBuilder.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAABAAAgAAA=</HashCode>
+      <FileName>AnalyticFunctionBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.TruthTable.BooleanFunctionAnalytic" Collapsed="true">
+    <Position X="6.25" Y="1.5" Width="2.25" />
+    <InheritanceLine Type="Diplom_Work_Compare_Results_Probabilities.TruthTable.BooleanFuntionWithInputDistortion" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="7.5" Y="1.062" />
+        <Point X="7.5" Y="1.26" />
+        <Point X="7.375" Y="1.26" />
+        <Point X="7.375" Y="1.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAEAAAAAAAAA=</HashCode>
+      <FileName>BooleanFunctionAnalytic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.TruthTable.NativeMethods" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAQAAQAAAAAA=</HashCode>
+      <FileName>BooleanFunctionDllImport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.TruthTable.BooleanFunctionDllImport" Collapsed="true">
+    <Position X="6.25" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAACCAAAAAAAAAAACAFAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>BooleanFunctionDllImport.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="1.497" />
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.TruthTable.BooleanFunctionTruthTable" Collapsed="true">
+    <Position X="6.25" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQEAAAAAAAAAAAAAEAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>BooleanFunctionTruthTable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.AdderTruthTableBuilder" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAGAAoQAAAAAADAAAAAAAAAAAQAAQoWDAAAAE=</HashCode>
+      <FileName>AdderTruthTableBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.AdderTruthTable" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="2.25" />
+    <InheritanceLine Type="Diplom_Work_Compare_Results_Probabilities.TruthTable.BooleanFuntionWithInputDistortion" FixedFromPoint="true">
+      <Path>
+        <Point X="7.5" Y="1.062" />
+        <Point X="7.5" Y="1.26" />
+        <Point X="6.148" Y="1.26" />
+        <Point X="6.148" Y="3.346" />
+        <Point X="7.375" Y="3.346" />
+        <Point X="7.375" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>AdderTruthTableBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.Form1" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAAAASAAAACCEA4ABAAAHAMAAAAAAA=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.IBitArrayExtensions" Collapsed="true">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IBitArrayExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.ProbabilitiesCalcNoCorrection" Collapsed="true">
+    <Position X="12.25" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProbabilitiesCalcNoCorrection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.ProbabilitiesCalculatorAbstract" Collapsed="true">
+    <Position X="13.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAEABAAAAAAAAAIAAAAAAAAAAAAAAAAAAAATAAAAAA=</HashCode>
+      <FileName>ProbabilitiesCalculatorAbstract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.ProbabilitiesCalcWithCorrection" Collapsed="true">
+    <Position X="14.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIAEACAAAAIAAAAAABgAAAAAIAAAABAAAAkQAAAAAAA=</HashCode>
+      <FileName>ProbabilitiesCalcWithCorrection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.ProbabilitiesGxyCalc" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAACAAAAAAAAAggEAAAAAAAAAAIBFAAAAAgAAQA=</HashCode>
+      <FileName>ProbabilitiesGxyCalc.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.ProbGxyCalcSuperposition" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CACAAAAAAAAAAACAAAIAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>ProbGxyCalcSuperposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.ProductClasses" Collapsed="true">
+    <Position X="15.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAIAGAIEQAAAAAAAACAABAAhBAAASIA=</HashCode>
+      <FileName>ProductClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.Program" Collapsed="true">
+    <Position X="10" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.TruthTableView" Collapsed="true">
+    <Position X="15.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAEAABAAAAAAA=</HashCode>
+      <FileName>TruthTableView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.Properties.Resources" Collapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diplom_Work_Compare_Results_Probabilities.Properties.Settings" Collapsed="true">
+    <Position X="13.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Diplom_Work_Compare_Results_Probabilities.Gprobabilites" Collapsed="true">
+    <Position X="10" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAABAAAAAAAAAAAAACAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>IProbabilityGxyCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="Diplom_Work_Compare_Results_Probabilities.IProbabilityGxyCalculator" Collapsed="true">
+    <Position X="10" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IProbabilityGxyCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

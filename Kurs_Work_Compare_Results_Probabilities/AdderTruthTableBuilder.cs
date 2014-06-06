@@ -178,10 +178,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
             return intTable;
         }
     }
-    class AdderTruthTable : AbstractBooleanFuntionWithInputDistortion
+    public class AdderTruthTable : BooleanFuntionWithInputDistortion
     {
         public List<bool[]> functionValue;
-        public AdderTruthTable(int inputDigitsInt, int resultDigitsInt,int operandsBits) : base(inputDigitsInt, resultDigitsInt)
+        public AdderTruthTable(int inputDigitsInt, int resultDigitsInt,int operandsBits) : base(2 * inputDigitsInt, resultDigitsInt)
         {
             int linesCount = 1 << operandsBits;// = 2 ipower of inputDigits
             functionValue = new List<bool[]>(linesCount);
@@ -189,6 +189,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
             {
                 functionValue.Add(new bool[OutputNumberOfDigits]);
             }
+        }
+        public AdderTruthTable(AdderTruthTable table)
+            : base(table.InputNumberOfDigits, table.OutputNumberOfDigits)
+        {
+            functionValue = table.functionValue;
         }
         // return f(i-th operand)
         public override BitArray GetResultByLineIndex(ulong index)
@@ -203,6 +208,32 @@ namespace Diplom_Work_Compare_Results_Probabilities
             int[] array = new int[1];
             operand.CopyTo(array, 0);
             return new BitArray(functionValue[array[0]]);
+        }
+    }
+    public class BitAdderTruthTable : AdderTruthTable
+    {
+        private AdderTruthTable _table;
+        private int _bitIndex;
+        public BitAdderTruthTable(int bitIndex, AdderTruthTable table)
+            : base(table)
+        {
+            _table = table;
+            this._outputNumberOfDigits = 1;
+            _bitIndex = bitIndex;
+        }
+        // return f(i-th operand)
+        public override BitArray GetResultByLineIndex(ulong index)
+        {
+            return new BitArray(1,functionValue[Convert.ToInt32(index)][_bitIndex]);
+        }
+        // return f(operand)
+        public override BitArray GetResult(BitArray operand)
+        {
+            if (operand.Length > 31)
+                throw new ArgumentException("Argument length shall be at most 31 bits.");
+            int[] array = new int[1];
+            operand.CopyTo(array, 0);
+            return new BitArray(1, functionValue[array[0]][_bitIndex]);
         }
     }
 }
