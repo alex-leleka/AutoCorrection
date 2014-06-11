@@ -18,7 +18,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private double[][] _autoCorrectionValueProbability; // gcaij
         private double[][] _distortedValueProbability; // geaij
 
-        private double[] _probalityZero;
+        private double[][] _probalityZero;
 
         public double[][] CorrectValueProbability
         { get { return _correctValueProbability; } }
@@ -30,15 +30,13 @@ namespace Diplom_Work_Compare_Results_Probabilities
         // p[1] can be calculeted as p1[i] = 1 - p0[i];
         public double ProbabilityZeroAndOne(int zeroOrOne, int index)
         {
-            if(zeroOrOne == 0)
-                return _probalityZero[index];
-            return 1 - _probalityZero[index];
+            return _probalityZero[zeroOrOne][index];
         }
         public double ProbabilityZeroAndOne(bool zeroOrOne, int index)
         {
-            if (zeroOrOne == false)
-                return _probalityZero[index];
-            return 1 - _probalityZero[index];
+            if (zeroOrOne)
+                return _probalityZero[1][index];
+            return _probalityZero[0][index];
         }
         private void CalcDeterminedDistortionProbabilities(BooleanFuntionWithInputDistortion truthTable)
         {
@@ -100,6 +98,59 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 }
             }
         }
+        public ProductClasses(InputDistortionProbabilities inputDistProb, Gprobabilites[][] bitProbabilities, int lenInput)
+        {
+            _correctValueProbability = new double[2][];
+            int lenF2Result =  bitProbabilities[0].Length;
+            _correctValueProbability[1] = _correctValueProbability[0] = new double[lenInput];
+            AllocateDeterminedDistortionProbalilitiesVectors(ref _autoCorrectionValueProbability, lenInput);
+            AllocateDeterminedDistortionProbalilitiesVectors(ref _distortedValueProbability, lenInput);
+            const int BinaryDigitStates = 2;
+            double[][] digitDistortionProbability = new double[BinaryDigitStates][]; // temp variable
+            digitDistortionProbability[0] = inputDistProb.DistortionToZeroProbability;
+            digitDistortionProbability[1] = inputDistProb.DistortionToOneProbability;
+            _probalityZero = new double[2][];
+            _probalityZero[0] = new double[lenInput];
+            _probalityZero[1] = new double[lenInput];
+            // set gxx values for bits 1..t
+            for (int i = 0; i < lenInput - lenF2Result; i++)
+            {
+                _correctValueProbability[0][i] = inputDistProb.CorrectValueProbability[i];
+                _probalityZero[0][i] = inputDistProb.ZeroProbability[i];
+                _probalityZero[1][i] = 1 - inputDistProb.ZeroProbability[i];
+                for (int digit = 0; digit < BinaryDigitStates; digit++)
+                {
+                    // gcaij = g(const_(aij)) * p_aij
+                    _autoCorrectionValueProbability[digit][i] = digitDistortionProbability[digit][i];// *ProbabilityZeroAndOne(digit, i);
+
+                    // geaij = (g(const_(not aij)) + p inv ) * p_aij
+                    _distortedValueProbability[digit][i] = (digitDistortionProbability[BinaryDigitStates - digit - 1][i] //digitDistortionProbability[!digit][i]
+                            + inputDistProb.DistortionToInverseProbability[i]);// *ProbabilityZeroAndOne(digit, i);
+                }
+            }
+            // set gxx values for bits t+1..n
+            int indexbitProb = 0;
+            for (int i = lenInput - lenF2Result; i < lenInput; i++)
+            {
+                _probalityZero[0][i] = _probalityZero[1][i] = 1.0;
+                _correctValueProbability[0][i] = bitProbabilities[0][indexbitProb].G0;
+                for (int digit = 0; digit < BinaryDigitStates; digit++)
+                {
+                    // gcaij = g(const_(aij)) * p_aij
+                    _autoCorrectionValueProbability[digit][i] = (bitProbabilities[digit][indexbitProb].Gc + bitProbabilities[digit][indexbitProb].Gce);// *ProbabilityZeroAndOne(digit, i);
+
+                    // geaij = (g(const_(not aij)) + p inv ) * p_aij
+                    _distortedValueProbability[digit][i] = bitProbabilities[digit][indexbitProb].Gee;// *ProbabilityZeroAndOne(digit, i);
+                }
+                double check = _correctValueProbability[0][i] + _autoCorrectionValueProbability[0][i] + _autoCorrectionValueProbability[1][i] +
+                    _distortedValueProbability[0][i] + _distortedValueProbability[1][i];
+                if (check > 1.0001)
+                {
+                    throw new Exception("Oh no!");
+                }
+                indexbitProb++;
+            }
+        }
         public ProductClasses(double[] correctValueProbability, double[][] autoCorrectionValueProbability,
             double[][] distortedValueProbability, double[] probalityZero)
         {
@@ -109,10 +160,13 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _correctValueProbability[1] = _correctValueProbability[0] = new double[correctValueProbability.Length];
             AllocateDeterminedDistortionProbalilitiesVectors(ref _autoCorrectionValueProbability, autoCorrectionValueProbability.Length);
             AllocateDeterminedDistortionProbalilitiesVectors(ref _distortedValueProbability, distortedValueProbability.Length);
-            _probalityZero = new double[probalityZero.Length];
+            _probalityZero = new double[2][];
+            _probalityZero[0] = new double[probalityZero.Length];
+            _probalityZero[1] = new double[probalityZero.Length];
             for (int i = 0; i < probalityZero.Length; i++)
             {
-                _probalityZero[i] = probalityZero[i];
+                _probalityZero[0][i] = probalityZero[i];
+                _probalityZero[1][i] = 1 - probalityZero[i];
                 _correctValueProbability[0][i] = correctValueProbability[i];
 
                 _autoCorrectionValueProbability[0][i] = autoCorrectionValueProbability[0][i];
@@ -125,10 +179,13 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             //if (_probalityZeroAndOne == null)
             //    throw new Exception("Error! Zero probalities for fucntion are not set.");
-            _probalityZero = new double[probalityZero.Length];
+            _probalityZero = new double[2][];
+            _probalityZero[0] = new double[probalityZero.Length];
+            _probalityZero[1] = new double[probalityZero.Length];
             for (int i = 0; i < probalityZero.Length; i++)
             {
-                _probalityZero[i] = probalityZero[i];
+                _probalityZero[0][i] = probalityZero[i];
+                _probalityZero[1][i] = 1 - probalityZero[i];
             }
             CalcDeterminedDistortionProbabilities(truthTable);
         }
@@ -198,14 +255,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     d *= _autoCorrectionValueProbability[Convert.ToInt32(tuple[i])][i];
                 }
 
-                if (tuple[i]) // pi^aij
-                {
-                    d *= _probalityZero[i];
-                }
-                else
-                {
-                    d *= 1 - _probalityZero[i];
-                }
+                d *= ProbabilityZeroAndOne(tuple[i], i);
                 
             }
             return d;
@@ -224,15 +274,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             {
    
                 d *= this[productsIndicator[i]] [Convert.ToInt32(tuple[i])] [i];
-
-                if (tuple[i]) // pi^aij
-                {
-                    d *= _probalityZero[i];
-                }
-                else
-                {
-                    d *= 1 - _probalityZero[i];
-                }
+                d *= ProbabilityZeroAndOne(tuple[i], i);
 
             }
             return d;

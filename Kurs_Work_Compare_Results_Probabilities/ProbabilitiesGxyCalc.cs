@@ -41,7 +41,12 @@ namespace Diplom_Work_Compare_Results_Probabilities
            //     _probalityZeroAndOne[1][i] = 1 - probalityZero[i];
            // }
             _inputBitsDistortionsProbabilities = new ProductClasses(probalityZero, truthTable);
-        }     
+        }
+        public ProbabilitiesGxyCalc(BooleanFuntionWithInputDistortion truthTable, ProductClasses prodClasses)
+        {
+            _truthTable = truthTable;
+            _inputBitsDistortionsProbabilities = prodClasses;
+        }
         // Get probability of correct (0||1) result == Result without distortion
         public double GetProbabilityG0Result(BitArray result)
         {

@@ -63,6 +63,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             get { return _distortionToInverseProbability; }
         }
+        public double[] CorrectValueProbability
+        {
+            get { return _correctValueProbability; }
+        }
         public double[] ZeroProbability
         {
             get { return _probalityZero; }

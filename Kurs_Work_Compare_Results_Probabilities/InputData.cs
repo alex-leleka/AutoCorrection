@@ -34,5 +34,18 @@ namespace Diplom_Work_Compare_Results_Probabilities
             im.Anchor = AnchorStyles.Left | AnchorStyles.Top;
             this.Controls.Add(im);
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            var form = new Form1();
+            formShow(form);
+        }
+        private void formShow(Form f)
+        {
+            f.Visible = false;
+            f.Show();
+            if (f.WindowState == FormWindowState.Minimized)
+                f.WindowState = FormWindowState.Normal;
+        }
     }
 }

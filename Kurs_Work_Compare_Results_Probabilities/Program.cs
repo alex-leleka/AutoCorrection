@@ -15,7 +15,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new InputData());//new Form1());
+            Application.Run(new InputData());//new Form1());//
         }
     }
 }

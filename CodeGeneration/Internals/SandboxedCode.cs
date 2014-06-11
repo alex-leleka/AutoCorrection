@@ -7,12 +7,10 @@
             _codeProxy = codeProxy;
         }
 
-
         public TResult Execute(params object[] parameterValues)
         {
             return (TResult)_codeProxy.Execute(parameterValues);
         }
-
 
         private readonly CodeProxy _codeProxy;
     }

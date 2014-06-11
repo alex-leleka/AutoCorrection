@@ -75,7 +75,11 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
         ///and it will automaticly calculate new values.
         ///Note: you can not directly set CorrectValueProbability.
         ///</summary>
-        public double[] CorrectValueProbability { get { return _correctValueProbability; } set { CalculateCorrectValueProbability(); } }
+        public double[] CorrectValueProbability { get {
+            if (_correctValueProbability == null) CalculateCorrectValueProbability(); return _correctValueProbability;
+        }
+            set { CalculateCorrectValueProbability(); }
+        }
         public void SetDistortionProbabilitiesVectors(double[] distortionToZeroProbability,
             double[] distortionToOneProbability, double[] distortionToInverseProbability)
         {
@@ -91,6 +95,22 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
                 _distortionToInverseProbability[i] = distortionToInverseProbability[i];
                 _distortionToOneProbability[i] = distortionToOneProbability[i];
                 _correctValueProbability[i] = 1.0 - distortionToOneProbability[i] - distortionToZeroProbability[i] - distortionToInverseProbability[i];
+            }
+        }
+        public void SetDistortionProbabilitiesVectors(InputDistortionProbabilities inpDistProb)
+        {
+            // creating arrays
+            _distortionToInverseProbability = new double[_inputNumberOfDigits];
+            _distortionToZeroProbability = new double[_inputNumberOfDigits];
+            _distortionToOneProbability = new double[_inputNumberOfDigits];
+            _correctValueProbability = new double[_inputNumberOfDigits];
+            // copy data
+            for (int i = 0; i < _inputNumberOfDigits; i++)
+            {
+                _distortionToZeroProbability[i] = inpDistProb.DistortionToZeroProbability[i];
+                _distortionToInverseProbability[i] = inpDistProb.DistortionToInverseProbability[i];
+                _distortionToOneProbability[i] = inpDistProb.DistortionToOneProbability[i];
+                _correctValueProbability[i] = 1.0 - _distortionToOneProbability[i] - _distortionToZeroProbability[i] - _distortionToInverseProbability[i];
             }
         }
         private void CalculateCorrectValueProbability()

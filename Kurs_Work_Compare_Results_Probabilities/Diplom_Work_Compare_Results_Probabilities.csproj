@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BooleanFunctionDelegate.cs" />
     <Compile Include="BooleanFuntionWithInputDistortion.cs" />
     <Compile Include="AnalyticFunctionBuilder.cs" />
     <Compile Include="BooleanFunctionAnalytic.cs" />

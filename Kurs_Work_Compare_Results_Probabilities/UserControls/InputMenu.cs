@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -86,6 +85,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             else if (rbTextFile.Checked)
             {
                 //ShowInput(new 
+
             }
             else if (rbTruthTable.Checked)
             {
@@ -93,12 +93,32 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             else if (rbDllImport.Checked)
             {
-
+                _bf = new BooleanFunctionDelegate(6, 1, f6);
             }
             else if (rbAdder.Checked)
             {
                 ShowInput(new AdderInputChoose(SetBoolFunction));
             }
+        }
+        public static BitArray f10(BitArray x)
+        {
+            BitArray result = new BitArray(1, false);
+            result[0] = (x[0] & x[1] & x[2] & x[3] & x[4]) ^
+                (x[5] | x[6] | x[7] | x[8] | x[9]);
+            return result;
+        }
+        public static BitArray f5(BitArray x)
+        {
+            BitArray result = new BitArray(1, false);
+            result[0] = (x[5 - 5] | x[6 - 5] | x[7 - 5] | x[8 - 5] | x[9 - 5]);
+            return result;
+        }
+        public static BitArray f6(BitArray x)
+        {
+            BitArray result = new BitArray(1, false);
+            result[0] = (x[0] & x[1] & x[2] & x[3] & x[4]) ^
+                (x[5]);
+            return result;
         }
     }
 }

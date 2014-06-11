@@ -26,17 +26,17 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _inputDistortionProb = inputDistortionProb;
 
             // copy distortion for f2
-            LoadDistortionToBoolFunction(_f2, _f1.InputNumberOfDigits - _f2.OutputNumberOfDigits, 0);
-            LoadDistortionToBoolFunction(_f1, 0, _f2.OutputNumberOfDigits);
+            LoadDistortionToBoolFunction(_f2, _f1.InputNumberOfDigits - _f2.OutputNumberOfDigits, _f2.InputNumberOfDigits);
+            LoadDistortionToBoolFunction(_f1, 0, _f1.InputNumberOfDigits - _f2.OutputNumberOfDigits);
             _probCalcF1 = null;
         }
 
-        private void LoadDistortionToBoolFunction(BooleanFuntionWithInputDistortion f, int indexBase, int countDecrement)
+        private void LoadDistortionToBoolFunction(BooleanFuntionWithInputDistortion f, int indexBase, int count)
         {
             double[] distortionToZeroProbability = new double[f.InputNumberOfDigits];
             double[] distortionToOneProbability = new double[f.InputNumberOfDigits];
             double[] distortionToInverseProbability = new double[f.InputNumberOfDigits];
-            for (int i = 0; i < f.InputNumberOfDigits - countDecrement; i++)
+            for (int i = 0; i < count; i++)
             {
                 distortionToZeroProbability[i] = _inputDistortionProb.DistortionToZeroProbability[i + indexBase];
                 distortionToOneProbability[i] = _inputDistortionProb.DistortionToOneProbability[i + indexBase];
@@ -149,6 +149,57 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
             _probCalcF1 = new ProbabilitiesGxyCalc(_f1, probabilityZeroF1);
         }
+        private void CalcF2ProbabilitiesGxyNew()
+        {
+            if (null != _probCalcF1)
+                return;
+            int resultsCount = 1 << _f2.OutputNumberOfDigits;
+            Gprobabilites[] boolFunc2Gp = new Gprobabilites[resultsCount];
+            double[] f2ProbalityZero = new double[_f2.InputNumberOfDigits];
+
+            for (int i = 0; i < f2ProbalityZero.Length; i++)
+                f2ProbalityZero[i] = _inputDistortionProb.ZeroProbability[i + _f1.InputNumberOfDigits - _f2.OutputNumberOfDigits];
+
+            var f2Calc = new ProbabilitiesGxyCalc(_f2, f2ProbalityZero);
+
+            double[] probabilityZeroF1 = new double[_f1.InputNumberOfDigits];
+            // copy input zero probability for function f1 in range [1,..,t]
+            for (int i = 0; i < _f1.InputNumberOfDigits - _f2.OutputNumberOfDigits; i++)
+            {
+                probabilityZeroF1[i] = _inputDistortionProb.ZeroProbability[i];
+            }
+            for (int i = 0; i < _f2.OutputNumberOfDigits; i++)
+            {
+                probabilityZeroF1[i + _f1.InputNumberOfDigits - _f2.OutputNumberOfDigits] = 0.0;
+            }
+            // create Gprobabilities for a separate bit of f2 function result
+            const int BinaryDigitState = 2;
+            Gprobabilites[][] digitSeparateProb = new Gprobabilites[BinaryDigitState][];
+            for (int i = 0; i < BinaryDigitState; i++)
+            {
+                digitSeparateProb[i] = new Gprobabilites[f2Calc.OutputNumberOfDigits()];
+            }
+            // calc results probabilities
+            int indexBoolFunc2Gp = 0;
+            BitArray resultVect = new BitArray(_f2.OutputNumberOfDigits, false); // 00...0
+            do
+            {
+                boolFunc2Gp[indexBoolFunc2Gp] = f2Calc.GetGprobabilitesResult(resultVect);
+                // calc G prob of separate bits of result
+                for (int i = 0; i < digitSeparateProb[0].Length; i++)
+                {
+                    int digit = resultVect[i] ? 1 : 0;
+                    digitSeparateProb[digit][i].G0 = boolFunc2Gp[indexBoolFunc2Gp].G0;
+                    digitSeparateProb[digit][i].Gc += boolFunc2Gp[indexBoolFunc2Gp].Gc;
+                    digitSeparateProb[digit][i].Gce += boolFunc2Gp[indexBoolFunc2Gp].Gce;
+                    digitSeparateProb[digit][i].Gee += boolFunc2Gp[indexBoolFunc2Gp].Gee;
+                }
+                ++indexBoolFunc2Gp;
+            } while (BooleanFuntionWithInputDistortion.IncrementOperand(resultVect));
+            var prodClasses = new ProductClasses(_inputDistortionProb, digitSeparateProb, _f1.InputNumberOfDigits);
+
+            _probCalcF1 = new ProbabilitiesGxyCalc(_f1, prodClasses);
+        }
         private void AllocateDeterminedDistortionProbalilitiesVectors(ref double[][] vectValueProbability)
         {
             const int BinaryDigitStates = 2;
@@ -160,7 +211,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         public Gprobabilites GetGprobabilitesResult(BitArray result)
         {
             if (null == _probCalcF1)
-                CalcF2ProbabilitiesGxy();
+                CalcF2ProbabilitiesGxyNew();
             return _probCalcF1.GetGprobabilitesResult(result);
         }
         public int OutputNumberOfDigits()

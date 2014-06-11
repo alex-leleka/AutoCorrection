@@ -37,7 +37,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             if (cbBitIndex.Checked)
             {
                 int bitIndex = Convert.ToInt32(numericBitIndex.Value);
-                var bitAdderTable = new BitAdderTruthTable(bitIndex, adderTable);
+                var bitAdderTable = new BitAdderTruthTable(bitIndex - 1, adderTable);
                 _bfProxy(bitAdderTable);
             }
             else
