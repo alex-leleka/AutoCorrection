@@ -47,5 +47,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
             if (f.WindowState == FormWindowState.Minimized)
                 f.WindowState = FormWindowState.Normal;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

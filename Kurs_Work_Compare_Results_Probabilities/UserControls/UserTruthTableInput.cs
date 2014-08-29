@@ -42,7 +42,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             if (_bf == null)
             {
-                MessageBox.Show("Please, choose functuion at first.");
+                MessageBox.Show("Please, choose function at first.");
             }
             else
             {

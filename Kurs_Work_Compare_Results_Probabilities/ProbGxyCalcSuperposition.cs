@@ -7,7 +7,7 @@ using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 namespace Diplom_Work_Compare_Results_Probabilities
 {
     /// <summary>
-    /// Calculate corrarect work probability of function presented as
+    /// Calculate corect work probability of function presented as
     /// superposition of two functions. f(x0,..., xN) = f1(x0,..., xT, f2(x[T+1], ..., xN)).
     /// </summary>
     class ProbGxyCalcSuperposition : IProbabilityGxyCalculator
@@ -196,7 +196,13 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 }
                 ++indexBoolFunc2Gp;
             } while (BooleanFuntionWithInputDistortion.IncrementOperand(resultVect));
-            var prodClasses = new ProductClasses(_inputDistortionProb, digitSeparateProb, _f1.InputNumberOfDigits);
+            BitGprobabilities[] bgp = new BitGprobabilities[digitSeparateProb[0].Length];
+            for(int i = 0; i < digitSeparateProb[0].Length; i++)
+            {
+                bgp[i] = new BitGprobabilities(digitSeparateProb[0][i], digitSeparateProb[1][i]);
+            }
+
+            var prodClasses = new ProductClasses(_inputDistortionProb.ZeroProbability, _f1, bgp);
 
             _probCalcF1 = new ProbabilitiesGxyCalc(_f1, prodClasses);
         }

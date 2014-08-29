@@ -20,6 +20,9 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private double[][] _probalityZero;
 
+        private BitGprobabilities[] lastBitsProbabilities;
+        private int lastBitsCount = 0;
+
         public double[][] CorrectValueProbability
         { get { return _correctValueProbability; } }
         public double[][] AutoCorrectionValueProbability
@@ -177,8 +180,6 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
         public ProductClasses(double[] probalityZero, BooleanFuntionWithInputDistortion truthTable)
         {
-            //if (_probalityZeroAndOne == null)
-            //    throw new Exception("Error! Zero probalities for fucntion are not set.");
             _probalityZero = new double[2][];
             _probalityZero[0] = new double[probalityZero.Length];
             _probalityZero[1] = new double[probalityZero.Length];
@@ -188,6 +189,20 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 _probalityZero[1][i] = 1 - probalityZero[i];
             }
             CalcDeterminedDistortionProbabilities(truthTable);
+        }
+        public ProductClasses(double[] probalityZero, BooleanFuntionWithInputDistortion truthTable, BitGprobabilities[] prob)
+        {
+            _probalityZero = new double[2][];
+            _probalityZero[0] = new double[probalityZero.Length];
+            _probalityZero[1] = new double[probalityZero.Length];
+            for (int i = 0; i < probalityZero.Length; i++)
+            {
+                _probalityZero[0][i] = probalityZero[i];
+                _probalityZero[1][i] = 1 - probalityZero[i];
+            }
+            CalcDeterminedDistortionProbabilities(truthTable);
+            lastBitsCount = prob.Length;
+            lastBitsProbabilities = prob;
         }
         private void AllocateDeterminedDistortionProbalilitiesVectors(ref double[][] vectValueProbability, int size)
         {
@@ -220,19 +235,24 @@ namespace Diplom_Work_Compare_Results_Probabilities
         /// <returns></returns>
         public double GetNoDistortionClassProduct(BitArray tuple)
         {
+            return GetNoDistortionClassProductAlt(tuple);
+        }
+        public double GetNoDistortionClassProductAlt(BitArray tuple)
+        {
             double d = 1.0;
-            for(int i = 0; i < tuple.Length; i++)
+            for (int i = 0; i < tuple.Length; i++)
             {
-              /*  if(tuple[i])
-                {
-                    d *= _probalityZero[i];
-                }else
-                {
-                    d *= 1 - _probalityZero[i];
-                }*/
-                d *= _correctValueProbability[0][i];
+                d *= GetNoDistortionValueProbability(i);
             }
             return d;
+        }
+        private double GetNoDistortionValueProbability(int index)
+        {
+            if (index < _probalityZero.Length)
+            {
+                return _correctValueProbability[0][index];
+            }
+            return lastBitsProbabilities[index - _probalityZero.Length].G0.Sum();
         }
         /// <summary>
         /// Kjc
@@ -242,23 +262,41 @@ namespace Diplom_Work_Compare_Results_Probabilities
         /// <returns></returns>
         public double GetAutoCorrectionClassProduct(BitArray tuple/*Aj*/, ulong index)
         {
+            return GetAutoCorrectionClassProductAlt(tuple, index);
+        }
+        public double GetAutoCorrectionClassProductAlt(BitArray tuple/*Aj*/, ulong index)
+        {
             double d = 1.0;
             BitArray errorsVect = new BitArray(BitConverter.GetBytes(index));
             for (int i = 0; i < tuple.Length; i++)
             {
                 if (errorsVect[i]) // g0i or gci
                 {
-                    d *= _correctValueProbability[0][i];
+                    d *= GetAutoCorrectionValueProbabilityG0(Convert.ToInt32(tuple[i]),i);
                 }
                 else
                 {
-                    d *= _autoCorrectionValueProbability[Convert.ToInt32(tuple[i])][i];
+                    d *= GetAutoCorrectionValueProbabilityGc(Convert.ToInt32(tuple[i]), i);
                 }
 
-                d *= ProbabilityZeroAndOne(tuple[i], i);
-                
             }
             return d;
+        }
+        private double GetAutoCorrectionValueProbabilityG0(int bit, int index)
+        {
+            if (index < _probalityZero.Length)
+            {
+                return _correctValueProbability[0][index] * ProbabilityZeroAndOne(bit, index);
+            }
+            return lastBitsProbabilities[index - _probalityZero.Length].G0[bit];
+        }
+        private double GetAutoCorrectionValueProbabilityGc(int bit, int index)
+        {
+            if (index < _probalityZero.Length)
+            {
+                return _autoCorrectionValueProbability[bit][index] * ProbabilityZeroAndOne(bit, index);
+            }
+            return lastBitsProbabilities[index - _probalityZero.Length].Gc[bit];
         }
         /// <summary>
         /// Kje
@@ -268,16 +306,39 @@ namespace Diplom_Work_Compare_Results_Probabilities
         /// <returns></returns>
         public double GetDistortionClassProduct(BitArray tuple/*Aj*/, ulong index)
         {
+            return GetDistortionClassProductAlt(tuple, index);
+        }
+        public double GetDistortionClassProductAlt(BitArray tuple/*Aj*/, ulong index) 
+        {
             double d = 1.0;
-            var productsIndicator = binaryToTernary(new BitArray(BitConverter.GetBytes(index)), _probalityZero.Length);
+            byte[] productsIndicator = binaryToTernary(new BitArray(BitConverter.GetBytes(index)), _probalityZero.Length);
             for (int i = 0; i < tuple.Length; i++)
             {
-   
-                d *= this[productsIndicator[i]] [Convert.ToInt32(tuple[i])] [i];
+
+                switch(productsIndicator[i])
+                {
+                    case 0:
+                        d *= GetAutoCorrectionValueProbabilityG0(Convert.ToInt32(tuple[i]),i);
+                        break;
+                    case 1:
+                        d *= GetAutoCorrectionValueProbabilityGc(Convert.ToInt32(tuple[i]), i);
+                        break;
+                    case 2:
+                        d *= GetDistortionValueProbabilityGe(Convert.ToInt32(tuple[i]), i);
+                        break;
+                }
                 d *= ProbabilityZeroAndOne(tuple[i], i);
 
             }
             return d;
+        }
+        private double GetDistortionValueProbabilityGe(int bit, int index)
+        {
+            if (index < _probalityZero.Length)
+            {
+                return _distortedValueProbability[bit][index] * ProbabilityZeroAndOne(bit, index);
+            }
+            return lastBitsProbabilities[index - _probalityZero.Length].Ge[bit];
         }
         private byte[] binaryToTernary(BitArray number, int size)
         {

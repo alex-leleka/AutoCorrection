@@ -154,11 +154,17 @@
     <Compile Include="UserControls\FuncTruthTableInput.Designer.cs">
       <DependentUpon>FuncTruthTableInput.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\InputMenu.cs">
+    <Compile Include="UserControls\UserSuperpositionTruthTableInput.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\InputMenu.Designer.cs">
-      <DependentUpon>InputMenu.cs</DependentUpon>
+    <Compile Include="UserControls\UserSuperpositionTruthTableInput.Designer.cs">
+      <DependentUpon>UserSuperpositionTruthTableInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UserTruthTableInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\UserTruthTableInput.Designer.cs">
+      <DependentUpon>UserTruthTableInput.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="ResultView.resx">
       <DependentUpon>ResultView.cs</DependentUpon>
@@ -197,8 +203,11 @@
     <EmbeddedResource Include="UserControls\FuncTruthTableInput.resx">
       <DependentUpon>FuncTruthTableInput.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\InputMenu.resx">
-      <DependentUpon>InputMenu.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\UserSuperpositionTruthTableInput.resx">
+      <DependentUpon>UserSuperpositionTruthTableInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UserTruthTableInput.resx">
+      <DependentUpon>UserTruthTableInput.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />

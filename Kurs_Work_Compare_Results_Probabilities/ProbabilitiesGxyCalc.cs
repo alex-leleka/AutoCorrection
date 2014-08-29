@@ -14,16 +14,6 @@ namespace Diplom_Work_Compare_Results_Probabilities
         // data members for calculating Gxy
         // input data
         private ProductClasses _inputBitsDistortionsProbabilities; // contain probabilites g0, gcaij, geaij, p0i, p1i
-        // next data stored in _truthTable
-        //private double[] _distortionToZeroProbability; //g const0
-        //private double[] _distortionToOneProbability; // g const1
-        //private double[] _distortionToInverseProbability; // g inv
-
-        // store for intermediate calculation
-        // first [] correspond to 0 or 1 value of binary digit in tuple
-        //private double[] _correctValueProbability; // gxaij -> the same as _correctValueProbability in truth Table
-        //private double[][] _autoCorrectionValueProbability; // gcaij
-        //private double[][] _distortedValueProbability; // geaij
 
         public ProbabilitiesGxyCalc(BooleanFuntionWithInputDistortion truthTable, double[] probalityZero)
         {
@@ -31,15 +21,6 @@ namespace Diplom_Work_Compare_Results_Probabilities
             // TODO: move probalityZero to truthTable class (AbstractBooleanFuntionWithInputDistortion)
             if (probalityZero.Length != truthTable.InputNumberOfDigits)
                 throw new Exception("Length of probalityZero array don't fit the InputNumberOfDigits of truth table");
-           // const int BinaryDigitStates = 2;
-           // _probalityZeroAndOne = new double[BinaryDigitStates][];
-           // _probalityZeroAndOne[0] = new double[_truthTable.InputNumberOfDigits];
-           // _probalityZeroAndOne[1] = new double[_truthTable.InputNumberOfDigits];
-          //  for (int i = 0; i < probalityZero.Length; i++)
-           // {
-           //     _probalityZeroAndOne[0][i] = probalityZero[i];
-           //     _probalityZeroAndOne[1][i] = 1 - probalityZero[i];
-           // }
             _inputBitsDistortionsProbabilities = new ProductClasses(probalityZero, truthTable);
         }
         public ProbabilitiesGxyCalc(BooleanFuntionWithInputDistortion truthTable, ProductClasses prodClasses)
@@ -52,15 +33,14 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             double G0 = 0;
             BitArray operandIt = new BitArray(_truthTable.InputNumberOfDigits, false); // the first operand in tTable 00...0
-            //BitArray operandEnd = new BitArray(_truthTable.InputNumberOfDigits, true); // the last operand in tTable 11...1
-           // do
-            //{
-              //  if (_truthTable.GetResult(operandIt).Eq(result))
-              //  {
             G0 += GetTupleProbabilityKj0Class(operandIt);
-               // }
-            //} while (AbstractBooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
-            return G0;
+            int resultCount = 0;
+            do
+            {
+                if ( _truthTable.GetResult(operandIt).Eq(result) )
+                    ++resultCount;
+            } while (BooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
+            return G0 / (1 << _truthTable.InputNumberOfDigits) * resultCount;
         }
         private double GetTupleProbabilityKj0Class(BitArray tuple)
         {
