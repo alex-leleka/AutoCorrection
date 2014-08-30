@@ -46,9 +46,9 @@ namespace Diplom_Work_Compare_Results_Probabilities
             f.DistortionToOneProbability = distortionToOneProbability;
             f.DistortionToInverseProbability = distortionToInverseProbability;
         }
-        public void SetDistortionProbabilities()
+        /*public void SetDistortionProbabilities()
         {
-        }
+        }*/
         private void CalcF2ProbabilitiesGxy()
         {
             if (null != _probCalcF1)

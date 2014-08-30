@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Diplom_Work_Compare_Results_Probabilities.UserControls;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -50,7 +51,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            groupBoxCalcWay.Visible = false;
+            UserSuperpositionTruthTableInput im = new UserSuperpositionTruthTableInput();
+            im.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+            this.Controls.Add(im);
         }
     }
 }

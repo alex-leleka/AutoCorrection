@@ -49,8 +49,8 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
         }
         private void ViewResultButton_Click(object sender, EventArgs e)
         {
-            LoadDistortionToBoolFunction(_bf, _inpDistProb);
-            var pCalc = new ProbabilitiesGxyCalc(_bf, _inpDistProb.ZeroProbability);
+            //LoadDistortionToBoolFunction(_bf, _inpDistProb);
+            var pCalc = new ProbGxyCalcSuperposition(_bf1, _bf2, _inpDistProb);
             var f = new ResultView(pCalc);
             f.Visible = false;
             f.Show();
