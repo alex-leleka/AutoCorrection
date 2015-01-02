@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Text;
-//using System.Threading.Tasks;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 using Diplom_Work_Compare_Results_Probabilities.UserControls;
@@ -84,7 +84,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             else if (rbTextFile.Checked)
             {
-                ShowInput(new BooleanFunctionTextFileInput(SetBoolFunction));
+                //ShowInput(new 
+
             }
             else if (rbTruthTable.Checked)
             {
