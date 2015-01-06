@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6B4113E-7EB5-48FC-BB1E-91CC3505C4FA}"
+	ProjectSection(SolutionItems) = preProject
+		Kurs_Work_Compare_Results_Probabilities.vsmdi = Kurs_Work_Compare_Results_Probabilities.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diplom_Work_Compare_Results_Probabilities", "Kurs_Work_Compare_Results_Probabilities\Diplom_Work_Compare_Results_Probabilities.csproj", "{909C56E7-E019-4766-A923-7E23E933E162}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProbabilitiesCalculatorTester", "ProbabilitiesCalculatorTester\ProbabilitiesCalculatorTester.csproj", "{6F8F229A-DFDA-4E14-84A8-E822DEE8107B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneration", "CodeGeneration\CodeGeneration.csproj", "{A05E9F7C-08FF-415B-BB6C-7B886D5FA3D7}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Kurs_Work_Compare_Results_Probabilities.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{909C56E7-E019-4766-A923-7E23E933E162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{909C56E7-E019-4766-A923-7E23E933E162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{909C56E7-E019-4766-A923-7E23E933E162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{909C56E7-E019-4766-A923-7E23E933E162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F8F229A-DFDA-4E14-84A8-E822DEE8107B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F8F229A-DFDA-4E14-84A8-E822DEE8107B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F8F229A-DFDA-4E14-84A8-E822DEE8107B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F8F229A-DFDA-4E14-84A8-E822DEE8107B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A05E9F7C-08FF-415B-BB6C-7B886D5FA3D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A05E9F7C-08FF-415B-BB6C-7B886D5FA3D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A05E9F7C-08FF-415B-BB6C-7B886D5FA3D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A05E9F7C-08FF-415B-BB6C-7B886D5FA3D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
