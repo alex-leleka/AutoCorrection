@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0175E8D0-7EE1-433A-A91D-D6851E7E43DD}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>diplomvs2008</RootNamespace>
+    <AssemblyName>diplomvs2008</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="userforms\BooleanFunctionTextFileInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BoolFuncTextReader.cs" />
+    <Compile Include="userforms\AdderInputChoose.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userforms\AdderInputChoose.designer.cs">
+      <DependentUpon>AdderInputChoose.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdderTruthTableBuilder.cs" />
+    <Compile Include="AnalyticFunctionBuilder.cs" />
+    <Compile Include="BooleanFunctionAnalytic.cs" />
+    <Compile Include="BooleanFunctionDelegate.cs" />
+    <Compile Include="BooleanFunctionDllImport.cs" />
+    <Compile Include="BooleanFunctionTruthTable.cs" />
+    <Compile Include="BooleanFuntionWithInputDistortion.cs" />
+    <Compile Include="userforms\BoolFuncHandInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userforms\BoolFuncHandInput.designer.cs">
+      <DependentUpon>BoolFuncHandInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userforms\DistortionProbInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userforms\DistortionProbInput.designer.cs">
+      <DependentUpon>DistortionProbInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistortionProbTextReader.cs" />
+    <Compile Include="userforms\FileLoad.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userforms\FileLoad.designer.cs">
+      <DependentUpon>FileLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userforms\FileLoadDistortionProb.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userforms\FileLoadDistortionProb.designer.cs">
+      <DependentUpon>FileLoadDistortionProb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userforms\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="userforms\Form1.designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userforms\FuncTruthTableInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userforms\FuncTruthTableInput.designer.cs">
+      <DependentUpon>FuncTruthTableInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IBitArrayExtensions.cs" />
+    <Compile Include="userforms\InputData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="userforms\InputData.designer.cs">
+      <DependentUpon>InputData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InputDistortionProbabilities.cs" />
+    <Compile Include="userforms\InputMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userforms\InputMenu.designer.cs">
+      <DependentUpon>InputMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IProbabilityGxyCalculator.cs" />
+    <Compile Include="ProbabilitiesCalcNoCorrection.cs" />
+    <Compile Include="ProbabilitiesCalculatorAbstract.cs" />
+    <Compile Include="ProbabilitiesCalcWithCorrection.cs" />
+    <Compile Include="ProbabilitiesGxyCalc.cs" />
+    <Compile Include="ProbGxyCalcSuperposition.cs" />
+    <Compile Include="ProductClasses.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="userforms\AdderInputChoose.resx">
+      <DependentUpon>AdderInputChoose.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\BoolFuncHandInput.resx">
+      <DependentUpon>BoolFuncHandInput.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\DistortionProbInput.resx">
+      <DependentUpon>DistortionProbInput.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\FileLoad.resx">
+      <DependentUpon>FileLoad.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\FuncTruthTableInput.resx">
+      <DependentUpon>FuncTruthTableInput.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\InputData.resx">
+      <DependentUpon>InputData.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\InputMenu.resx">
+      <DependentUpon>InputMenu.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\ResultView.resx">
+      <DependentUpon>ResultView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userforms\UserControlForm.resx">
+      <DependentUpon>UserControlForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="userforms\ResultView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="userforms\ResultView.designer.cs">
+      <DependentUpon>ResultView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TruthTableView.cs" />
+    <Compile Include="userforms\UserControlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="userforms\UserControlForm.designer.cs">
+      <DependentUpon>UserControlForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
