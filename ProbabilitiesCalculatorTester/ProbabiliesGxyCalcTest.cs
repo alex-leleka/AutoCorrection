@@ -140,7 +140,7 @@ namespace ProbabilitiesCalculatorTester
             double[] distortionto0Probability = { 0.0, 0.0, 0.0, 0.0 };
             double[] distortiontoInverseProbability = { 0.5, 0.5, 0.5, 0.5 };
             double expected_G0 = 0.0625;
-            double expected_Gc = 0.0, expected_Gce = 0.0;
+            double expected_Gc = 0.0;
             double expected_Gee = 0.25;
             double[] zeroProbability = { 0.5, 0.5, 0.5, 0.5 };
             string[] func = new string[1];

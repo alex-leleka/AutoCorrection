@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
     public class DistortionProbTextReader
     {
-        const char commentChar = '%';
-        private string _path;
+        protected const char commentChar = '%';
+        protected string _path;
         public DistortionProbTextReader(string path)
         {
             _path = path;
@@ -36,7 +33,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 throw new Exception("The file could not be read:"+ e.Message);
             }
         }
-        private int ReadInt(StreamReader sr)
+        protected int ReadInt(StreamReader sr)
         {
             string line;
             do
@@ -49,7 +46,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             while ((line.Length < 1) || (line[0] == commentChar));
             return Convert.ToInt32(line);
         }
-        private int[] ReadIntArr(StreamReader sr, int length)
+        protected int[] ReadIntArr(StreamReader sr, int length)
         {
             string line;
             do
@@ -68,7 +65,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             return arr;
         }
-        private double[] ReadDoubleArr(StreamReader sr, int length)
+        protected double[] ReadDoubleArr(StreamReader sr, int length)
         {
             string line;
             do

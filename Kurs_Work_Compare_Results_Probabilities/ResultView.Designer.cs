@@ -38,10 +38,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxG0 = new System.Windows.Forms.TextBox();
             this.textBoxGc = new System.Windows.Forms.TextBox();
-            this.textBoxGe = new System.Windows.Forms.TextBox();
+            this.textBoxGee = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
+            this.calcWithTableBased = new System.Windows.Forms.Button();
+            this.textBoxTableMethP = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBoxGec = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,8 +54,8 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.functionResult,
@@ -91,7 +96,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(675, 13);
+            this.label1.Location = new System.Drawing.Point(621, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 1;
@@ -100,7 +105,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(675, 39);
+            this.label2.Location = new System.Drawing.Point(621, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 13);
             this.label2.TabIndex = 2;
@@ -109,41 +114,41 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(675, 65);
+            this.label3.Location = new System.Drawing.Point(621, 87);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Ge =";
+            this.label3.Text = "Gee =";
             // 
             // textBoxG0
             // 
-            this.textBoxG0.Location = new System.Drawing.Point(711, 10);
+            this.textBoxG0.Location = new System.Drawing.Point(692, 6);
             this.textBoxG0.Name = "textBoxG0";
             this.textBoxG0.ReadOnly = true;
-            this.textBoxG0.Size = new System.Drawing.Size(69, 20);
+            this.textBoxG0.Size = new System.Drawing.Size(109, 20);
             this.textBoxG0.TabIndex = 4;
             // 
             // textBoxGc
             // 
-            this.textBoxGc.Location = new System.Drawing.Point(711, 36);
+            this.textBoxGc.Location = new System.Drawing.Point(692, 32);
             this.textBoxGc.Name = "textBoxGc";
             this.textBoxGc.ReadOnly = true;
-            this.textBoxGc.Size = new System.Drawing.Size(69, 20);
+            this.textBoxGc.Size = new System.Drawing.Size(109, 20);
             this.textBoxGc.TabIndex = 5;
             // 
-            // textBoxGe
+            // textBoxGee
             // 
-            this.textBoxGe.Location = new System.Drawing.Point(711, 62);
-            this.textBoxGe.Name = "textBoxGe";
-            this.textBoxGe.ReadOnly = true;
-            this.textBoxGe.Size = new System.Drawing.Size(69, 20);
-            this.textBoxGe.TabIndex = 6;
+            this.textBoxGee.Location = new System.Drawing.Point(692, 84);
+            this.textBoxGee.Name = "textBoxGee";
+            this.textBoxGee.ReadOnly = true;
+            this.textBoxGee.Size = new System.Drawing.Size(109, 20);
+            this.textBoxGee.TabIndex = 6;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(678, 163);
+            this.button1.Location = new System.Drawing.Point(653, 145);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 38);
+            this.button1.Size = new System.Drawing.Size(148, 38);
             this.button1.TabIndex = 7;
             this.button1.Text = "Запустити обчислення";
             this.button1.UseVisualStyleBackColor = true;
@@ -152,7 +157,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(594, 100);
+            this.label4.Location = new System.Drawing.Point(621, 115);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 13);
             this.label4.TabIndex = 8;
@@ -161,21 +166,70 @@
             // labelTime
             // 
             this.labelTime.AutoSize = true;
-            this.labelTime.Location = new System.Drawing.Point(758, 100);
+            this.labelTime.Location = new System.Drawing.Point(739, 115);
             this.labelTime.Name = "labelTime";
             this.labelTime.Size = new System.Drawing.Size(22, 13);
             this.labelTime.TabIndex = 9;
             this.labelTime.Text = "0.0";
+            // 
+            // calcWithTableBased
+            // 
+            this.calcWithTableBased.Location = new System.Drawing.Point(653, 303);
+            this.calcWithTableBased.Name = "calcWithTableBased";
+            this.calcWithTableBased.Size = new System.Drawing.Size(148, 37);
+            this.calcWithTableBased.TabIndex = 14;
+            this.calcWithTableBased.Text = "Запустити обчислення табл. методом";
+            this.calcWithTableBased.UseVisualStyleBackColor = true;
+            this.calcWithTableBased.Click += new System.EventHandler(this.calcWithTableBased_Click);
+            // 
+            // textBoxTableMethP
+            // 
+            this.textBoxTableMethP.Location = new System.Drawing.Point(692, 258);
+            this.textBoxTableMethP.Name = "textBoxTableMethP";
+            this.textBoxTableMethP.ReadOnly = true;
+            this.textBoxTableMethP.Size = new System.Drawing.Size(109, 20);
+            this.textBoxTableMethP.TabIndex = 13;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(621, 261);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Pcorrect(f) =";
+            // 
+            // textBoxGec
+            // 
+            this.textBoxGec.Location = new System.Drawing.Point(692, 58);
+            this.textBoxGec.Name = "textBoxGec";
+            this.textBoxGec.ReadOnly = true;
+            this.textBoxGec.Size = new System.Drawing.Size(109, 20);
+            this.textBoxGec.TabIndex = 16;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(621, 61);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(36, 13);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Gec =";
             // 
             // ResultView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(843, 607);
+            this.Controls.Add(this.textBoxGec);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.calcWithTableBased);
+            this.Controls.Add(this.textBoxTableMethP);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.labelTime);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBoxGe);
+            this.Controls.Add(this.textBoxGee);
             this.Controls.Add(this.textBoxGc);
             this.Controls.Add(this.textBoxG0);
             this.Controls.Add(this.label3);
@@ -202,9 +256,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxG0;
         private System.Windows.Forms.TextBox textBoxGc;
-        private System.Windows.Forms.TextBox textBoxGe;
+        private System.Windows.Forms.TextBox textBoxGee;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelTime;
+        private System.Windows.Forms.Button calcWithTableBased;
+        private System.Windows.Forms.TextBox textBoxTableMethP;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBoxGec;
+        private System.Windows.Forms.Label label5;
     }
 }

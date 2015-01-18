@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -13,24 +14,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private double[] _correctResultProbablitiesArray; // i-th element of array show probablity of correct
             // function result for i-th input operand in the left side of truth table
         private int _amountOfLinesInTruthTable;
-        private int[] _functionTruthTable; // right side of truth table values
-            // left side of truth table presented by index
-
-        //private ProbabilitiesCalcWithCorrection() { }
+        private BooleanFuntionWithInputDistortion _functionTruthTable;
 
         public ProbabilitiesCalcWithCorrection(double[] distortionToZeroProbability,
             double[] distortionToOneProbability, double[] distortionToInverseProbability,
-            int inputNumberOfDigits, int outputNumberOfDigits, int [] functionTruthTable, 
-            int amountOfLinesInTruthTable) : 
+            BooleanFuntionWithInputDistortion functionTruthTable) : 
             base(distortionToZeroProbability, distortionToOneProbability, distortionToInverseProbability,
-            inputNumberOfDigits, outputNumberOfDigits)
+            functionTruthTable.InputNumberOfDigits, functionTruthTable.OutputNumberOfDigits)
         {
-            _amountOfLinesInTruthTable = amountOfLinesInTruthTable;
-            _functionTruthTable = new int[amountOfLinesInTruthTable];
-            for (int i = 0; i < amountOfLinesInTruthTable; i++)
-            {
-                _functionTruthTable[i] = functionTruthTable[i];
-            }
+            _amountOfLinesInTruthTable = functionTruthTable.GetLinesCount();
+            _functionTruthTable = functionTruthTable;
         }
         private void CalculateTurnInProbabilityMatrix()
         {
@@ -80,15 +73,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private void CreateTransformedTruthTable()
         {
             _transformedTruthTable = new Dictionary<int,List<int>>();
-            _transformedTruthTable.Add(_functionTruthTable[0], new List<int>());
+            _transformedTruthTable.Add(_functionTruthTable.GetIntResultByLineIndex(0), new List<int>());
             _transformedTruthTable.ElementAt(0).Value.Add(0);
             for (int i = 1; i < _amountOfLinesInTruthTable; i++)
             {
-                if (! _transformedTruthTable.ContainsKey(_functionTruthTable[i]))
+                int iResult = _functionTruthTable.GetIntResultByLineIndex(i);
+                if (!_transformedTruthTable.ContainsKey(iResult))
                 {
-                    _transformedTruthTable.Add(_functionTruthTable[i], new List<int>());
+                    _transformedTruthTable.Add(iResult, new List<int>());
                 }
-                _transformedTruthTable[_functionTruthTable[i]].Add(i);
+                _transformedTruthTable[iResult].Add(i);
             }
         }
         private void CalculateCorrectResultProbablitiesArray()
@@ -97,7 +91,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             for (int i = 0; i < _amountOfLinesInTruthTable; i++)
             {
                 _correctResultProbablitiesArray[i] = 0.0;
-                foreach (int j in _transformedTruthTable[_functionTruthTable[i]])
+                foreach (int j in _transformedTruthTable[_functionTruthTable.GetIntResultByLineIndex(i)])
                 {
                     _correctResultProbablitiesArray[i] += _turnInProbabilityMatrix[i][j];
                 }
@@ -126,7 +120,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 average_probability += _correctResultProbablitiesArray[i];
             }
             average_probability /= _amountOfLinesInTruthTable;
-            return min_probability;
+            return average_probability;// min_probability;
         }
         public double[] CalculateCorrectResultProbabilityArr() // returns Correct Result Probability
         //taking into account the auto-correction
@@ -150,6 +144,14 @@ namespace Diplom_Work_Compare_Results_Probabilities
             average_probability /= _amountOfLinesInTruthTable;
             return _correctResultProbablitiesArray;
         }
+        /// <summary>
+        /// Calculates probabilities of correct result for all
+        /// possible output. Based on that values find probability
+        /// of correct result for general case.
+        /// Issues: Do not take into account input probabilities of One and Zero
+        /// and works as they were equal. 
+        /// </summary>
+        /// <returns>Probability of correct result for logic network</returns>
         public override double GetCorrectResultProbability()
         {
             // 1

@@ -29,9 +29,16 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
             _resultArr = new BitArray[resultsArr.Count()];
             for (int i = 0; i < _resultArr.Length; i++)
             {
-                _resultArr[i] = new BitArray(resultsArr[i]);
+                _resultArr[i] = new BitArray(_outputNumberOfDigits);
+                int index = 0;
+                for (int mask = 1; mask != 0 && index < _outputNumberOfDigits; mask = mask << 1)
+                {
+                    _resultArr[i].Set(index, (resultsArr[i] & mask) != 0);
+                    ++index;
+                }
             }
         }
+
         public void SetResultTable(IList<bool[]> resultsArr)
         {
             _resultArr = new BitArray[resultsArr.Count()];
@@ -56,9 +63,9 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
         // return f(operand)
         public override BitArray GetResult(BitArray operand)
         {
-            if (operand.Length > 64)
-                throw new ArgumentException("Argument length shall be at most 64 bits.");
-            ulong[] array = new ulong[1];
+            if (operand.Length > 32)
+                throw new ArgumentException("Argument length shall be at most 32 bits.");
+            int[] array = new int[1];
             operand.CopyTo(array, 0);
             return _resultArr[array[0]];
         }

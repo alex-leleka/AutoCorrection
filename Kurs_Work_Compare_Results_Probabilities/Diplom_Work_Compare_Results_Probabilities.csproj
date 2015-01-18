@@ -77,12 +77,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanFunctionDelegate.cs" />
+    <Compile Include="BooleanFunctionTextFileInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="BooleanFuntionWithInputDistortion.cs" />
     <Compile Include="AnalyticFunctionBuilder.cs" />
     <Compile Include="BooleanFunctionAnalytic.cs" />
     <Compile Include="BooleanFunctionDllImport.cs" />
     <Compile Include="BooleanFunctionTruthTable.cs" />
+    <Compile Include="BoolFuncTextReader.cs" />
     <Compile Include="DistortionProbTextReader.cs" />
+    <Compile Include="DistortionProbUnitedInputTextReader.cs" />
+    <Compile Include="InputWithUnitedDistortionProbabilities.cs" />
     <Compile Include="ResultView.cs">
       <SubType>Form</SubType>
     </Compile>

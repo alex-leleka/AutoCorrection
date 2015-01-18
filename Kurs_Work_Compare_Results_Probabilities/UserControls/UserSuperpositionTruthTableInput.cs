@@ -42,17 +42,21 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             if (f.WindowState == FormWindowState.Minimized)
                 f.WindowState = FormWindowState.Normal;
         }
-        private void ShowInput(UserControl control)
+        private void ShowInput(UserControl control, string formCaption)
         {
             var form = new UserControlForm(control);
+            if (formCaption != null && formCaption.Length > 0)
+                form.Text = formCaption;
             formShow(form);
         }
         private void ViewResultButton_Click(object sender, EventArgs e)
         {
             //LoadDistortionToBoolFunction(_bf, _inpDistProb);
-            var pCalc = new ProbGxyCalcSuperposition(_bf1, _bf2, _inpDistProb);
-            var f = new ResultView(pCalc);
+            var f = new ResultView();
             f.Visible = false;
+            // set values for calculation of probability with table method
+            f.SetInputDistProb(_inpDistProb);
+            f.SetBoolFunc(_bf1);
             f.Show();
             if (f.WindowState == FormWindowState.Minimized)
                 f.WindowState = FormWindowState.Normal;
@@ -63,16 +67,15 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             // select function input way
             if (rbAnaliticFormula.Checked)
             {
-                ShowInput(new BoolFuncHandInput(SetBoolFunction1));
+                ShowInput(new BoolFuncHandInput(SetBoolFunction1), null);
             }
             else if (rbTextFile.Checked)
             {
-                //ShowInput(new 
-
+                ShowInput(new BooleanFunctionTextFileInput(SetBoolFunction1), "Select text file with truth table");
             }
             else if (rbTruthTable.Checked)
             {
-                ShowInput(new FuncTruthTableInput(SetBoolFunction1));
+                ShowInput(new FuncTruthTableInput(SetBoolFunction1), null);
             }
             else if (rbDllImport.Checked)
             {
@@ -80,7 +83,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             }
             else if (rbAdder.Checked)
             {
-                ShowInput(new AdderInputChoose(SetBoolFunction1));
+                ShowInput(new AdderInputChoose(SetBoolFunction1), null);
             }
         }
 
@@ -95,11 +98,11 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
                 // select distortion input way
                 if (rbTextFileDistortion.Checked)
                 {
-                    ShowInput(new FileLoadDistortionProb(SetDistProb));
+                    ShowInput(new FileLoadDistortionProb(SetDistProb), "Select text file with input distortions");
                 }
                 else if (rbHandWriteDistProb.Checked)
                 {
-                    ShowInput(new DistortionProbHandInput(_bf1.InputNumberOfDigits + _bf2.InputNumberOfDigits - _bf2.OutputNumberOfDigits, SetDistProb));
+                    ShowInput(new DistortionProbHandInput(_bf1.InputNumberOfDigits + _bf2.InputNumberOfDigits - _bf2.OutputNumberOfDigits, SetDistProb), null);
                 }
                 ViewResultButton.Visible = true;
             }
@@ -110,16 +113,15 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             // select function input way
             if (rbAnaliticFormula.Checked)
             {
-                ShowInput(new BoolFuncHandInput(SetBoolFunction2));
+                ShowInput(new BoolFuncHandInput(SetBoolFunction2), null);
             }
             else if (rbTextFile.Checked)
             {
-                //ShowInput(new 
-
+                ShowInput(new BooleanFunctionTextFileInput(SetBoolFunction1), "Select text file with truth table");
             }
             else if (rbTruthTable.Checked)
             {
-                ShowInput(new FuncTruthTableInput(SetBoolFunction2));
+                ShowInput(new FuncTruthTableInput(SetBoolFunction2), null);
             }
             else if (rbDllImport.Checked)
             {
@@ -127,7 +129,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             }
             else if (rbAdder.Checked)
             {
-                ShowInput(new AdderInputChoose(SetBoolFunction2));
+                ShowInput(new AdderInputChoose(SetBoolFunction2), null);
             }
         }
     }

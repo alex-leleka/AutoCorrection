@@ -185,10 +185,30 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
             }
             return false; // carry
         }
+
+        public void LoadDistortionToBoolFunction(InputDistortionProbabilities inputDistortionProb)
+        {
+            this.SetDistortionProbabilitiesVectors(inputDistortionProb.DistortionToZeroProbability,
+            inputDistortionProb.DistortionToOneProbability, inputDistortionProb.DistortionToInverseProbability);
+        }
         // return f(i-th operand)
         public BitArray GetResultByLineIndex(int index)
         {
             return GetResultByLineIndex(Convert.ToUInt64(index));
+        }
+
+        public int GetIntResultByLineIndex(int index)
+        {
+            return getIntFromBitArray(GetResultByLineIndex(index));
+        }
+
+        private int getIntFromBitArray(BitArray bitArray)
+        {
+            if (bitArray.Length > 32)
+                throw new ArgumentException("Argument length shall be at most 32 bits.");
+            int[] array = new int[1];
+            bitArray.CopyTo(array, 0);
+            return array[0];
         }
         abstract public BitArray GetResultByLineIndex(ulong index);
         // return f(operand)

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading;
+using System.Globalization;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -15,7 +17,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new InputData());//new Form1());//
+            // set en lacale for reading decimal point numbers
+            Thread.CurrentThread.CurrentCulture =
+                new CultureInfo("en-US", false); // English - US
+            Application.Run(new InputData());//Form1());
         }
     }
 }

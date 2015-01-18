@@ -71,7 +71,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             double[] distortiontoInverseProbability = { 0.3, 0.5, 0.0, 0.2, 0.1, 0.3, 0.5, 0.0, 0.2, 0.1 };
 
             var pcalc = new ProbabilitiesCalcWithCorrection(distortionto0Probability, distortionto1Probability,
-                distortiontoInverseProbability, 10, 11, intTable, intTable.Length);
+                distortiontoInverseProbability, _truthTable);
             var p = pcalc.CalculateCorrectResultProbabilityArr();
             for (int i = 0; i < _truthTable.functionValue.Count; i++)
             {

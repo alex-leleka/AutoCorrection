@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6B4113E-7EB5-48FC-BB1E-91CC3505C4FA}"
 	ProjectSection(SolutionItems) = preProject
+		Kurs_Work_Compare_Results_Probabilities\BoolFuncTextReader.cs = Kurs_Work_Compare_Results_Probabilities\BoolFuncTextReader.cs
 		Kurs_Work_Compare_Results_Probabilities.vsmdi = Kurs_Work_Compare_Results_Probabilities.vsmdi
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 	EndProjectSection
