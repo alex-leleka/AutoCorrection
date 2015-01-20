@@ -10,10 +10,12 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private readonly double[] _distortionToZeroProbability;
         private readonly double[] _distortionToOneProbability;
         private readonly double[] _distortionToInverseProbability;
-        private readonly double[] _probalityZero;
+    
         private readonly double[] _distortionToZeroProbabilityWithUnited;
         private readonly double[] _distortionToOneProbabilityWithUnited;
         private readonly double[] _distortionToInverseProbabilityWithUnited;
+
+        private readonly double[] _probalityZero;
         private readonly int[] _inputBitMap;
 
         public InputWithUnitedDistortionProbabilities(double[] distortionToZeroProbability, double[] distortionToOneProbability, double[] distortionToInverseProbability, double[] probalityZero, double[] distortionToZeroProbabilityWithUnited, double[] distortionToOneProbabilityWithUnited, double[] distortionToInverseProbabilityWithUnited, int[] inputBitMap)
@@ -85,5 +87,19 @@ namespace Diplom_Work_Compare_Results_Probabilities
             return _distortionToInverseProbabilityWithUnited[index];
         }
 
+        public double GetProbalityZero(int index)
+        {
+            // max index GetCircuitBitsCount()
+            return _probalityZero[index];
+        }
+
+        public double GetProbalityDigit(int digit, int index)
+        {
+            if (digit == 0)
+                return _probalityZero[index];
+            if (digit == 1)
+                return 1 - _probalityZero[index];
+            throw new ArgumentException("GetProbalityDigit argument invalid with value: " + digit.ToString());
+        }
     }
 }
