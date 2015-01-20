@@ -29,9 +29,61 @@ namespace Diplom_Work_Compare_Results_Probabilities
             this._inputBitMap = inputBitMap;
         }
 
-        int GetBitMappedVariableIndex(int inputIndex)
+        public int GetBitMappedVariableIndex(int inputIndex)
         {
+            // max index is GetCircuitBitsCount()
             return _inputBitMap[inputIndex];
         }
+
+        /// <summary>
+        /// Logic network bits count is number of variables on the input
+        /// without repeating.
+        /// </summary>
+        /// <returns>count of different variables on input</returns>
+        public int GetLogicNetworkBitsCount()
+        {
+            return _distortionToZeroProbabilityWithUnited.Length;
+        }
+
+        /// <summary>
+        /// Circuit bits count is number of variables on the input
+        /// including the same variables that repeat on different inputs(with united inputs).
+        /// </summary>
+        /// <returns>count of real variables on input</returns>
+        public int GetCircuitBitsCount()
+        {
+            return _distortionToZeroProbability.Length;
+        }
+
+        public double GetDistortionToZeroProbability(int index)
+        {
+            return _distortionToZeroProbability[index];
+        }
+
+        public double GetDistortionToOneProbability(int index)
+        {
+            return _distortionToOneProbability[index];
+        }
+
+        public double GetDistortionToInverseProbability(int index)
+        {
+            return _distortionToInverseProbability[index];
+        }
+
+        public double GetDistortionToZeroProbabilityWithUnited(int index)
+        {
+            return _distortionToZeroProbabilityWithUnited[index];
+        }
+
+        public double GetDistortionToOneProbabilityWithUnited(int index)
+        {
+            return _distortionToOneProbabilityWithUnited[index];
+        }
+
+        public double GetDistortionToInverseProbabilityWithUnited(int index)
+        {
+            return _distortionToInverseProbabilityWithUnited[index];
+        }
+
     }
 }
