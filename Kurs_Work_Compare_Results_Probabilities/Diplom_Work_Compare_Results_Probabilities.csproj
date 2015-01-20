@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanFunctionDelegate.cs" />
-    <Compile Include="BooleanFunctionTextFileInput.cs">
+    <Compile Include="UserControls\BooleanFunctionTextFileInput.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BooleanFuntionWithInputDistortion.cs" />
@@ -89,16 +89,16 @@
     <Compile Include="DistortionProbTextReader.cs" />
     <Compile Include="DistortionProbUnitedInputTextReader.cs" />
     <Compile Include="InputWithUnitedDistortionProbabilities.cs" />
-    <Compile Include="ResultView.cs">
+    <Compile Include="UserControls\ResultView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ResultView.Designer.cs">
+    <Compile Include="UserControls\ResultView.Designer.cs">
       <DependentUpon>ResultView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControlForm.cs">
+    <Compile Include="UserControls\UserControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserControlForm.Designer.cs">
+    <Compile Include="UserControls\UserControlForm.Designer.cs">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\AdderInputChoose.cs">
@@ -113,17 +113,17 @@
     <Compile Include="UserControls\BoolFuncHandInput.Designer.cs">
       <DependentUpon>BoolFuncHandInput.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="UserControls\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="UserControls\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IBitArrayExtensions.cs" />
-    <Compile Include="InputData.cs">
+    <Compile Include="UserControls\InputData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InputData.Designer.cs">
+    <Compile Include="UserControls\InputData.Designer.cs">
       <DependentUpon>InputData.cs</DependentUpon>
     </Compile>
     <Compile Include="InputDistortionProbabilities.cs" />
@@ -172,10 +172,10 @@
     <Compile Include="UserControls\UserTruthTableInput.Designer.cs">
       <DependentUpon>UserTruthTableInput.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ResultView.resx">
+    <EmbeddedResource Include="UserControls\ResultView.resx">
       <DependentUpon>ResultView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControlForm.resx">
+    <EmbeddedResource Include="UserControls\UserControlForm.resx">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AdderInputChoose.resx">
@@ -184,10 +184,10 @@
     <EmbeddedResource Include="UserControls\BoolFuncHandInput.resx">
       <DependentUpon>BoolFuncHandInput.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="UserControls\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputData.resx">
+    <EmbeddedResource Include="UserControls\InputData.resx">
       <DependentUpon>InputData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -216,7 +216,6 @@
       <DependentUpon>UserTruthTableInput.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
