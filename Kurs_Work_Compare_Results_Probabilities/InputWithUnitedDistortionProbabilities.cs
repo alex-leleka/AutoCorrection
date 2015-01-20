@@ -101,5 +101,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 return 1 - _probalityZero[index];
             throw new ArgumentException("GetProbalityDigit argument invalid with value: " + digit.ToString());
         }
+
+        public InputDistortionProbabilities ConvertToInputDistortionProbabilities()
+        {
+            double[] idpDistortionToZeroProbability = new double[GetCircuitBitsCount()];
+            double[] idpDistortionToOneProbability = new double[GetCircuitBitsCount()];
+            double[] idpDistortionToInverseProbability = new double[GetCircuitBitsCount()];
+            double[] idpProbalityZero = new double[GetCircuitBitsCount()];
+            throw new NotImplementedException();
+            return new InputDistortionProbabilities(idpDistortionToZeroProbability, idpDistortionToOneProbability,
+                idpDistortionToInverseProbability, idpProbalityZero);
+        }
     }
 }

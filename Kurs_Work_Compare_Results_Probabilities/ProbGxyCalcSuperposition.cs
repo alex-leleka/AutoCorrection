@@ -140,14 +140,15 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _f1.DistortionToOneProbability = distProb[1];
             _f1.DistortionToInverseProbability = distProb[2];
             _f1.CorrectValueProbability = null;
+            InputDistortionProbabilities inputDistProbF1 = new InputDistortionProbabilities(distProb[0], distProb[1],
+                distProb[2], probabilityZeroF1);
             double[] correctValueProbability = new double[_f1.InputNumberOfDigits];
             double[][] autoCorrectionValueProbability = null;
             double[][] distortedValueProbability = null;
             AllocateDeterminedDistortionProbalilitiesVectors(ref autoCorrectionValueProbability);
             AllocateDeterminedDistortionProbalilitiesVectors(ref distortedValueProbability);
 
-
-            _probCalcF1 = new ProbabilitiesGxyCalc(_f1, probabilityZeroF1);
+            _probCalcF1 = new ProbabilitiesGxyCalc(_f1, inputDistProbF1);
         }
         private void CalcF2ProbabilitiesGxyNew()
         {

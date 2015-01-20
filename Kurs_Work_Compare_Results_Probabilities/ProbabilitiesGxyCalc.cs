@@ -23,11 +23,18 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 throw new Exception("Length of probalityZero array don't fit the InputNumberOfDigits of truth table");
             _inputBitsDistortionsProbabilities = new ProductClasses(probalityZero, truthTable);
         }
+
+        public ProbabilitiesGxyCalc(BooleanFuntionWithInputDistortion truthTable, InputDistortionProbabilities inputDistProb)
+        {
+            _truthTable = truthTable;
+            _inputBitsDistortionsProbabilities = new ProductClasses(inputDistProb);
+        }
         public ProbabilitiesGxyCalc(BooleanFuntionWithInputDistortion truthTable, ProductClasses prodClasses)
         {
             _truthTable = truthTable;
             _inputBitsDistortionsProbabilities = prodClasses;
         }
+
         // Get probability of correct (0||1) result == Result without distortion
         public double GetProbabilityG0Result(BitArray result)
         {

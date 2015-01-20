@@ -121,7 +121,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             var GS = GeS + actual2.G0 + actual2.Gc + actual3.Gc;
             var f = new BooleanFunctionDelegate(10, 1, f10);
             f.SetDistortionProbabilitiesVectors(inpDist);
-            ProbabilitiesGxyCalc pGxy = new ProbabilitiesGxyCalc(f, inpDist.ZeroProbability);
+            ProbabilitiesGxyCalc pGxy = new ProbabilitiesGxyCalc(f, inpDist);
             //var actual = pGxy.GetGprobabilitesResult(new BitArray(1, true));
             //var actual1 = pGxy.GetGprobabilitesResult(new BitArray(1, false));
             //var Ge = actual1.Gce + actual.Gce + actual1.Gee + actual.Gee;
