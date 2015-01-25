@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -16,19 +13,26 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private readonly double[] _distortionToInverseProbabilityWithUnited;
 
         private readonly double[] _probalityZero;
+        /// <summary>
+        /// Maps index of variable on logic network connected to input.
+        /// </summary>
         private readonly int[] _inputBitMap;
+
+        private double NoDistortionProbability(int index)
+        {
+            return 1 -_distortionToInverseProbability[index] - _distortionToOneProbability[index] - _distortionToZeroProbability[index];
+        }
 
         public InputWithUnitedDistortionProbabilities(double[] distortionToZeroProbability, double[] distortionToOneProbability, double[] distortionToInverseProbability, double[] probalityZero, double[] distortionToZeroProbabilityWithUnited, double[] distortionToOneProbabilityWithUnited, double[] distortionToInverseProbabilityWithUnited, int[] inputBitMap)
         {
-            // TODO: Complete member initialization
-            this._distortionToZeroProbability = distortionToZeroProbability;
-            this._distortionToOneProbability = distortionToOneProbability;
-            this._distortionToInverseProbability = distortionToInverseProbability;
-            this._probalityZero = probalityZero;
-            this._distortionToZeroProbabilityWithUnited = distortionToZeroProbabilityWithUnited;
-            this._distortionToOneProbabilityWithUnited = distortionToOneProbabilityWithUnited;
-            this._distortionToInverseProbabilityWithUnited = distortionToInverseProbabilityWithUnited;
-            this._inputBitMap = inputBitMap;
+            _distortionToZeroProbability = distortionToZeroProbability;
+            _distortionToOneProbability = distortionToOneProbability;
+            _distortionToInverseProbability = distortionToInverseProbability;
+            _probalityZero = probalityZero;
+            _distortionToZeroProbabilityWithUnited = distortionToZeroProbabilityWithUnited;
+            _distortionToOneProbabilityWithUnited = distortionToOneProbabilityWithUnited;
+            _distortionToInverseProbabilityWithUnited = distortionToInverseProbabilityWithUnited;
+            _inputBitMap = inputBitMap;
         }
 
         public int GetBitMappedVariableIndex(int inputIndex)
@@ -108,7 +112,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
             double[] idpDistortionToOneProbability = new double[GetCircuitBitsCount()];
             double[] idpDistortionToInverseProbability = new double[GetCircuitBitsCount()];
             double[] idpProbalityZero = new double[GetCircuitBitsCount()];
-            throw new NotImplementedException();
+
+            for (int i = 0; i < idpDistortionToInverseProbability.Length; i++)
+            {
+                idpDistortionToZeroProbability[i] = _distortionToZeroProbabilityWithUnited[i];
+                idpDistortionToOneProbability[i] = _distortionToOneProbabilityWithUnited[i];
+                idpDistortionToInverseProbability[i] = _distortionToInverseProbabilityWithUnited[i];
+                int imapped = _inputBitMap[i];
+                idpProbalityZero[i] = _probalityZero[imapped] * (NoDistortionProbability(imapped) + _distortionToZeroProbability[imapped]) 
+                    + (1 - _probalityZero[imapped]) * (NoDistortionProbability(imapped) + _distortionToInverseProbability[imapped]);
+            }
             return new InputDistortionProbabilities(idpDistortionToZeroProbability, idpDistortionToOneProbability,
                 idpDistortionToInverseProbability, idpProbalityZero);
         }
