@@ -29,9 +29,10 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             else
             {
                 // file not choosed
-                MessageBox.Show("Please, open file.");
+                MessageBox.Show(@"Please, open file.");
             }
-            this.FindForm().Close();
+            var findForm = FindForm();
+            if (findForm != null) findForm.Close();
         }
     }
 }

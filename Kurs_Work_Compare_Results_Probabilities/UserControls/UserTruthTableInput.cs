@@ -36,7 +36,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private void ShowInput(UserControl control, string formCaption)
         {
             var form = new UserControlForm(control);
-            if (formCaption != null && formCaption.Length > 0)
+            if (!string.IsNullOrEmpty(formCaption))
                 form.Text = formCaption;
             formShow(form);
         }
@@ -44,18 +44,22 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             if (_bf == null)
             {
-                MessageBox.Show("Please, choose function at first.");
+                MessageBox.Show(@"Please, choose function at first.");
             }
             else
             {
                 // select distortion input way
                 if (rbTextFileDistortion.Checked)
                 {
-                    ShowInput(new FileLoadDistortionProb(SetDistProb), "Select text file with input distortions");
+                    ShowInput(new FileLoadDistortionProb(SetDistProb), @"Select text file with input distortions");
                 }
                 else if (rbHandWriteDistProb.Checked)
                 {
                     ShowInput(new DistortionProbHandInput(_bf.InputNumberOfDigits, SetDistProb), null);
+                }
+                else if (rbTextFileDistWithUnitedInp.Checked)
+                {
+                    ShowInput(new FileLoadDistortionProbWithUnited(SetDistProb), @"Select text file with input distortions");
                 }
                 ViewResultButton.Visible = true;
             }
@@ -89,7 +93,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             else if (rbTextFile.Checked)
             {
-                ShowInput(new BooleanFunctionTextFileInput(SetBoolFunction), "Select text file with truth table");
+                ShowInput(new BooleanFunctionTextFileInput(SetBoolFunction), @"Select text file with truth table");
             }
             else if (rbTruthTable.Checked)
             {

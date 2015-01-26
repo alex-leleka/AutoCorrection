@@ -30,16 +30,17 @@
         {
             this.rbAnaliticFormula = new System.Windows.Forms.RadioButton();
             this.boolFuncInputChoice = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.rbAdder = new System.Windows.Forms.RadioButton();
             this.rbDllImport = new System.Windows.Forms.RadioButton();
             this.rbTruthTable = new System.Windows.Forms.RadioButton();
             this.rbTextFile = new System.Windows.Forms.RadioButton();
             this.distProbInputChoiceBox = new System.Windows.Forms.GroupBox();
             this.rbHandWriteDistProb = new System.Windows.Forms.RadioButton();
-            this.rbTextFileDistortion = new System.Windows.Forms.RadioButton();
             this.InputMethodChoosed = new System.Windows.Forms.Button();
+            this.rbTextFileDistortion = new System.Windows.Forms.RadioButton();
             this.ViewResultButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.rbTextFileDistWithUnitedInp = new System.Windows.Forms.RadioButton();
             this.boolFuncInputChoice.SuspendLayout();
             this.distProbInputChoiceBox.SuspendLayout();
             this.SuspendLayout();
@@ -69,6 +70,16 @@
             this.boolFuncInputChoice.TabIndex = 1;
             this.boolFuncInputChoice.TabStop = false;
             this.boolFuncInputChoice.Text = "Спосіб введення булевої функції";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 174);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(108, 31);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "ОК";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // rbAdder
             // 
@@ -116,6 +127,7 @@
             // 
             // distProbInputChoiceBox
             // 
+            this.distProbInputChoiceBox.Controls.Add(this.rbTextFileDistWithUnitedInp);
             this.distProbInputChoiceBox.Controls.Add(this.rbHandWriteDistProb);
             this.distProbInputChoiceBox.Controls.Add(this.InputMethodChoosed);
             this.distProbInputChoiceBox.Controls.Add(this.rbTextFileDistortion);
@@ -137,6 +149,16 @@
             this.rbHandWriteDistProb.Text = "Ввести ймовірності вручну";
             this.rbHandWriteDistProb.UseVisualStyleBackColor = true;
             // 
+            // InputMethodChoosed
+            // 
+            this.InputMethodChoosed.Location = new System.Drawing.Point(6, 174);
+            this.InputMethodChoosed.Name = "InputMethodChoosed";
+            this.InputMethodChoosed.Size = new System.Drawing.Size(108, 31);
+            this.InputMethodChoosed.TabIndex = 3;
+            this.InputMethodChoosed.Text = "ОК";
+            this.InputMethodChoosed.UseVisualStyleBackColor = true;
+            this.InputMethodChoosed.Click += new System.EventHandler(this.InputMethodChoosed_Click);
+            // 
             // rbTextFileDistortion
             // 
             this.rbTextFileDistortion.AutoSize = true;
@@ -147,16 +169,6 @@
             this.rbTextFileDistortion.TabStop = true;
             this.rbTextFileDistortion.Text = "Файл з імовірностями спотворень";
             this.rbTextFileDistortion.UseVisualStyleBackColor = true;
-            // 
-            // InputMethodChoosed
-            // 
-            this.InputMethodChoosed.Location = new System.Drawing.Point(6, 174);
-            this.InputMethodChoosed.Name = "InputMethodChoosed";
-            this.InputMethodChoosed.Size = new System.Drawing.Size(108, 31);
-            this.InputMethodChoosed.TabIndex = 3;
-            this.InputMethodChoosed.Text = "ОК";
-            this.InputMethodChoosed.UseVisualStyleBackColor = true;
-            this.InputMethodChoosed.Click += new System.EventHandler(this.InputMethodChoosed_Click);
             // 
             // ViewResultButton
             // 
@@ -169,15 +181,16 @@
             this.ViewResultButton.Visible = false;
             this.ViewResultButton.Click += new System.EventHandler(this.ViewResultButton_Click);
             // 
-            // button1
+            // rbTextFileDistWithUnitedInp
             // 
-            this.button1.Location = new System.Drawing.Point(6, 174);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 31);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "ОК";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.rbTextFileDistWithUnitedInp.AutoSize = true;
+            this.rbTextFileDistWithUnitedInp.Location = new System.Drawing.Point(6, 78);
+            this.rbTextFileDistWithUnitedInp.Name = "rbTextFileDistWithUnitedInp";
+            this.rbTextFileDistWithUnitedInp.Size = new System.Drawing.Size(221, 30);
+            this.rbTextFileDistWithUnitedInp.TabIndex = 4;
+            this.rbTextFileDistWithUnitedInp.TabStop = true;
+            this.rbTextFileDistWithUnitedInp.Text = "Файл з імовірностями спотворень ЛМ\r\n з об\'єднаними входами";
+            this.rbTextFileDistWithUnitedInp.UseVisualStyleBackColor = true;
             // 
             // UserTruthTableInput
             // 
@@ -210,5 +223,6 @@
         private System.Windows.Forms.Button ViewResultButton;
         private System.Windows.Forms.RadioButton rbAdder;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RadioButton rbTextFileDistWithUnitedInp;
     }
 }
