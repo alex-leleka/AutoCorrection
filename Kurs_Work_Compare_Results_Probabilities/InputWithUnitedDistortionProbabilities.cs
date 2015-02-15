@@ -39,9 +39,13 @@ namespace Diplom_Work_Compare_Results_Probabilities
             return new ReadOnlyCollection<int> (_firstLevelInputsTargets[firstLevelIndex]);
         }
 
-        private double NoDistortionProbability(int index)
+        private double GetNoDistortionProbability(int index)
         {
             return 1 -_distortionToInverseProbability[index] - _distortionToOneProbability[index] - _distortionToZeroProbability[index];
+        }
+        private double GetNoDistortionProbabilityWithUnited(int index)
+        {
+            return 1 - _distortionToInverseProbabilityWithUnited[index] - _distortionToOneProbabilityWithUnited[index] - _distortionToZeroProbabilityWithUnited[index];
         }
 
         public InputWithUnitedDistortionProbabilities(double[] distortionToZeroProbability, double[] distortionToOneProbability, double[] distortionToInverseProbability, double[] probalityZero, double[] distortionToZeroProbabilityWithUnited, double[] distortionToOneProbabilityWithUnited, double[] distortionToInverseProbabilityWithUnited, int[] inputBitMap)
@@ -141,11 +145,43 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 idpDistortionToOneProbability[i] = _distortionToOneProbabilityWithUnited[i];
                 idpDistortionToInverseProbability[i] = _distortionToInverseProbabilityWithUnited[i];
                 int imapped = _inputBitMap[i];
-                idpProbalityZero[i] = _probalityZero[imapped] * (NoDistortionProbability(imapped) + _distortionToZeroProbability[imapped]) 
-                    + (1 - _probalityZero[imapped]) * (NoDistortionProbability(imapped) + _distortionToInverseProbability[imapped]);
+                idpProbalityZero[i] = _probalityZero[imapped] * (GetNoDistortionProbability(imapped) + _distortionToZeroProbability[imapped]) 
+                    + (1 - _probalityZero[imapped]) * (GetNoDistortionProbability(imapped) + _distortionToInverseProbability[imapped]);
             }
             return new InputDistortionProbabilities(idpDistortionToZeroProbability, idpDistortionToOneProbability,
                 idpDistortionToInverseProbability, idpProbalityZero);
+        }
+
+        internal double GetFistLevelDistortionProbability(int distortionType, int inputIndex)
+        {
+            switch (inputIndex)
+            {
+                case 0:
+                    return GetNoDistortionProbability(inputIndex);
+                case 1:
+                    return GetDistortionToZeroProbability(inputIndex);
+                case 2:
+                    return GetDistortionToOneProbability(inputIndex);
+                case 3:
+                    return GetDistortionToInverseProbability(inputIndex);
+            }
+            throw new Exception(string.Format("Distortion type {0} doesn't exist.", distortionType));
+        }
+
+        internal double GetSecondLevelDistortionProbability(int distortionType, int inputIndex)
+        {
+            switch (inputIndex)
+            {
+                case 0:
+                    return GetNoDistortionProbabilityWithUnited(inputIndex);
+                case 1:
+                    return GetDistortionToZeroProbabilityWithUnited(inputIndex);
+                case 2:
+                    return GetDistortionToOneProbabilityWithUnited(inputIndex);
+                case 3:
+                    return GetDistortionToInverseProbabilityWithUnited(inputIndex);
+            }
+            throw new Exception(string.Format("Distortion type {0} doesn't exist.", distortionType));
         }
     }
 }

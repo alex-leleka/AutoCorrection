@@ -26,7 +26,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
             double pCorr = 0.0, pErr = 0.0;
             do
             {
-                QuattuoryNums distortionQuattuoryNums = new QuattuoryNums(realInputsCount);
+                // TODO: Rework count and indexes for 2nd level inputs distortions;
+                QuattuoryNums distortionQuattuoryNums = new QuattuoryNums(realInputsCount + InputsUnitedSourcesCount);
                 do
                 {
                     double p = GetDistortionsProbabilities(inputBinDigits, distortionQuattuoryNums);
@@ -49,7 +50,25 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private double GetDistortionsProbabilities(BitArray inputBinDigits, QuattuoryNums distortionQuattuoryNums)
         {
-            throw new NotImplementedException();
+            double p = 1.0;
+            for (int i = 0; i < _inpDist.GetCircuitBitsCount(); i++)
+            {
+                var connInputs = _inpDist.GetFirstLevelInputsTargets(i);
+                if (connInputs.Count == 1)
+                {
+                    p *= _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(i), i);
+                }
+                else
+                {
+                    double pFistLevel = _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(i), i);
+                    foreach (var index2NdLevel in connInputs)
+                    {
+                        p *= _inpDist.GetSecondLevelDistortionProbability(distortionQuattuoryNums.Value(index2NdLevel), index2NdLevel);
+                    }
+                    p *= pFistLevel;
+                }
+            }
+            return p;
         }
 
         private BitArray ApplyDistortionOnBits(BitArray inputBinDigits, QuattuoryNums distortionQuattuoryNums)
@@ -79,6 +98,9 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 _number[i] = (Quattuor)initVal;
             }
         }
+
+        public int Count
+        { get { return _number.Length; }}
 
         public bool Increment()
         {
