@@ -41,9 +41,9 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private double CalculateTurnInProbability(int originalValue, int corruptedValue) // i turn in j, but not vice versa
         {
             double operandTurnInProbability = 1.0;
-            double bitTurnInProbability;
             for (int i = 0, mask = 1; i < _inputNumberOfDigits; i++, mask *= 2)
             {
+                double bitTurnInProbability;
                 if((mask & originalValue) != 0)
                 {
                     if ((mask & corruptedValue) != 0) // 1 -> 1 /*(d)*/

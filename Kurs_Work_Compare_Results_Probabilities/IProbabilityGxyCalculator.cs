@@ -4,7 +4,7 @@ using System.Collections;
 namespace Diplom_Work_Compare_Results_Probabilities
 {
     /// <summary>
-    /// Ймовірносні характеристики результатів фунції, при зададаних детерміновах спотвореннях на вході.
+    /// Ймовірносні характеристики результатів фунції, при зададаних детермінованих спотвореннях на вході.
     /// </summary>
     public struct Gprobabilites
     {
