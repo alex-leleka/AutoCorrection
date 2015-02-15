@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -18,6 +21,24 @@ namespace Diplom_Work_Compare_Results_Probabilities
         /// </summary>
         private readonly int[] _inputBitMap;
 
+        private List<int>[] _firstLevelInputsTargets;
+
+        private void ConvertInputBitMapToFirstLevelInputsTargets()
+        {
+            _firstLevelInputsTargets = new List<int>[GetLogicNetworkBitsCount()];
+            for (int circuitInputIndex = 0; circuitInputIndex < _inputBitMap.Length; circuitInputIndex++)
+            {
+                _firstLevelInputsTargets[_inputBitMap[circuitInputIndex]].Add(circuitInputIndex);
+            }
+
+        }
+
+        public ReadOnlyCollection<int> GetFirstLevelInputsTargets(int firstLevelIndex)
+        {
+            Debug.Assert(_firstLevelInputsTargets != null, "_firstLevelInputsTargets != null");
+            return new ReadOnlyCollection<int> (_firstLevelInputsTargets[firstLevelIndex]);
+        }
+
         private double NoDistortionProbability(int index)
         {
             return 1 -_distortionToInverseProbability[index] - _distortionToOneProbability[index] - _distortionToZeroProbability[index];
@@ -33,6 +54,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _distortionToOneProbabilityWithUnited = distortionToOneProbabilityWithUnited;
             _distortionToInverseProbabilityWithUnited = distortionToInverseProbabilityWithUnited;
             _inputBitMap = inputBitMap;
+            ConvertInputBitMapToFirstLevelInputsTargets();
         }
 
         public int GetBitMappedVariableIndex(int inputIndex)
