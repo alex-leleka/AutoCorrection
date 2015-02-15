@@ -98,7 +98,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
         }
         private double CalculateCorrectResultProbability() // returns Correct Result Probability
-            //taking into account the auto-correction
+                                                           // taking into account the auto-correction
         {
            // Потрібне теоретичне пояснення!!!
            // TODO: Визначити ймовірність правильної роботи функції на основі
@@ -111,16 +111,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
            // return probability;
 
             // функція повертає наижню границю ймовірності правильної роботи функції
-            double min_probability = 1.0;
-            double average_probability = 0;
+            double minProbability = 1.0;
+            double averageProbability = .0;
             for (int i = 0; i < _amountOfLinesInTruthTable; i++)
             {
-                if(_correctResultProbablitiesArray[i] < min_probability)
-                    min_probability = _correctResultProbablitiesArray[i];
-                average_probability += _correctResultProbablitiesArray[i];
+                if(_correctResultProbablitiesArray[i] < minProbability)
+                    minProbability = _correctResultProbablitiesArray[i];
+                averageProbability += _correctResultProbablitiesArray[i];
             }
-            average_probability /= _amountOfLinesInTruthTable;
-            return average_probability;// min_probability;
+            averageProbability /= _amountOfLinesInTruthTable;
+            return averageProbability;// min_probability;
         }
         public double[] CalculateCorrectResultProbabilityArr() // returns Correct Result Probability
         //taking into account the auto-correction
