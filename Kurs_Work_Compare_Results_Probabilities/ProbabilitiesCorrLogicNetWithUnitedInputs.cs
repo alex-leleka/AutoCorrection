@@ -22,15 +22,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             int digitCount = _inpDist.GetLogicNetworkBitsCount();
             int realInputsCount = _inpDist.GetCircuitBitsCount();
+            int secondLevelInputsCount = _inpDist.GetSecondLevelInputsCount();
             var inputBinDigits = new BitArray(digitCount, false); // 00...0
             double pCorr = 0.0, pErr = 0.0;
             do
             {
                 // TODO: Rework count and indexes for 2nd level inputs distortions;
-                QuattuoryNums distortionQuattuoryNums = new QuattuoryNums(realInputsCount + InputsUnitedSourcesCount);
+                QuattuoryNums distortionQuattuoryNums = new QuattuoryNums(digitCount + secondLevelInputsCount);
                 do
                 {
-                    double p = GetDistortionsProbabilities(inputBinDigits, distortionQuattuoryNums);
+                    double p = GetDistortionsProbabilities(distortionQuattuoryNums);
                     BitArray input = ApplyDistortionOnBits(inputBinDigits, distortionQuattuoryNums);
                     var resultNoDist = _bf.GetResult(inputBinDigits);
                     var resultDistorted = _bf.GetResult(input);
@@ -48,25 +49,20 @@ namespace Diplom_Work_Compare_Results_Probabilities
             return pCorr; 
         }
 
-        private double GetDistortionsProbabilities(BitArray inputBinDigits, QuattuoryNums distortionQuattuoryNums)
+        private double GetDistortionsProbabilities(QuattuoryNums distortionQuattuoryNums)
         {
             double p = 1.0;
+            int indexBaseSecLevelProb = _inpDist.GetLogicNetworkBitsCount() - 1;
+
+            // 1st level
+            for (int i = 0; i < _inpDist.GetLogicNetworkBitsCount(); i++)
+            {
+                p *= _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(i), i);
+            }
+            // 2nd level
             for (int i = 0; i < _inpDist.GetCircuitBitsCount(); i++)
             {
-                var connInputs = _inpDist.GetFirstLevelInputsTargets(i);
-                if (connInputs.Count == 1)
-                {
-                    p *= _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(i), i);
-                }
-                else
-                {
-                    double pFistLevel = _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(i), i);
-                    foreach (var index2NdLevel in connInputs)
-                    {
-                        p *= _inpDist.GetSecondLevelDistortionProbability(distortionQuattuoryNums.Value(index2NdLevel), index2NdLevel);
-                    }
-                    p *= pFistLevel;
-                }
+                p *= _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(indexBaseSecLevelProb + i), i);
             }
             return p;
         }
