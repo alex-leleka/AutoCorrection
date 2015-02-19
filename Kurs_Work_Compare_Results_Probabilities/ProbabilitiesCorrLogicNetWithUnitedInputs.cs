@@ -69,20 +69,49 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private BitArray ApplyDistortionOnBits(BitArray inputBinDigits, QuattuoryNums distortionQuattuoryNums)
         {
-            throw new NotImplementedException();
+            var result = new BitArray(_inpDist.GetCircuitBitsCount());
+            int indexBaseSecLevelProb = _inpDist.GetLogicNetworkBitsCount() - 1;
+            for (int i = 0; i < result.Length; i++)
+            {
+                int firstLevelIndex = _inpDist.GetBitMappedVariableIndex(i);
+                bool firstLevelOut = ApplyDistortion(inputBinDigits[firstLevelIndex], distortionQuattuoryNums.QValue(firstLevelIndex));
+                result[i] = ApplyDistortion(firstLevelOut, distortionQuattuoryNums.QValue(indexBaseSecLevelProb + i));
+            }
+            return result;
+        }
+
+        private static bool ApplyDistortion(bool bit, QuattuoryNums.Quattuor distType)
+        {
+            QuattuoryNums.DistTypes dType = (QuattuoryNums.DistTypes) distType;
+            switch (dType)
+            {
+                case QuattuoryNums.DistTypes.NoDist:
+                    return bit;
+                case QuattuoryNums.DistTypes.DistToZero:
+                    return false;
+                case QuattuoryNums.DistTypes.DistToOne:
+                    return true;
+                case QuattuoryNums.DistTypes.DistToInv:
+                    return !bit;
+            }
+            throw new Exception("ApplyDistortion failed!");
         }
 
     }
 
     class QuattuoryNums
     {
-        enum Quattuor {Zero, One, Two, Three};
-
+        public enum Quattuor { Zero, One, Two, Three };
+        public enum DistTypes { NoDist = Quattuor.Zero, DistToZero = Quattuor.One, DistToOne = Quattuor.Two, DistToInv = Quattuor.Three};
         private Quattuor[] _number;
 
         public int Value(int digitIndex)
         {
             return (int)_number[digitIndex];
+        }
+        public Quattuor QValue(int digitIndex)
+        {
+            return _number[digitIndex];
         }
         public QuattuoryNums(int digitCount, int initVal = 0)
         {

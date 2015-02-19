@@ -61,6 +61,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
             ConvertInputBitMapToFirstLevelInputsTargets();
         }
 
+        /// <summary>
+        /// inputIndex of second level input.
+        /// </summary>
+        /// <param name="inputIndex"></param>
+        /// <returns>Index of first level input connected to second level input.</returns>
         public int GetBitMappedVariableIndex(int inputIndex)
         {
             // max index is GetCircuitBitsCount()
