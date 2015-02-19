@@ -25,7 +25,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private void ConvertInputBitMapToFirstLevelInputsTargets()
         {
-            _firstLevelInputsTargets = new List<int>[GetLogicNetworkBitsCount()];
+            _firstLevelInputsTargets = new List<int>[GetFirstLevelInputsCount()];
             for (int circuitInputIndex = 0; circuitInputIndex < _inputBitMap.Length; circuitInputIndex++)
             {
                 _firstLevelInputsTargets[_inputBitMap[circuitInputIndex]].Add(circuitInputIndex);
@@ -68,26 +68,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
         /// <returns>Index of first level input connected to second level input.</returns>
         public int GetBitMappedVariableIndex(int inputIndex)
         {
-            // max index is GetCircuitBitsCount()
+            // max index is GetSecondLevelInputsCount()
             return _inputBitMap[inputIndex];
         }
 
         /// <summary>
-        /// Logic network bits count is number of variables on the input
+        /// Number of variables on the input
         /// without repeating.
         /// </summary>
         /// <returns>count of different variables on input</returns>
-        public int GetLogicNetworkBitsCount()
-        {
-            return _distortionToZeroProbabilityWithUnited.Length;
-        }
-
-        /// <summary>
-        /// Circuit bits count is number of variables on the input
-        /// including the same variables that repeat on different inputs(with united inputs).
-        /// </summary>
-        /// <returns>count of real variables on input</returns>
-        public int GetCircuitBitsCount()
+        public int GetFirstLevelInputsCount()
         {
             return _distortionToZeroProbability.Length;
         }
@@ -124,7 +114,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         public double GetProbalityZero(int index)
         {
-            // max index GetCircuitBitsCount()
+            // max index GetFirstLevelInputsCount()
             return _probalityZero[index];
         }
 
@@ -139,10 +129,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         public InputDistortionProbabilities ConvertToInputDistortionProbabilities()
         {
-            double[] idpDistortionToZeroProbability = new double[GetCircuitBitsCount()];
-            double[] idpDistortionToOneProbability = new double[GetCircuitBitsCount()];
-            double[] idpDistortionToInverseProbability = new double[GetCircuitBitsCount()];
-            double[] idpProbalityZero = new double[GetCircuitBitsCount()];
+            double[] idpDistortionToZeroProbability = new double[GetSecondLevelInputsCount()];
+            double[] idpDistortionToOneProbability = new double[GetSecondLevelInputsCount()];
+            double[] idpDistortionToInverseProbability = new double[GetSecondLevelInputsCount()];
+            double[] idpProbalityZero = new double[GetSecondLevelInputsCount()];
 
             for (int i = 0; i < idpDistortionToInverseProbability.Length; i++)
             {
@@ -191,7 +181,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         internal int GetSecondLevelInputsCount()
         {
-            throw new NotImplementedException();
+            return _distortionToZeroProbabilityWithUnited.Length;
         }
     }
 }

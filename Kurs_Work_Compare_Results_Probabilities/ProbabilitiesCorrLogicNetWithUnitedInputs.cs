@@ -20,8 +20,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private double CalculateCorrectWorkProbWithAutoCorr()
         {
-            int digitCount = _inpDist.GetLogicNetworkBitsCount();
-            int realInputsCount = _inpDist.GetCircuitBitsCount();
+            int digitCount = _inpDist.GetFirstLevelInputsCount();
             int secondLevelInputsCount = _inpDist.GetSecondLevelInputsCount();
             var inputBinDigits = new BitArray(digitCount, false); // 00...0
             double pCorr = 0.0, pErr = 0.0;
@@ -52,15 +51,15 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private double GetDistortionsProbabilities(QuattuoryNums distortionQuattuoryNums)
         {
             double p = 1.0;
-            int indexBaseSecLevelProb = _inpDist.GetLogicNetworkBitsCount() - 1;
+            int indexBaseSecLevelProb = _inpDist.GetFirstLevelInputsCount() - 1;
 
             // 1st level
-            for (int i = 0; i < _inpDist.GetLogicNetworkBitsCount(); i++)
+            for (int i = 0; i < _inpDist.GetFirstLevelInputsCount(); i++)
             {
                 p *= _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(i), i);
             }
             // 2nd level
-            for (int i = 0; i < _inpDist.GetCircuitBitsCount(); i++)
+            for (int i = 0; i < _inpDist.GetSecondLevelInputsCount(); i++)
             {
                 p *= _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(indexBaseSecLevelProb + i), i);
             }
@@ -69,8 +68,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private BitArray ApplyDistortionOnBits(BitArray inputBinDigits, QuattuoryNums distortionQuattuoryNums)
         {
-            var result = new BitArray(_inpDist.GetCircuitBitsCount());
-            int indexBaseSecLevelProb = _inpDist.GetLogicNetworkBitsCount() - 1;
+            var result = new BitArray(_inpDist.GetSecondLevelInputsCount());
+            int indexBaseSecLevelProb = _inpDist.GetFirstLevelInputsCount() - 1;
             for (int i = 0; i < result.Length; i++)
             {
                 int firstLevelIndex = _inpDist.GetBitMappedVariableIndex(i);
