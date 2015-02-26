@@ -14,10 +14,6 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _bf = bf;
         }
 
-        public double GetCorrectWorkProbabilityWithAutoCorr()
-        {
-            return CalculateCorrectWorkProbWithAutoCorr();
-        }
         private double CalculateCorrectWorkProbWithAutoCorr()
         {
             int digitCount = _inpDist.GetFirstLevelInputsCount();
@@ -95,6 +91,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
             throw new Exception("ApplyDistortion failed!");
         }
 
+
+        internal double GetCorrectResultProbability()
+        {
+            return CalculateCorrectWorkProbWithAutoCorr();
+        }
     }
 
     class QuattuoryNums

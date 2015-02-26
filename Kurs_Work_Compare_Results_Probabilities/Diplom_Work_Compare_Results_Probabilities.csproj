@@ -90,6 +90,12 @@
     <Compile Include="DistortionProbTextReader.cs" />
     <Compile Include="DistortionProbUnitedInputTextReader.cs" />
     <Compile Include="InputWithUnitedDistortionProbabilities.cs" />
+    <Compile Include="UserControls\ResultViewUnitedInputs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControls\ResultViewUnitedInputs.Designer.cs">
+      <DependentUpon>ResultViewUnitedInputs.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ResultView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
     <Compile Include="UserControls\UserTruthTableInput.Designer.cs">
       <DependentUpon>UserTruthTableInput.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\ResultViewUnitedInputs.resx">
+      <DependentUpon>ResultViewUnitedInputs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ResultView.resx">
       <DependentUpon>ResultView.cs</DependentUpon>
     </EmbeddedResource>

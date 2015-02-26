@@ -79,8 +79,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             }
             LoadDistortionToBoolFunction(_bf, _inpDistProb);
             var pCalc = new ProbabilitiesGxyCalc(_bf, _inpDistProb.ZeroProbability);
-            var f = new ResultView();
-            f.Visible = false;
+            var f = new ResultView {Visible = false};
             // set values for calculation of probability with table method
             f.SetInputDistProb(_inpDistProb);
             f.SetBoolFunc(_bf);
@@ -91,8 +90,13 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
 
         private void ViewResultWithUnitedDistDirect()
         {
-            var calculator = new ProbabilitiesCorrLogicNetWithUnitedInputs(_inpWithUnitedDistProb, _bf);
-            // TODO: create ResultView window class for ProbabilitiesCorrLogicNetWithUnitedInputs
+            var f = new ResultViewWithUnitedInputs {Visible = false};
+            // set values for calculation of probability with table method
+            f.SetInputDistProb(_inpWithUnitedDistProb);
+            f.SetBoolFunc(_bf);
+            f.Show();
+            if (f.WindowState == FormWindowState.Minimized)
+                f.WindowState = FormWindowState.Normal;
         }
         private void LoadDistortionToBoolFunction(BooleanFuntionWithInputDistortion f, InputDistortionProbabilities inputDistortionProb)
         {

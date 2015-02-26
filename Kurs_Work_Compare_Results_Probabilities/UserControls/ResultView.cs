@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows.Forms;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
@@ -58,7 +59,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
                 G0 = prob.G0;
 
             } while (BooleanFuntionWithInputDistortion.IncrementOperand(result));
-            labelTime.Text = timeLeft + " ms.";
+            labelTime.Text = timeLeft + @" ms.";
             textBoxG0.Text = G0.ToString();
             textBoxGc.Text = Gc.ToString();
             textBoxGec.Text = Gec.ToString();
