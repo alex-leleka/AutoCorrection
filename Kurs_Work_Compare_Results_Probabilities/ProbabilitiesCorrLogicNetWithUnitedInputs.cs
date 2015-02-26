@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
 namespace Diplom_Work_Compare_Results_Probabilities
@@ -18,6 +14,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _bf = bf;
         }
 
+        public double GetCorrectWorkProbabilityWithAutoCorr()
+        {
+            return CalculateCorrectWorkProbWithAutoCorr();
+        }
         private double CalculateCorrectWorkProbWithAutoCorr()
         {
             int digitCount = _inpDist.GetFirstLevelInputsCount();
@@ -26,7 +26,6 @@ namespace Diplom_Work_Compare_Results_Probabilities
             double pCorr = 0.0, pErr = 0.0;
             do
             {
-                // TODO: Rework count and indexes for 2nd level inputs distortions;
                 QuattuoryNums distortionQuattuoryNums = new QuattuoryNums(digitCount + secondLevelInputsCount);
                 do
                 {

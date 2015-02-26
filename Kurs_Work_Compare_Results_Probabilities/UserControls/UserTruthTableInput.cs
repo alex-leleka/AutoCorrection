@@ -48,6 +48,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             else
             {
+                // TODO: add pass for withUnited calc(ProbabilitiesCorrLogicNetWithUnitedInputs) 
                 // select distortion input way
                 if (rbTextFileDistortion.Checked)
                 {
@@ -67,6 +68,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private void ViewResultButton_Click(object sender, EventArgs e)
         {
+            // TODO: add pass for withUnited calc(ProbabilitiesCorrLogicNetWithUnitedInputs) 
             LoadDistortionToBoolFunction(_bf, _inpDistProb);
             var pCalc = new ProbabilitiesGxyCalc(_bf, _inpDistProb.ZeroProbability);
             var f = new ResultView();
