@@ -1,4 +1,4 @@
-﻿namespace Diplom_Work_Compare_Results_Probabilities
+﻿namespace Diplom_Work_Compare_Results_Probabilities.UserControls
 {
     partial class ResultView
     {

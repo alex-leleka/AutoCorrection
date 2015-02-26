@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
-using Diplom_Work_Compare_Results_Probabilities.UserControls;
-namespace Diplom_Work_Compare_Results_Probabilities
+
+namespace Diplom_Work_Compare_Results_Probabilities.UserControls
 {
     public partial class UserTruthTableInput : UserControl
     {

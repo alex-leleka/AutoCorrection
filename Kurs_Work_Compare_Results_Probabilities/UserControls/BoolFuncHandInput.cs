@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
-namespace Diplom_Work_Compare_Results_Probabilities
+
+namespace Diplom_Work_Compare_Results_Probabilities.UserControls
 {
     public partial class BoolFuncHandInput : UserControl
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Threading;
 using System.Globalization;
+using Diplom_Work_Compare_Results_Probabilities.UserControls;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {

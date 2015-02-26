@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
-namespace Diplom_Work_Compare_Results_Probabilities
+namespace Diplom_Work_Compare_Results_Probabilities.UserControls
 {
     public partial class Form1 : Form
     {

@@ -50,7 +50,8 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             var bf = new BooleanFunctionTruthTable(inputDigitsCount, outputDigitsCount);
             bf.SetResultTable(truthTable);
             _bfProxy(bf);
-            this.FindForm().Close();
+            var findForm = FindForm();
+            if (findForm != null) findForm.Close();
         }
     }
 }

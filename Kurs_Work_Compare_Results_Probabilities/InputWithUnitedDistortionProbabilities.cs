@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
-    class InputWithUnitedDistortionProbabilities
+    public class InputWithUnitedDistortionProbabilities
     {
         private readonly double[] _distortionToZeroProbability;
         private readonly double[] _distortionToOneProbability;
