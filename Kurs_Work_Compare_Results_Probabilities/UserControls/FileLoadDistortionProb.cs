@@ -33,4 +33,20 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             _disProbProxy(reader.GetDistortionProb().ConvertToInputDistortionProbabilities());
         }
     }
+
+    public partial class FileLoadDistortionProbWithUnitedDirect : FileLoad
+    {
+        private Action<InputWithUnitedDistortionProbabilities> _disProbProxy;
+        public FileLoadDistortionProbWithUnitedDirect(Action<InputWithUnitedDistortionProbabilities> disProbProxy)
+            : base()
+        {
+            _disProbProxy = disProbProxy;
+        }
+        protected override void DoAction()
+        {
+            var reader = new DistortionProbUnitedInputTextReader(_path);
+            MessageBox.Show(@"Opening file.");
+            _disProbProxy(reader.GetDistortionProb());
+        }
+    }
 }
