@@ -14,6 +14,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
     {
         private BooleanFuntionWithInputDistortion _bf;
         private InputDistortionProbabilities _inpDistProb;
+        private InputWithUnitedDistortionProbabilities _inpWithUnitedDistProb = null;
         public UserTruthTableInput()
         {
             InitializeComponent();
@@ -25,6 +26,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private void SetDistProb(InputDistortionProbabilities inpDistProb)
         {
             _inpDistProb = inpDistProb;
+        }
+        private void SetDistProb(InputWithUnitedDistortionProbabilities inpWithUnitedDistProb)
+        {
+            _inpWithUnitedDistProb = inpWithUnitedDistProb;
         }
         private void formShow(Form f)
         {
@@ -60,7 +65,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 }
                 else if (rbTextFileDistWithUnitedInp.Checked)
                 {
-                    ShowInput(new FileLoadDistortionProbWithUnited(SetDistProb), @"Select text file with input distortions");
+                    ShowInput(new FileLoadDistortionProbWithUnited(SetDistProb), @"Select text file with input distortions of 2 levels logic network");
+                }
+                else if (rbTextFileDistWithUnitedInpDirect.Checked)
+                {
+                    ShowInput(new FileLoadDistortionProbWithUnitedDirect(SetDistProb), @"Select text file with input distortions of 2 levels logic network");
                 }
                 ViewResultButton.Visible = true;
             }
@@ -68,7 +77,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private void ViewResultButton_Click(object sender, EventArgs e)
         {
-            // TODO: add pass for withUnited calc(ProbabilitiesCorrLogicNetWithUnitedInputs) 
+            if (_inpWithUnitedDistProb != null)
+            {
+                ViewResultWithUnitedDistDirect();
+                return;
+            }
             LoadDistortionToBoolFunction(_bf, _inpDistProb);
             var pCalc = new ProbabilitiesGxyCalc(_bf, _inpDistProb.ZeroProbability);
             var f = new ResultView();
@@ -79,6 +92,12 @@ namespace Diplom_Work_Compare_Results_Probabilities
             f.Show();
             if (f.WindowState == FormWindowState.Minimized)
                 f.WindowState = FormWindowState.Normal;
+        }
+
+        private void ViewResultWithUnitedDistDirect()
+        {
+            var calculator = new ProbabilitiesCorrLogicNetWithUnitedInputs(_inpWithUnitedDistProb, _bf);
+            // TODO: create ResultView window class for ProbabilitiesCorrLogicNetWithUnitedInputs
         }
         private void LoadDistortionToBoolFunction(BooleanFuntionWithInputDistortion f, InputDistortionProbabilities inputDistortionProb)
         {

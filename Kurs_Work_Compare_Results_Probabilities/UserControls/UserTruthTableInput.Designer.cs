@@ -36,11 +36,12 @@
             this.rbTruthTable = new System.Windows.Forms.RadioButton();
             this.rbTextFile = new System.Windows.Forms.RadioButton();
             this.distProbInputChoiceBox = new System.Windows.Forms.GroupBox();
+            this.rbTextFileDistWithUnitedInp = new System.Windows.Forms.RadioButton();
             this.rbHandWriteDistProb = new System.Windows.Forms.RadioButton();
             this.InputMethodChoosed = new System.Windows.Forms.Button();
             this.rbTextFileDistortion = new System.Windows.Forms.RadioButton();
             this.ViewResultButton = new System.Windows.Forms.Button();
-            this.rbTextFileDistWithUnitedInp = new System.Windows.Forms.RadioButton();
+            this.rbTextFileDistWithUnitedInpDirect = new System.Windows.Forms.RadioButton();
             this.boolFuncInputChoice.SuspendLayout();
             this.distProbInputChoiceBox.SuspendLayout();
             this.SuspendLayout();
@@ -127,6 +128,7 @@
             // 
             // distProbInputChoiceBox
             // 
+            this.distProbInputChoiceBox.Controls.Add(this.rbTextFileDistWithUnitedInpDirect);
             this.distProbInputChoiceBox.Controls.Add(this.rbTextFileDistWithUnitedInp);
             this.distProbInputChoiceBox.Controls.Add(this.rbHandWriteDistProb);
             this.distProbInputChoiceBox.Controls.Add(this.InputMethodChoosed);
@@ -137,6 +139,18 @@
             this.distProbInputChoiceBox.TabIndex = 2;
             this.distProbInputChoiceBox.TabStop = false;
             this.distProbInputChoiceBox.Text = "Спосіб введення ймовірностей спотворень";
+            // 
+            // rbTextFileDistWithUnitedInp
+            // 
+            this.rbTextFileDistWithUnitedInp.AutoSize = true;
+            this.rbTextFileDistWithUnitedInp.Location = new System.Drawing.Point(6, 78);
+            this.rbTextFileDistWithUnitedInp.Name = "rbTextFileDistWithUnitedInp";
+            this.rbTextFileDistWithUnitedInp.Size = new System.Drawing.Size(272, 30);
+            this.rbTextFileDistWithUnitedInp.TabIndex = 4;
+            this.rbTextFileDistWithUnitedInp.TabStop = true;
+            this.rbTextFileDistWithUnitedInp.Text = "Файл з імовірностями спотворень ЛМ\r\n з об\'єднаними входами(приведена до 1рівневої" +
+    ")";
+            this.rbTextFileDistWithUnitedInp.UseVisualStyleBackColor = true;
             // 
             // rbHandWriteDistProb
             // 
@@ -181,16 +195,16 @@
             this.ViewResultButton.Visible = false;
             this.ViewResultButton.Click += new System.EventHandler(this.ViewResultButton_Click);
             // 
-            // rbTextFileDistWithUnitedInp
+            // rbTextFileDistWithUnitedInpDirect
             // 
-            this.rbTextFileDistWithUnitedInp.AutoSize = true;
-            this.rbTextFileDistWithUnitedInp.Location = new System.Drawing.Point(6, 78);
-            this.rbTextFileDistWithUnitedInp.Name = "rbTextFileDistWithUnitedInp";
-            this.rbTextFileDistWithUnitedInp.Size = new System.Drawing.Size(221, 30);
-            this.rbTextFileDistWithUnitedInp.TabIndex = 4;
-            this.rbTextFileDistWithUnitedInp.TabStop = true;
-            this.rbTextFileDistWithUnitedInp.Text = "Файл з імовірностями спотворень ЛМ\r\n з об\'єднаними входами";
-            this.rbTextFileDistWithUnitedInp.UseVisualStyleBackColor = true;
+            this.rbTextFileDistWithUnitedInpDirect.AutoSize = true;
+            this.rbTextFileDistWithUnitedInpDirect.Location = new System.Drawing.Point(6, 111);
+            this.rbTextFileDistWithUnitedInpDirect.Name = "rbTextFileDistWithUnitedInpDirect";
+            this.rbTextFileDistWithUnitedInpDirect.Size = new System.Drawing.Size(221, 30);
+            this.rbTextFileDistWithUnitedInpDirect.TabIndex = 5;
+            this.rbTextFileDistWithUnitedInpDirect.TabStop = true;
+            this.rbTextFileDistWithUnitedInpDirect.Text = "Файл з імовірностями спотворень ЛМ\r\n з об\'єднаними входами (Direct calc)";
+            this.rbTextFileDistWithUnitedInpDirect.UseVisualStyleBackColor = true;
             // 
             // UserTruthTableInput
             // 
@@ -224,5 +238,6 @@
         private System.Windows.Forms.RadioButton rbAdder;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RadioButton rbTextFileDistWithUnitedInp;
+        private System.Windows.Forms.RadioButton rbTextFileDistWithUnitedInpDirect;
     }
 }
