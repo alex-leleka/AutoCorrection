@@ -26,6 +26,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private void ConvertInputBitMapToFirstLevelInputsTargets()
         {
             _firstLevelInputsTargets = new List<int>[GetFirstLevelInputsCount()];
+            for(int i = 0; i < _firstLevelInputsTargets.Length; i++)
+                _firstLevelInputsTargets[i] = new List<int>();
             for (int circuitInputIndex = 0; circuitInputIndex < _inputBitMap.Length; circuitInputIndex++)
             {
                 _firstLevelInputsTargets[_inputBitMap[circuitInputIndex]].Add(circuitInputIndex);
@@ -149,7 +151,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         internal double GetFistLevelDistortionProbability(int distortionType, int inputIndex)
         {
-            switch (inputIndex)
+            switch (distortionType)
             {
                 case 0:
                     return GetNoDistortionProbability(inputIndex);
@@ -165,7 +167,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         internal double GetSecondLevelDistortionProbability(int distortionType, int inputIndex)
         {
-            switch (inputIndex)
+            switch (distortionType)
             {
                 case 0:
                     return GetNoDistortionProbabilityWithUnited(inputIndex);

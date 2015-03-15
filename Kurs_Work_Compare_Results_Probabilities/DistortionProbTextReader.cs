@@ -78,6 +78,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
             while ((line.Length < 1) || (line[0] == commentChar));
             double[] arr = new double[length];
             var values = line.Split();
+            #if DEBUG
+            if(values.Length != length)
+                throw new IndexOutOfRangeException("Index out range in ReadDoubleArr() expected, check the text file!");
+            #endif
+            
             for(int i = 0; i < length;i++)
             {
                 arr[i] = Convert.ToDouble(values[i]);

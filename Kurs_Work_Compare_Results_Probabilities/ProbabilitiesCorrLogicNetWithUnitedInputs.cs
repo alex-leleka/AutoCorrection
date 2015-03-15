@@ -27,6 +27,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 {
                     double p = GetDistortionsProbabilities(distortionQuattuoryNums);
                     BitArray input = ApplyDistortionOnBits(inputBinDigits, distortionQuattuoryNums);
+                    p *= GetInputDigitsProbability(inputBinDigits);
                     var resultNoDist = _bf.GetResult(inputBinDigits);
                     var resultDistorted = _bf.GetResult(input);
                     if (resultNoDist.Eq(resultDistorted))
@@ -40,7 +41,18 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
                 } while (distortionQuattuoryNums.Increment());
             } while (BooleanFuntionWithInputDistortion.IncrementOperand(inputBinDigits));
-            return pCorr; 
+            return pCorr + pErr; 
+        }
+
+        private double GetInputDigitsProbability(BitArray inputBinDigits)
+        {
+            //throw new NotImplementedException();
+            double p = 1.0;
+            for (int i = 0; i < _inpDist.GetFirstLevelInputsCount(); i++)
+            {
+                p *= _inpDist.GetProbalityDigit(Convert.ToInt32(inputBinDigits[i]), i);
+            }
+            return p;
         }
 
         private double GetDistortionsProbabilities(QuattuoryNums distortionQuattuoryNums)
@@ -56,7 +68,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             // 2nd level
             for (int i = 0; i < _inpDist.GetSecondLevelInputsCount(); i++)
             {
-                p *= _inpDist.GetFistLevelDistortionProbability(distortionQuattuoryNums.Value(indexBaseSecLevelProb + i), i);
+                p *= _inpDist.GetSecondLevelDistortionProbability(distortionQuattuoryNums.Value(indexBaseSecLevelProb + i), i);
             }
             return p;
         }
