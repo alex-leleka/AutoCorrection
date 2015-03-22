@@ -185,5 +185,15 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             return _distortionToZeroProbabilityWithUnited.Length;
         }
+
+        internal System.Collections.BitArray ConvertFirstToSecondLvlVars(System.Collections.BitArray inputBinDigits)
+        {
+            var res = new System.Collections.BitArray(GetSecondLevelInputsCount(), false);
+            for (int i = 0; i < res.Count; i++)
+            {
+                res[i] = inputBinDigits[GetBitMappedVariableIndex(i)];
+            }
+            return res;
+        }
     }
 }

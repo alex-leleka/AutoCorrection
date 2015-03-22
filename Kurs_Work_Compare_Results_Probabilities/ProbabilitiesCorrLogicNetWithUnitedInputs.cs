@@ -28,7 +28,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     double p = GetDistortionsProbabilities(distortionQuattuoryNums);
                     BitArray input = ApplyDistortionOnBits(inputBinDigits, distortionQuattuoryNums);
                     p *= GetInputDigitsProbability(inputBinDigits);
-                    var resultNoDist = _bf.GetResult(inputBinDigits);
+                    var resultNoDist = _bf.GetResult(_inpDist.ConvertFirstToSecondLvlVars(inputBinDigits));
                     var resultDistorted = _bf.GetResult(input);
                     if (resultNoDist.Eq(resultDistorted))
                     {
