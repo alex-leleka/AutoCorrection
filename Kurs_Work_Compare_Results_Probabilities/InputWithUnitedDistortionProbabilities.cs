@@ -136,6 +136,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
             double[] idpDistortionToInverseProbability = new double[GetSecondLevelInputsCount()];
             double[] idpProbalityZero = new double[GetSecondLevelInputsCount()];
 
+            // TODO: Change convertion, errors should be converted to errors, not prob. of 0 or 1.
+            return null;
             for (int i = 0; i < idpDistortionToInverseProbability.Length; i++)
             {
                 idpDistortionToZeroProbability[i] = _distortionToZeroProbabilityWithUnited[i];
