@@ -147,8 +147,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private void GetTupleProbabilityKjeClass(BitArray result, ref double E1, ref double E2, BitArray operandIt)
         {
-            const int CORRECT = 0; // inpout autocorection
-            const int AUTOCOR = 1; // inpout autocorection
+            const int CORRECT = 0; // no distortion
+            const int AUTOCOR = 1; // input autocorection
             const int DIST = 2; // distortion
 
             BitArray distortionVect = new BitArray(_truthTable.InputNumberOfDigits, false); // the first operand in tTable 00...0

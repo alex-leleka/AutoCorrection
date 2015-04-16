@@ -18,6 +18,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private readonly double[] _probalityZero;
         /// <summary>
         /// Maps index of variable on logic network connected to input.
+        /// Index is second level variable number. Value is first level variable number.
         /// </summary>
         private readonly int[] _inputBitMap;
 
@@ -118,6 +119,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             // max index GetFirstLevelInputsCount()
             return _probalityZero[index];
+        }
+
+        public int GetProbalityZeroLength()
+        {
+            return _probalityZero.Length;
         }
 
         public double GetProbalityDigit(int digit, int index)
