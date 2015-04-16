@@ -9,7 +9,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
     {
         private BooleanFuntionWithInputDistortion _bf;
         private InputDistortionProbabilities _inpDistProb;
-        private InputWithUnitedDistortionProbabilities _inpWithUnitedDistProb = null;
+        private InputWithUnitedDistortionProbabilities _inpWithUnitedDistProb;
         public UserTruthTableInput()
         {
             InitializeComponent();

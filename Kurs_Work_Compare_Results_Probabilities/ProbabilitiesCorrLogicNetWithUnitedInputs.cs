@@ -113,7 +113,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
     class QuattuoryNums
     {
         public enum Quattuor { Zero, One, Two, Three };
-        public enum DistTypes { NoDist = Quattuor.Zero, DistToZero = Quattuor.One, DistToOne = Quattuor.Two, DistToInv = Quattuor.Three};
+        public enum DistTypes { NoDist = Quattuor.Zero, DistToZero = Quattuor.One, DistToOne = Quattuor.Two, DistToInv = Quattuor.Three };
         private Quattuor[] _number;
 
         public int Value(int digitIndex)

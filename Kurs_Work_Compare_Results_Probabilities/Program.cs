@@ -18,7 +18,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // set en lacale for reading decimal point numbers
+            // set en locale for reading decimal point numbers
             Thread.CurrentThread.CurrentCulture =
                 new CultureInfo("en-US", false); // English - US
             Application.Run(new InputData());//Form1());
