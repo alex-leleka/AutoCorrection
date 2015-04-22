@@ -30,7 +30,9 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
         {
             var reader = new DistortionProbUnitedInputTextReader(_path);
             MessageBox.Show(@"Opening file.");
-            _disProbProxy(reader.GetDistortionProb().ConvertToInputDistortionProbabilities());
+            var distWithUnitedInps = reader.GetDistortionProb();
+            var converter = new DistortionWithUnitedConverter(distWithUnitedInps);
+            //_disProbProxy(converter.GetInputDistortionProbabilities());
         }
     }
 

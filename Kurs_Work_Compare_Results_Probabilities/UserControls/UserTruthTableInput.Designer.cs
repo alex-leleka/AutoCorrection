@@ -36,12 +36,12 @@
             this.rbTruthTable = new System.Windows.Forms.RadioButton();
             this.rbTextFile = new System.Windows.Forms.RadioButton();
             this.distProbInputChoiceBox = new System.Windows.Forms.GroupBox();
+            this.rbTextFileDistWithUnitedInpDirect = new System.Windows.Forms.RadioButton();
             this.rbTextFileDistWithUnitedInp = new System.Windows.Forms.RadioButton();
             this.rbHandWriteDistProb = new System.Windows.Forms.RadioButton();
             this.InputMethodChoosed = new System.Windows.Forms.Button();
             this.rbTextFileDistortion = new System.Windows.Forms.RadioButton();
             this.ViewResultButton = new System.Windows.Forms.Button();
-            this.rbTextFileDistWithUnitedInpDirect = new System.Windows.Forms.RadioButton();
             this.boolFuncInputChoice.SuspendLayout();
             this.distProbInputChoiceBox.SuspendLayout();
             this.SuspendLayout();
@@ -140,9 +140,21 @@
             this.distProbInputChoiceBox.TabStop = false;
             this.distProbInputChoiceBox.Text = "Спосіб введення ймовірностей спотворень";
             // 
+            // rbTextFileDistWithUnitedInpDirect
+            // 
+            this.rbTextFileDistWithUnitedInpDirect.AutoSize = true;
+            this.rbTextFileDistWithUnitedInpDirect.Location = new System.Drawing.Point(6, 111);
+            this.rbTextFileDistWithUnitedInpDirect.Name = "rbTextFileDistWithUnitedInpDirect";
+            this.rbTextFileDistWithUnitedInpDirect.Size = new System.Drawing.Size(221, 30);
+            this.rbTextFileDistWithUnitedInpDirect.TabIndex = 5;
+            this.rbTextFileDistWithUnitedInpDirect.TabStop = true;
+            this.rbTextFileDistWithUnitedInpDirect.Text = "Файл з імовірностями спотворень ЛМ\r\n з об\'єднаними входами (Direct calc)";
+            this.rbTextFileDistWithUnitedInpDirect.UseVisualStyleBackColor = true;
+            // 
             // rbTextFileDistWithUnitedInp
             // 
             this.rbTextFileDistWithUnitedInp.AutoSize = true;
+            this.rbTextFileDistWithUnitedInp.Enabled = false;
             this.rbTextFileDistWithUnitedInp.Location = new System.Drawing.Point(6, 78);
             this.rbTextFileDistWithUnitedInp.Name = "rbTextFileDistWithUnitedInp";
             this.rbTextFileDistWithUnitedInp.Size = new System.Drawing.Size(272, 30);
@@ -194,17 +206,6 @@
             this.ViewResultButton.UseVisualStyleBackColor = true;
             this.ViewResultButton.Visible = false;
             this.ViewResultButton.Click += new System.EventHandler(this.ViewResultButton_Click);
-            // 
-            // rbTextFileDistWithUnitedInpDirect
-            // 
-            this.rbTextFileDistWithUnitedInpDirect.AutoSize = true;
-            this.rbTextFileDistWithUnitedInpDirect.Location = new System.Drawing.Point(6, 111);
-            this.rbTextFileDistWithUnitedInpDirect.Name = "rbTextFileDistWithUnitedInpDirect";
-            this.rbTextFileDistWithUnitedInpDirect.Size = new System.Drawing.Size(221, 30);
-            this.rbTextFileDistWithUnitedInpDirect.TabIndex = 5;
-            this.rbTextFileDistWithUnitedInpDirect.TabStop = true;
-            this.rbTextFileDistWithUnitedInpDirect.Text = "Файл з імовірностями спотворень ЛМ\r\n з об\'єднаними входами (Direct calc)";
-            this.rbTextFileDistWithUnitedInpDirect.UseVisualStyleBackColor = true;
             // 
             // UserTruthTableInput
             // 
