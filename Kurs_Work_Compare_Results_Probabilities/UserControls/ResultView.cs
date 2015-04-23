@@ -64,6 +64,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             textBoxGc.Text = Gc.ToString();
             textBoxGec.Text = Gec.ToString();
             textBoxGee.Text = Ge.ToString();
+            textBoxPCorrect.Text = (1 - Ge).ToString();
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.IsNewRow) continue;
