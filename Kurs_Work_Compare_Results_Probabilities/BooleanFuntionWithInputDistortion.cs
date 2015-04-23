@@ -188,7 +188,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
 
         public void LoadDistortionToBoolFunction(InputDistortionProbabilities inputDistortionProb)
         {
-            this.SetDistortionProbabilitiesVectors(inputDistortionProb.DistortionToZeroProbability,
+            SetDistortionProbabilitiesVectors(inputDistortionProb.DistortionToZeroProbability,
             inputDistortionProb.DistortionToOneProbability, inputDistortionProb.DistortionToInverseProbability);
         }
         // return f(i-th operand)

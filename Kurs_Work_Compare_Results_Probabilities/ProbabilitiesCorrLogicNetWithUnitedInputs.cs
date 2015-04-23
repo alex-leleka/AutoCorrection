@@ -76,7 +76,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private BitArray ApplyDistortionOnBits(BitArray inputBinDigits, QuattuoryNums distortionQuattuoryNums)
         {
             var result = new BitArray(_inpDist.GetSecondLevelInputsCount());
-            int indexBaseSecLevelProb = _inpDist.GetFirstLevelInputsCount() - 1;
+            int indexBaseSecLevelProb = _inpDist.GetFirstLevelInputsCount();
             for (int i = 0; i < result.Length; i++)
             {
                 int firstLevelIndex = _inpDist.GetBitMappedVariableIndex(i);
