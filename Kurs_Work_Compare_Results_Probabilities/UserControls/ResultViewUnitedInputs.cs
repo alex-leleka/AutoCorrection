@@ -30,8 +30,11 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
         {
             if (_inpDistProb == null || _bfWithInpDist == null)
                 return;
-            var pCalc = new ProbabilitiesCorrLogicNetWithUnitedInputs(_inpDistProb, _bfWithInpDist); 
+            var pCalc = new ProbabilitiesCorrLogicNetWithUnitedInputs(_inpDistProb, _bfWithInpDist);
+            // TODO: pass map<BitArray, double> to GetCorrectResultProbability
+            // TODO: inside GetCorrectResultProbability add corr value probs of result to map
             double pCorrectResult = pCalc.GetCorrectResultProbability();
+            // TODO: add values from map to form table view 
             textBoxTableMethP.Text = pCorrectResult.ToString();
         }
     }
