@@ -25,7 +25,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 return;
             try
             {
-                using (StreamWriter sw = new StreamWriter(LogName))
+                using (StreamWriter sw = new StreamWriter(LogName, true))
                 {
                     sw.WriteLine(line);
                     sw.Flush();
@@ -43,9 +43,9 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 return;
             try
             {
-                using (StreamWriter sw = new StreamWriter(LogName))
+                using (StreamWriter sw = new StreamWriter(LogName, true))
                 {
-                    sw.WriteLine(text);
+                    sw.Write(text);
                 }
             }
             catch (Exception e)
