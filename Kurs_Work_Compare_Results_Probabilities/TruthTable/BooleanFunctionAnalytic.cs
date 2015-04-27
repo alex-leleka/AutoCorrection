@@ -12,6 +12,12 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
             if (boolFunctions.Length != outputNumberOfDigits)
                 throw new Exception("Error! Number of boolean fuctions !=  number output digits");
             _boolFunction = new AnalyticFunctionBuilder(boolFunctions);
+            Logger.Init();
+            Logger.WriteLine(@"BooleanFunctionAnalytic");
+            foreach (var f in boolFunctions)
+            {
+                Logger.WriteLine(f);
+            }
         }
         // return f(i-th operand)
         public override BitArray GetResultByLineIndex(ulong index)

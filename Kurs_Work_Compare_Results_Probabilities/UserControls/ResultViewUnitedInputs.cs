@@ -39,10 +39,11 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             double pCorrectResult = resultsProbs.Sum(a => a.Value);
             // TODO: add values from map to form table view 
             textBoxTableMethP.Text = pCorrectResult.ToString();
-
+            Logger.WriteLine("Results P(Fcorrect) = " + pCorrectResult);
             foreach(var kv in resultsProbs)
             {
                 dataGridView1.Rows.Add(kv.Key, kv.Value);
+                Logger.WriteLine("p(" + kv.Key + ")" + "\t" + kv.Value);
             }
             
             foreach (DataGridViewRow row in dataGridView1.Rows.Cast<DataGridViewRow>().Where(row => !row.IsNewRow))
