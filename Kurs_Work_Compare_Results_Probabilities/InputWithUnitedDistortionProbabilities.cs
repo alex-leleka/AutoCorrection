@@ -10,10 +10,12 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private readonly double[] _distortionToZeroProbability;
         private readonly double[] _distortionToOneProbability;
         private readonly double[] _distortionToInverseProbability;
+        private readonly double[] _noDistortionProbability;
     
         private readonly double[] _distortionToZeroProbabilityWithUnited;
         private readonly double[] _distortionToOneProbabilityWithUnited;
         private readonly double[] _distortionToInverseProbabilityWithUnited;
+        private readonly double[] _noDistortionProbabilityWithUnited;
 
         private readonly double[] _probalityZero;
         /// <summary>
@@ -44,11 +46,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private double GetNoDistortionProbability(int index)
         {
-            return 1 -_distortionToInverseProbability[index] - _distortionToOneProbability[index] - _distortionToZeroProbability[index];
+            return _noDistortionProbability[index];
         }
         private double GetNoDistortionProbabilityWithUnited(int index)
         {
-            return 1 - _distortionToInverseProbabilityWithUnited[index] - _distortionToOneProbabilityWithUnited[index] - _distortionToZeroProbabilityWithUnited[index];
+            return _noDistortionProbabilityWithUnited[index];
         }
 
         public InputWithUnitedDistortionProbabilities(double[] distortionToZeroProbability, double[] distortionToOneProbability, double[] distortionToInverseProbability, double[] probalityZero, double[] distortionToZeroProbabilityWithUnited, double[] distortionToOneProbabilityWithUnited, double[] distortionToInverseProbabilityWithUnited, int[] inputBitMap)
@@ -56,10 +58,20 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _distortionToZeroProbability = distortionToZeroProbability;
             _distortionToOneProbability = distortionToOneProbability;
             _distortionToInverseProbability = distortionToInverseProbability;
+            _noDistortionProbability = new double[_distortionToInverseProbability.Length];
+            for (int i = 0; i < _noDistortionProbability.Length; i++)
+            {
+                _noDistortionProbability[i] = 1 - _distortionToInverseProbability[i] - _distortionToOneProbability[i] - _distortionToZeroProbability[i];
+            }
             _probalityZero = probalityZero;
             _distortionToZeroProbabilityWithUnited = distortionToZeroProbabilityWithUnited;
             _distortionToOneProbabilityWithUnited = distortionToOneProbabilityWithUnited;
             _distortionToInverseProbabilityWithUnited = distortionToInverseProbabilityWithUnited;
+            _noDistortionProbabilityWithUnited = new double[_distortionToInverseProbabilityWithUnited.Length];
+            for (int index = 0; index < _noDistortionProbabilityWithUnited.Length; index++)
+            {
+                _noDistortionProbabilityWithUnited[index] = 1 - _distortionToInverseProbabilityWithUnited[index] - _distortionToOneProbabilityWithUnited[index] - _distortionToZeroProbabilityWithUnited[index];
+            }
             _inputBitMap = inputBitMap;
             ConvertInputBitMapToFirstLevelInputsTargets();
         }

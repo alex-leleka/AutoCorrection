@@ -28,7 +28,6 @@ namespace Diplom_Work_Compare_Results_Probabilities
         public void SetDistortionProbabities(double[] distortionToZeroProbability,
             double[] distortionToOneProbability, double[] distortionToInverseProbability)
         {
-            // TODO: Warning - not deep copy
             _distortionToZeroProbability = distortionToZeroProbability;
             _distortionToInverseProbability = distortionToInverseProbability;
             _distortionToOneProbability = distortionToOneProbability;

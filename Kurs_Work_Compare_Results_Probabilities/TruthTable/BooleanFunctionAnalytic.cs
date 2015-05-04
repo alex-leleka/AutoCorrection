@@ -13,7 +13,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
                 throw new Exception("Error! Number of boolean fuctions !=  number output digits");
             _boolFunction = new AnalyticFunctionBuilder(boolFunctions);
             Logger.Init();
-            Logger.WriteLine(@"BooleanFunctionAnalytic");
+            Logger.WriteLine(Environment.NewLine + @"BooleanFunctionAnalytic");
             foreach (var f in boolFunctions)
             {
                 Logger.WriteLine(f);
