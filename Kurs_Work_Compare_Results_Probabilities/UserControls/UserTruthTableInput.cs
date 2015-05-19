@@ -132,8 +132,8 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             }
             else if (rbDllImport.Checked)
             {
-                _bf = new BooleanFunctionDelegate(9, 1, f9Regular);
-                Logf9Regular();
+                _bf = new BooleanFunctionDelegate(6, 1, f6and);
+                Logf6and();
             }
             else if (rbAdder.Checked)
             {
@@ -176,6 +176,20 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             Logger.WriteLine("");
             Logger.WriteLine("Bool Func");
             Logger.WriteLine("x[0] & x[1] & x[2] & x[3] & x[4] & x[5]");
+        }
+
+        public static BitArray f6xor(BitArray x)
+        {
+            BitArray result = new BitArray(1, false);
+            result[0] = x[0] ^ x[1] ^ x[2] ^ x[3] ^ x[4] ^ x[5];
+            return result;
+        }
+
+        public static void Logf6xor()
+        {
+            Logger.WriteLine("");
+            Logger.WriteLine("Bool Func XOR");
+            Logger.WriteLine("x[0] ^ x[1] ^ x[2] ^ x[3] ^ x[4] ^ x[5]");
         }
 
         public static BitArray f8and(BitArray x)
