@@ -13,6 +13,8 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
         protected override void DoAction()
         {
             var reader = new DistortionProbTextReader(_path);
+            Logger.Init();
+            Logger.WriteLine(@"Open file with distortion probabilities " + _path);
             MessageBox.Show(@"Opening file.");
             _disProbProxy(reader.GetDistortionProb());
         }
@@ -29,8 +31,12 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
         protected override void DoAction()
         {
             var reader = new DistortionProbUnitedInputTextReader(_path);
+            Logger.Init();
+            Logger.WriteLine(@"Open file with distortion for united inputs probabilities " + _path);
             MessageBox.Show(@"Opening file.");
-            _disProbProxy(reader.GetDistortionProb().ConvertToInputDistortionProbabilities());
+            var distWithUnitedInps = reader.GetDistortionProb();
+            var converter = new DistortionWithUnitedConverter(distWithUnitedInps);
+            //_disProbProxy(converter.GetInputDistortionProbabilities());
         }
     }
 
@@ -45,6 +51,8 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
         protected override void DoAction()
         {
             var reader = new DistortionProbUnitedInputTextReader(_path);
+            Logger.Init();
+            Logger.WriteLine(@"Open file with distortion for united inputs probabilities " + _path);
             MessageBox.Show(@"Opening file.");
             _disProbProxy(reader.GetDistortionProb());
         }

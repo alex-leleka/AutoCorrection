@@ -29,13 +29,11 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.functionResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CorResultProb = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AutocorResultProb = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ErrorResultProb = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.calcWithTableBased = new System.Windows.Forms.Button();
             this.textBoxTableMethP = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.functionResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CorResultProb = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,9 +46,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.functionResult,
-            this.CorResultProb,
-            this.AutocorResultProb,
-            this.ErrorResultProb});
+            this.CorResultProb});
             this.dataGridView1.Enabled = false;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -58,30 +54,6 @@
             this.dataGridView1.RowHeadersWidth = 81;
             this.dataGridView1.Size = new System.Drawing.Size(588, 607);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // functionResult
-            // 
-            this.functionResult.HeaderText = "F(X)";
-            this.functionResult.Name = "functionResult";
-            this.functionResult.ReadOnly = true;
-            // 
-            // CorResultProb
-            // 
-            this.CorResultProb.HeaderText = "G0";
-            this.CorResultProb.Name = "CorResultProb";
-            this.CorResultProb.ReadOnly = true;
-            // 
-            // AutocorResultProb
-            // 
-            this.AutocorResultProb.HeaderText = "Gc";
-            this.AutocorResultProb.Name = "AutocorResultProb";
-            this.AutocorResultProb.ReadOnly = true;
-            // 
-            // ErrorResultProb
-            // 
-            this.ErrorResultProb.HeaderText = "Ge";
-            this.ErrorResultProb.Name = "ErrorResultProb";
-            this.ErrorResultProb.ReadOnly = true;
             // 
             // calcWithTableBased
             // 
@@ -110,6 +82,19 @@
             this.label7.TabIndex = 11;
             this.label7.Text = "Pcorrect(f) =";
             // 
+            // functionResult
+            // 
+            this.functionResult.HeaderText = "F(X)";
+            this.functionResult.Name = "functionResult";
+            this.functionResult.ReadOnly = true;
+            // 
+            // CorResultProb
+            // 
+            this.CorResultProb.HeaderText = "Pcorrect(F)";
+            this.CorResultProb.Name = "CorResultProb";
+            this.CorResultProb.ReadOnly = true;
+            this.CorResultProb.ToolTipText = "Probability of correct result";
+            // 
             // ResultViewWithUnitedInputs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,12 +115,10 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn functionResult;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CorResultProb;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AutocorResultProb;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ErrorResultProb;
         private System.Windows.Forms.Button calcWithTableBased;
         private System.Windows.Forms.TextBox textBoxTableMethP;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn functionResult;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CorResultProb;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
@@ -21,6 +22,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 if (sr.EndOfStream)
                     throw new Exception("Unexpecting end of file!");
                 line = sr.ReadLine();
+                Debug.Assert(line != null, "BoolFuncTextReader.ReadInt() : line != null");
                 line = line.Trim();
             }
             while ((line.Length < 1) || (line[0] == commentChar));

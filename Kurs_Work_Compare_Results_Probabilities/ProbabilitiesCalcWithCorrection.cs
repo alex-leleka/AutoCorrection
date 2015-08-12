@@ -134,14 +134,14 @@ namespace Diplom_Work_Compare_Results_Probabilities
             CalculateCorrectResultProbablitiesArray();
             
             double min_probability = 1.0;
-            double average_probability = 0;
+            //double average_probability = 0;
             for (int i = 0; i < _amountOfLinesInTruthTable; i++)
             {
                 if (_correctResultProbablitiesArray[i] < min_probability)
                     min_probability = _correctResultProbablitiesArray[i];
-                average_probability += _correctResultProbablitiesArray[i];
+                //average_probability += _correctResultProbablitiesArray[i];
             }
-            average_probability /= _amountOfLinesInTruthTable;
+            //average_probability /= _amountOfLinesInTruthTable;
             return _correctResultProbablitiesArray;
         }
         /// <summary>

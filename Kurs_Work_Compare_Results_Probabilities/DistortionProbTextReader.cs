@@ -5,7 +5,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
 {
     public class DistortionProbTextReader
     {
-        protected const char commentChar = '%';
+        protected const char CommentChar = '%';
+        // ReSharper disable once InconsistentNaming
         protected string _path;
         public DistortionProbTextReader(string path)
         {
@@ -43,7 +44,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 line = sr.ReadLine();
                 line = line.Trim();
             }
-            while ((line.Length < 1) || (line[0] == commentChar));
+            while ((line.Length < 1) || (line[0] == CommentChar));
             return Convert.ToInt32(line);
         }
         protected int[] ReadIntArr(StreamReader sr, int length)
@@ -56,7 +57,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 line = sr.ReadLine();
                 line = line.Trim();
             }
-            while ((line.Length < 1) || (line[0] == commentChar));
+            while ((line.Length < 1) || (line[0] == CommentChar));
             int[] arr = new int[length];
             var values = line.Split();
             for(int i = 0; i < length;i++)
@@ -75,7 +76,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 line = sr.ReadLine();
                 line = line.Trim();
             }
-            while ((line.Length < 1) || (line[0] == commentChar));
+            while ((line.Length < 1) || (line[0] == CommentChar));
             double[] arr = new double[length];
             var values = line.Split();
             #if DEBUG

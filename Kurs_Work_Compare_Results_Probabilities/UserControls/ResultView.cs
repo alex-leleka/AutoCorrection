@@ -51,8 +51,10 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
                 var prob = _pCalc.GetGprobabilitesResult(result);
                 TimeSpan endTime = Process.GetCurrentProcess().TotalProcessorTime;
                 timeLeft += (endTime - beginTime).TotalMilliseconds;
-                dataGridView1.Rows.Add(ConvertNumberToBinary(result), prob.G0, prob.Gc + prob.Gce,
+                string binNumStr = ConvertNumberToBinary(result);
+                dataGridView1.Rows.Add(binNumStr, prob.G0, prob.Gc + prob.Gce,
                     prob.Gee);
+                Logger.WriteLine("p(" + binNumStr + ")" + "\t" + prob.G0 + "\t" + prob.Gc + "\t" + prob.Gce + "\t" + prob.Gee);
                 Ge += prob.Gee;
                 Gc += prob.Gc;
                 Gec += prob.Gce;
@@ -64,6 +66,9 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             textBoxGc.Text = Gc.ToString();
             textBoxGec.Text = Gec.ToString();
             textBoxGee.Text = Ge.ToString();
+            textBoxPCorrect.Text = (1 - Ge).ToString();
+            Logger.WriteLine("G0 = " + G0 + " Gc = " + Gc + " Gec = " + Gec + " Ge = " + Ge);
+            Logger.WriteLine("Results P(Fcorrect) = " + (1 - Ge).ToString());
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.IsNewRow) continue;

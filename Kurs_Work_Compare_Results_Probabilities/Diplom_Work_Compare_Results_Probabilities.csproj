@@ -76,17 +76,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanFunctionDelegate.cs" />
+    <Compile Include="DistortionWithUnitedConverter.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="ProbabilitiesCorrLogicNetWithUnitedInputs.cs" />
-    <Compile Include="Statistics\StatisticsWorker.cs" />
+    <Compile Include="TruthTable\AnalyticFunctionBuilder.cs" />
+    <Compile Include="TruthTable\BooleanFunctionAnalytic.cs" />
+    <Compile Include="TruthTable\BooleanFunctionDelegate.cs" />
+    <Compile Include="TruthTable\BooleanFunctionDllImport.cs" />
+    <Compile Include="TruthTable\BooleanFunctionTruthTable.cs" />
     <Compile Include="UserControls\BooleanFunctionTextFileInput.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BooleanFuntionWithInputDistortion.cs" />
-    <Compile Include="AnalyticFunctionBuilder.cs" />
-    <Compile Include="BooleanFunctionAnalytic.cs" />
-    <Compile Include="BooleanFunctionDllImport.cs" />
-    <Compile Include="BooleanFunctionTruthTable.cs" />
     <Compile Include="BoolFuncTextReader.cs" />
     <Compile Include="DistortionProbTextReader.cs" />
     <Compile Include="DistortionProbUnitedInputTextReader.cs" />

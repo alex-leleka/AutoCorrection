@@ -188,7 +188,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
 
         public void LoadDistortionToBoolFunction(InputDistortionProbabilities inputDistortionProb)
         {
-            this.SetDistortionProbabilitiesVectors(inputDistortionProb.DistortionToZeroProbability,
+            SetDistortionProbabilitiesVectors(inputDistortionProb.DistortionToZeroProbability,
             inputDistortionProb.DistortionToOneProbability, inputDistortionProb.DistortionToInverseProbability);
         }
         // return f(i-th operand)
@@ -199,10 +199,10 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
 
         public int GetIntResultByLineIndex(int index)
         {
-            return getIntFromBitArray(GetResultByLineIndex(index));
+            return GetIntFromBitArray(GetResultByLineIndex(index));
         }
 
-        private int getIntFromBitArray(BitArray bitArray)
+        internal static int GetIntFromBitArray(BitArray bitArray)
         {
             if (bitArray.Length > 32)
                 throw new ArgumentException("Argument length shall be at most 32 bits.");

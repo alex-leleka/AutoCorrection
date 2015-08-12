@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
 namespace Diplom_Work_Compare_Results_Probabilities
@@ -14,12 +15,13 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _bf = bf;
         }
 
-        private double CalculateCorrectWorkProbWithAutoCorr()
+        private Dictionary<int, double> CalculateCorrectWorkProbWithAutoCorr()
         {
             int digitCount = _inpDist.GetFirstLevelInputsCount();
             int secondLevelInputsCount = _inpDist.GetSecondLevelInputsCount();
             var inputBinDigits = new BitArray(digitCount, false); // 00...0
             double pCorr = 0.0, pErr = 0.0;
+            var resultsCorrProb = new Dictionary<int, double>();
             do
             {
                 QuattuoryNums distortionQuattuoryNums = new QuattuoryNums(digitCount + secondLevelInputsCount);
@@ -28,10 +30,16 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     double p = GetDistortionsProbabilities(distortionQuattuoryNums);
                     BitArray input = ApplyDistortionOnBits(inputBinDigits, distortionQuattuoryNums);
                     p *= GetInputDigitsProbability(inputBinDigits);
-                    var resultNoDist = _bf.GetResult(inputBinDigits);
+                    var resultNoDist = _bf.GetResult(_inpDist.ConvertFirstToSecondLvlVars(inputBinDigits));
                     var resultDistorted = _bf.GetResult(input);
                     if (resultNoDist.Eq(resultDistorted))
                     {
+                        double count;
+                        var result = BooleanFuntionWithInputDistortion.GetIntFromBitArray(resultNoDist);
+                        if (resultsCorrProb.TryGetValue(result, out count))
+                            resultsCorrProb[result] = count + p;
+                        else
+                            resultsCorrProb.Add(result, p);
                         pCorr += p;
                     }
                     else
@@ -41,7 +49,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
                 } while (distortionQuattuoryNums.Increment());
             } while (BooleanFuntionWithInputDistortion.IncrementOperand(inputBinDigits));
-            return pCorr;// + pErr; 
+            return resultsCorrProb;// + pErr; 
         }
 
         private double GetInputDigitsProbability(BitArray inputBinDigits)
@@ -76,7 +84,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private BitArray ApplyDistortionOnBits(BitArray inputBinDigits, QuattuoryNums distortionQuattuoryNums)
         {
             var result = new BitArray(_inpDist.GetSecondLevelInputsCount());
-            int indexBaseSecLevelProb = _inpDist.GetFirstLevelInputsCount() - 1;
+            int indexBaseSecLevelProb = _inpDist.GetFirstLevelInputsCount();
             for (int i = 0; i < result.Length; i++)
             {
                 int firstLevelIndex = _inpDist.GetBitMappedVariableIndex(i);
@@ -104,7 +112,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
 
 
-        internal double GetCorrectResultProbability()
+        internal Dictionary<int, double> GetCorrectResultProbability()
         {
             return CalculateCorrectWorkProbWithAutoCorr();
         }
@@ -113,7 +121,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
     class QuattuoryNums
     {
         public enum Quattuor { Zero, One, Two, Three };
-        public enum DistTypes { NoDist = Quattuor.Zero, DistToZero = Quattuor.One, DistToOne = Quattuor.Two, DistToInv = Quattuor.Three};
+        public enum DistTypes { NoDist = Quattuor.Zero, DistToZero = Quattuor.One, DistToOne = Quattuor.Two, DistToInv = Quattuor.Three };
         private Quattuor[] _number;
 
         public int Value(int digitIndex)

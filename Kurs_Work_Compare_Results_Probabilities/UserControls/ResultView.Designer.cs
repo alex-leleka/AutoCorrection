@@ -47,6 +47,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.textBoxGec = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.textBoxPCorrect = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,8 +56,8 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.functionResult,
@@ -146,7 +148,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(653, 145);
+            this.button1.Location = new System.Drawing.Point(653, 183);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 38);
             this.button1.TabIndex = 7;
@@ -157,7 +159,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(621, 115);
+            this.label4.Location = new System.Drawing.Point(621, 153);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 13);
             this.label4.TabIndex = 8;
@@ -166,7 +168,7 @@
             // labelTime
             // 
             this.labelTime.AutoSize = true;
-            this.labelTime.Location = new System.Drawing.Point(739, 115);
+            this.labelTime.Location = new System.Drawing.Point(739, 153);
             this.labelTime.Name = "labelTime";
             this.labelTime.Size = new System.Drawing.Size(22, 13);
             this.labelTime.TabIndex = 9;
@@ -216,11 +218,30 @@
             this.label5.TabIndex = 15;
             this.label5.Text = "Gec =";
             // 
+            // textBoxPCorrect
+            // 
+            this.textBoxPCorrect.Location = new System.Drawing.Point(692, 110);
+            this.textBoxPCorrect.Name = "textBoxPCorrect";
+            this.textBoxPCorrect.ReadOnly = true;
+            this.textBoxPCorrect.Size = new System.Drawing.Size(109, 20);
+            this.textBoxPCorrect.TabIndex = 18;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(621, 113);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(48, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "P(Corr) =";
+            // 
             // ResultView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(843, 607);
+            this.Controls.Add(this.textBoxPCorrect);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.textBoxGec);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.calcWithTableBased);
@@ -265,5 +286,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBoxGec;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxPCorrect;
+        private System.Windows.Forms.Label label6;
     }
 }

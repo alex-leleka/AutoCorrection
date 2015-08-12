@@ -68,22 +68,22 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private void CalcDeterminedDistortionProbabilities(BooleanFuntionWithInputDistortion truthTable)
         {
-            const int BinaryDigitStates = 2;
+            const int binaryDigitStates = 2;
             AllocateDeterminedDistortionProbalilitiesVectors(ref _autoCorrectionValueProbability, truthTable.CorrectValueProbability.Length);
             AllocateDeterminedDistortionProbalilitiesVectors(ref _distortedValueProbability, truthTable.CorrectValueProbability.Length);
 
-            double[][] digitDistortionProbability = new double[BinaryDigitStates][]; // temp variable
+            double[][] digitDistortionProbability = new double[binaryDigitStates][]; // temp variable
             digitDistortionProbability[0] = truthTable.DistortionToZeroProbability;
             digitDistortionProbability[1] = truthTable.DistortionToOneProbability;
             for (int i = 0; i < truthTable.InputNumberOfDigits; i++)
             {
-                for (int digit = 0; digit < BinaryDigitStates; digit++)
+                for (int digit = 0; digit < binaryDigitStates; digit++)
                 {
                     // gcaij = g(const_(aij)) * p_aij
                     _autoCorrectionValueProbability[digit][i] = digitDistortionProbability[digit][i];// *ProbabilityZeroAndOne(digit, i);
 
                     // geaij = (g(const_(not aij)) + p inv ) * p_aij
-                    _distortedValueProbability[digit][i] = (digitDistortionProbability[BinaryDigitStates - digit - 1][i] //digitDistortionProbability[!digit][i]
+                    _distortedValueProbability[digit][i] = (digitDistortionProbability[binaryDigitStates - digit - 1][i] //digitDistortionProbability[!digit][i]
                             + truthTable.DistortionToInverseProbability[i]);// *ProbabilityZeroAndOne(digit, i);
                 }
             }
