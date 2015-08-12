@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="BooleanFunctionDelegate.cs" />
     <Compile Include="ProbabilitiesCorrLogicNetWithUnitedInputs.cs" />
+    <Compile Include="Statistics\StatisticsWorker.cs" />
     <Compile Include="UserControls\BooleanFunctionTextFileInput.cs">
       <SubType>UserControl</SubType>
     </Compile>
