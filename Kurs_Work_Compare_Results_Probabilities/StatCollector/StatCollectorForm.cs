@@ -32,7 +32,11 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
         {
             progressBar1.Value = 0;
             if (null != _input)
+            {
                 backgroundWorker1.RunWorkerAsync(/*_input*/);
+                button4.Enabled = true;
+                button3.Enabled = false;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -91,6 +95,15 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // Cancel the asynchronous operation. 
+            this.backgroundWorker1.CancelAsync();
+
+            // Disable the Cancel button.
+            button4.Enabled = false;
         }
     }
 }
