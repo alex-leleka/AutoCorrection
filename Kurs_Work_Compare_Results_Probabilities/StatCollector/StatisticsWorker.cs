@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
-namespace Diplom_Work_Compare_Results_Probabilities.Statistics
+namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
 {
     /// <summary>
     /// Get boolean function and distortin as parameters.

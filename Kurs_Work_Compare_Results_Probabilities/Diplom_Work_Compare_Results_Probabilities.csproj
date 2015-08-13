@@ -79,6 +79,7 @@
     <Compile Include="DistortionWithUnitedConverter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ProbabilitiesCorrLogicNetWithUnitedInputs.cs" />
+    <Compile Include="StatCollector\StatisticsTasksPool.cs" />
     <Compile Include="StatCollector\StatisticsWorker.cs" />
     <Compile Include="TruthTable\AnalyticFunctionBuilder.cs" />
     <Compile Include="TruthTable\BooleanFunctionAnalytic.cs" />
@@ -261,7 +262,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fakes\" />
-    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ReadMe.txt" />
