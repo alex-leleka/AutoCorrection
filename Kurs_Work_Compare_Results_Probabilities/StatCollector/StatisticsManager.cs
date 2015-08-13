@@ -40,7 +40,6 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
                     break;
 
                 statWriter.WiteStatistics(worker);
-                ReportProgress(MaxWorkers, workersIndex);
             }
         }
 
@@ -54,13 +53,42 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
             _oldProgress = 0;
         }
 
-        private void ReportProgress(int maxProgress, int currentProgress)
+        private void ReportProgress(int maxProgress, int currentProgress, System.ComponentModel.BackgroundWorker worker)
         {
             if(_oldProgress >= (int)(currentProgress / maxProgress))
                 return;
             _oldProgress = currentProgress / maxProgress;
-            // TODO: support report to main thread
-            // ReportToMainThrea(_oldProgress);
+            worker.ReportProgress(_oldProgress);
+        }
+
+        internal void Run(System.ComponentModel.BackgroundWorker bworker, System.ComponentModel.DoWorkEventArgs e)
+        {
+            if (_input == null)
+                throw new Exception("StatisticsManager has no input");
+
+            int MaxWorkers = _input.functionsText.Count * _input.filesWithDistortions.Count;
+            if (MaxWorkers < 1)
+                return;
+
+            var statTasksPool = new StatisticsTasksPool(_input);
+            var statWriter = new StatisticsWriter();
+
+            for (int workersIndex = 0; workersIndex < MaxWorkers; ++workersIndex)
+            {
+                if (bworker.CancellationPending)
+                {
+                    e.Cancel = true;
+                }
+                else
+                {
+                    var worker = statTasksPool.GetNextWorker();
+                    if (null == worker)
+                        break;
+
+                    statWriter.WiteStatistics(worker);
+                    ReportProgress(MaxWorkers, workersIndex, bworker);
+                }
+            }
         }
     }
 

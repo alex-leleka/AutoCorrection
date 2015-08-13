@@ -79,6 +79,12 @@
     <Compile Include="DistortionWithUnitedConverter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ProbabilitiesCorrLogicNetWithUnitedInputs.cs" />
+    <Compile Include="StatCollector\StatCollectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatCollector\StatCollectorForm.Designer.cs">
+      <DependentUpon>StatCollectorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StatCollector\StatisticsManager.cs" />
     <Compile Include="StatCollector\StatisticsTasksPool.cs" />
     <Compile Include="StatCollector\StatisticsWorker.cs" />
@@ -185,6 +191,9 @@
     <Compile Include="UserControls\UserTruthTableInput.Designer.cs">
       <DependentUpon>UserTruthTableInput.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="StatCollector\StatCollectorForm.resx">
+      <DependentUpon>StatCollectorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ResultViewUnitedInputs.resx">
       <DependentUpon>ResultViewUnitedInputs.cs</DependentUpon>
     </EmbeddedResource>

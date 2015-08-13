@@ -17,17 +17,17 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
         private BooleanFuntionWithInputDistortion _bfWithInpDist;
         private InputWithUnitedDistortionProbabilities _inpDistProb;
         // data for stat writer
-        String _boolFinctionText;
+        String _boolFunctionText;
         String _distFileName;
 
         public StatisticsWorker(BooleanFuntionWithInputDistortion bfWithInpDist, 
             InputWithUnitedDistortionProbabilities inpDistProb, 
-            String distFileName = "None", String boolFinctionText = "None")
+            String distFileName = "None", String boolFunctionText = "None")
         {
             _bfWithInpDist = bfWithInpDist;
             _inpDistProb = inpDistProb;
             distFileName = _distFileName;
-            boolFinctionText = _boolFinctionText;
+            boolFunctionText = _boolFunctionText;
 
         }
 
@@ -40,7 +40,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
 
         public String GetBoolFunctionText()
         {
-            return _boolFinctionText;
+            return _boolFunctionText;
         }
 
         public String GetDistortionFileName()

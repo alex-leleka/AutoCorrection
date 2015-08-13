@@ -42,6 +42,11 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
                 {
                     int iFunc = _funcIndex++;
                     int jDist = _distortionsIndex;
+
+                    // skip empty lines if any
+                    if (_filesWithDistortions[jDist].Length < 2 || _functionsText[iFunc].Length < 2)
+                        return null;
+
                     return new StatisticsWorker(GetBoolFunctionWithInpDist(iFunc), GetInpDistProb(jDist),
                         _filesWithDistortions[jDist], _functionsText[iFunc]);
                 }
