@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 
 namespace StatisticsCollection.StatCollector
 {
@@ -13,8 +10,8 @@ namespace StatisticsCollection.StatCollector
     /// </summary>
     class StatisticsWriter
     {
-        String _fileName;
-        StreamWriter _sw;
+        private String _fileName;
+        private StreamWriter _sw;
         DisposableDelegate _swDisposer;
         public StatisticsWriter(String fileNamePrefix = "")
         {
@@ -59,7 +56,7 @@ namespace StatisticsCollection.StatCollector
 
     public class DisposableDelegate : IDisposable
     {
-        private Action dispose;
+        private Action _dispose;
 
         public DisposableDelegate(Action dispose)
         {
@@ -68,17 +65,15 @@ namespace StatisticsCollection.StatCollector
                 throw new ArgumentNullException("dispose");
             }
 
-            this.dispose = dispose;
+            _dispose = dispose;
         }
 
         public void Dispose()
         {
-            if (this.dispose != null)
-            {
-                Action d = this.dispose;
-                this.dispose = null;
-                d();
-            }
+            if (_dispose == null) return;
+            Action d = _dispose;
+            _dispose = null;
+            d();
         }
     }
 }

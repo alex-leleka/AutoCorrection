@@ -15,8 +15,8 @@ namespace StatisticsCollection.StatCollector
     /// </summary>
     class StatisticsTasksPool
     {
-        List<String> _filesWithDistortions;
-        List<String> _functionsText;
+        private List<String> _filesWithDistortions;
+        private List<String> _functionsText;
         int _distortionsIndex;
         int _funcIndex;
         List<InputWithUnitedDistortionProbabilities> _inpDist;
@@ -31,7 +31,7 @@ namespace StatisticsCollection.StatCollector
         }
 
         public StatisticsTasksPool(StatisticsInput input)
-            : this(input.filesWithDistortions, input.functionsText)
+            : this(input.FilesWithDistortions, input.FunctionsText)
         {
         }
 

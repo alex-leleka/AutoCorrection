@@ -19,8 +19,8 @@ namespace StatisticsCollection.StatCollector
         private BooleanFuntionWithInputDistortion _bfWithInpDist;
         private InputWithUnitedDistortionProbabilities _inpDistProb;
         // data for stat writer
-        String _boolFunctionText;
-        String _distFileName;
+        private String _boolFunctionText;
+        private String _distFileName;
 
         public StatisticsWorker(BooleanFuntionWithInputDistortion bfWithInpDist, 
             InputWithUnitedDistortionProbabilities inpDistProb, 
@@ -28,8 +28,8 @@ namespace StatisticsCollection.StatCollector
         {
             _bfWithInpDist = bfWithInpDist;
             _inpDistProb = inpDistProb;
-            distFileName = _distFileName;
-            boolFunctionText = _boolFunctionText;
+            _distFileName = distFileName;
+            _boolFunctionText = boolFunctionText;
 
         }
 
