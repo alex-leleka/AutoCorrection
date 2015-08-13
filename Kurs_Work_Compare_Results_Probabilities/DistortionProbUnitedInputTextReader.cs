@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
-    class DistortionProbUnitedInputTextReader : DistortionProbTextReader
+    public class DistortionProbUnitedInputTextReader : DistortionProbTextReader
     {
         public DistortionProbUnitedInputTextReader(string path) : base(path)
         {

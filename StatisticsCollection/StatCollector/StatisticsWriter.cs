@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
+namespace StatisticsCollection.StatCollector
 {
     /// <summary>
     /// Write results of correct result probabilities calculation for multiple distortions and 

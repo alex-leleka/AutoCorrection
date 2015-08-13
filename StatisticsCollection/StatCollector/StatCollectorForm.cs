@@ -9,8 +9,9 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Diplom_Work_Compare_Results_Probabilities;
 
-namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
+namespace StatisticsCollection.StatCollector
 {
     public partial class StatCollectorForm : Form
     {

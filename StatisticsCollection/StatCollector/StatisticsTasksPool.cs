@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Diplom_Work_Compare_Results_Probabilities;
+using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
-namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
+namespace StatisticsCollection.StatCollector
 {
     /// <summary>
     /// Take as input array of files with distortions for logic networks with united input
@@ -18,7 +20,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
         int _distortionsIndex;
         int _funcIndex;
         List<InputWithUnitedDistortionProbabilities> _inpDist;
-        List<TruthTable.BooleanFuntionWithInputDistortion> _boolFunc;
+        List<BooleanFuntionWithInputDistortion> _boolFunc;
 
         public StatisticsTasksPool(List<String> filesWithDistortions, List<String> functionsText)
         {
@@ -68,7 +70,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
             return _inpDist[distortionsIndex];
         }
 
-        private TruthTable.BooleanFuntionWithInputDistortion GetBoolFunctionWithInpDist(int funcIndex)
+        private BooleanFuntionWithInputDistortion GetBoolFunctionWithInpDist(int funcIndex)
         {
             if (_boolFunc[funcIndex] == null)
             {
@@ -77,7 +79,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
                 functionText[0] = _functionsText[funcIndex];
                 int inputNumberOfDigits = GetInpDistProb(0).GetSecondLevelInputsCount();
                 int outputNumberOfDigits = 1; // Always one, input data format don't allow us anything else
-                _boolFunc[funcIndex] = new TruthTable.BooleanFunctionAnalytic(inputNumberOfDigits, 
+                _boolFunc[funcIndex] = new BooleanFunctionAnalytic(inputNumberOfDigits, 
                     outputNumberOfDigits,functionText);
             }
             return _boolFunc[funcIndex];
@@ -87,7 +89,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
         {
             // create empty lists, we don't need to allocate all at time.
             // we will load them as needed.
-            _boolFunc = new List<TruthTable.BooleanFuntionWithInputDistortion>(_functionsText.Count);
+            _boolFunc = new List<BooleanFuntionWithInputDistortion>(_functionsText.Count);
             _inpDist = new List<InputWithUnitedDistortionProbabilities>(_filesWithDistortions.Count);
             
         }

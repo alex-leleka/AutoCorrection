@@ -201,7 +201,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             throw new Exception(string.Format("Distortion type {0} doesn't exist.", distortionType));
         }
 
-        internal int GetSecondLevelInputsCount()
+        public int GetSecondLevelInputsCount()
         {
             return _distortionToZeroProbabilityWithUnited.Length;
         }

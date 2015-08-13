@@ -5,7 +5,7 @@ using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
-    class ProbabilitiesCorrLogicNetWithUnitedInputs
+    public class ProbabilitiesCorrLogicNetWithUnitedInputs
     {
         private readonly InputWithUnitedDistortionProbabilities _inpDist;
         private readonly BooleanFuntionWithInputDistortion _bf;
@@ -112,7 +112,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
 
 
-        internal Dictionary<int, double> GetCorrectResultProbability()
+        public Dictionary<int, double> GetCorrectResultProbability()
         {
             return CalculateCorrectWorkProbWithAutoCorr();
         }

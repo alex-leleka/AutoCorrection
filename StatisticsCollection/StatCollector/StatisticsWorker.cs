@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Diplom_Work_Compare_Results_Probabilities;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
-namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
+
+namespace StatisticsCollection.StatCollector
 {
     /// <summary>
     /// Get boolean function and distortin as parameters.

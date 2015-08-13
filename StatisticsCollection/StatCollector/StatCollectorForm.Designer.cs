@@ -1,4 +1,4 @@
-﻿namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
+﻿namespace StatisticsCollection.StatCollector
 {
     partial class StatCollectorForm
     {

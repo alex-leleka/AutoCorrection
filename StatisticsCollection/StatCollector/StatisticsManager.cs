@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
+namespace StatisticsCollection.StatCollector
 {
     /// <summary>
     /// Manage all work related to statistics collections for multiple distortions and 
