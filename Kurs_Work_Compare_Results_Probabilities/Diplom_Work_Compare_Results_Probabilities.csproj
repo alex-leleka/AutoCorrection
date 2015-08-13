@@ -79,8 +79,10 @@
     <Compile Include="DistortionWithUnitedConverter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ProbabilitiesCorrLogicNetWithUnitedInputs.cs" />
+    <Compile Include="StatCollector\StatisticsManager.cs" />
     <Compile Include="StatCollector\StatisticsTasksPool.cs" />
     <Compile Include="StatCollector\StatisticsWorker.cs" />
+    <Compile Include="StatCollector\StatisticsWriter.cs" />
     <Compile Include="TruthTable\AnalyticFunctionBuilder.cs" />
     <Compile Include="TruthTable\BooleanFunctionAnalytic.cs" />
     <Compile Include="TruthTable\BooleanFunctionDelegate.cs" />

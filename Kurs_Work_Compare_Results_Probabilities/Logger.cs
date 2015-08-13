@@ -10,7 +10,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
     public class Logger
     {
         private const string LogName = "resultlog.txt";
-        private const bool LoggerOn = true;
+        private static bool LoggerOn = true;
 
         public static bool Init()
         {
@@ -52,6 +52,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
             {
                 throw new Exception("Error while writig log:" + e.Message);
             }
+        }
+
+        public static void ResetLogger(bool Enable)
+        {
+            LoggerOn = Enable;
         }
     }
 }

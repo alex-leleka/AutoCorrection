@@ -16,11 +16,19 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
     {
         private BooleanFuntionWithInputDistortion _bfWithInpDist;
         private InputWithUnitedDistortionProbabilities _inpDistProb;
+        // data for stat writer
+        String _boolFinctionText;
+        String _distFileName;
 
-        public StatisticsWorker(BooleanFuntionWithInputDistortion bfWithInpDist, InputWithUnitedDistortionProbabilities inpDistProb)
+        public StatisticsWorker(BooleanFuntionWithInputDistortion bfWithInpDist, 
+            InputWithUnitedDistortionProbabilities inpDistProb, 
+            String distFileName = "None", String boolFinctionText = "None")
         {
             _bfWithInpDist = bfWithInpDist;
             _inpDistProb = inpDistProb;
+            distFileName = _distFileName;
+            boolFinctionText = _boolFinctionText;
+
         }
 
         public Dictionary<int, double> GetResult()
@@ -28,6 +36,16 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
             var pCalc = new ProbabilitiesCorrLogicNetWithUnitedInputs(_inpDistProb, _bfWithInpDist);
             var pCorrectResult = pCalc.GetCorrectResultProbability();
             return pCorrectResult;
+        }
+
+        public String GetBoolFunctionText()
+        {
+            return _boolFinctionText;
+        }
+
+        public String GetDistortionFileName()
+        {
+            return _distFileName;
         }
     }
 }

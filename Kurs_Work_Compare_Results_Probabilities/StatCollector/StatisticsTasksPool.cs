@@ -28,13 +28,22 @@ namespace Diplom_Work_Compare_Results_Probabilities.StatCollector
             InitResources();
         }
 
+        public StatisticsTasksPool(StatisticsInput input)
+            : this(input.filesWithDistortions, input.functionsText)
+        {
+        }
+
         public StatisticsWorker GetNextWorker()
         {
+            // don't replace index increment without recheking of all possible outcomes
             while (_distortionsIndex < _filesWithDistortions.Count)
             {
                 while (_funcIndex < _functionsText.Count)
                 {
-                    return new StatisticsWorker(GetBoolFunctionWithInpDist(_funcIndex++), GetInpDistProb(_distortionsIndex));
+                    int iFunc = _funcIndex++;
+                    int jDist = _distortionsIndex;
+                    return new StatisticsWorker(GetBoolFunctionWithInpDist(iFunc), GetInpDistProb(jDist),
+                        _filesWithDistortions[jDist], _functionsText[iFunc]);
                 }
                 _funcIndex = 0;
                 ++_distortionsIndex;
