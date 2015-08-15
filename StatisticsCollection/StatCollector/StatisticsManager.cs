@@ -12,11 +12,13 @@ namespace StatisticsCollection.StatCollector
     class StatisticsManager
     {
         private StatisticsInput _input;
-        private int _oldProgress;
+        private int _oldProgressPercent;
 
         public StatisticsManager(StatisticsInput input)
         {
             SetInput(input);
+            // disable logger, we don't need it
+            Diplom_Work_Compare_Results_Probabilities.Logger.ResetLogger(false);
         }
 
         public void Run()
@@ -48,15 +50,16 @@ namespace StatisticsCollection.StatCollector
             Debug.Assert(input.FilesWithDistortions != null);
             Debug.Assert(input.FunctionsText != null);
             Debug.Assert(input.FunctionsText != input.FilesWithDistortions);
-            _oldProgress = 0;
+            _oldProgressPercent = 0;
         }
 
         private void ReportProgress(int maxProgress, int currentProgress, BackgroundWorker worker)
         {
-            if(_oldProgress >= currentProgress / maxProgress)
+            int progressPercent = 100 * currentProgress / maxProgress;
+            if (_oldProgressPercent >= progressPercent)
                 return;
-            _oldProgress = currentProgress / maxProgress;
-            worker.ReportProgress(_oldProgress);
+            _oldProgressPercent = progressPercent;
+            worker.ReportProgress(_oldProgressPercent);
         }
 
         internal void Run(BackgroundWorker bworker, DoWorkEventArgs e)
@@ -84,7 +87,7 @@ namespace StatisticsCollection.StatCollector
                         break;
 
                     statWriter.WiteStatistics(worker);
-                    ReportProgress(maxWorkers, workersIndex, bworker);
+                    ReportProgress(maxWorkers, workersIndex + 1, bworker);
                 }
             }
         }

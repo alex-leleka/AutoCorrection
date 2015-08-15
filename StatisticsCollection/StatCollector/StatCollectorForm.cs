@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace StatisticsCollection.StatCollector
@@ -26,9 +28,21 @@ namespace StatisticsCollection.StatCollector
         {
             progressBar1.Value = 0;
             if (null == _input) return;
-            backgroundWorker1.RunWorkerAsync(/*_input*/);
-            button4.Enabled = true;
-            button3.Enabled = false;
+            var worker = sender as BackgroundWorker;
+            if(false)
+            {
+                // run in main thread (to see all exception)
+                var sm = new StatisticsManager(_input);
+                sm.Run();
+                return;
+            }
+            else
+            {
+                backgroundWorker1.RunWorkerAsync(/*_input*/);
+                button4.Enabled = true;
+                button3.Enabled = false;
+            }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,7 +59,7 @@ namespace StatisticsCollection.StatCollector
 
             textBoxDistFileNames.Text = "";
             foreach (var s in _input.FilesWithDistortions)
-                textBoxDistFileNames.Text += _input.FilesWithDistortions + Environment.NewLine;
+                textBoxDistFileNames.Text += s + Environment.NewLine;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -59,9 +73,12 @@ namespace StatisticsCollection.StatCollector
                 _input.FunctionsText = new List<String>();
                 using (var sr = new StreamReader(openBoolFuncFileDialog.FileName))
                 {
-                    var line = sr.ReadLine();
-                    if(!string.IsNullOrEmpty(line))
-                        _input.FunctionsText.Add(line);
+                    while (!sr.EndOfStream)
+                    {
+                        var line = sr.ReadLine();
+                        if (!string.IsNullOrEmpty(line))
+                            _input.FunctionsText.Add(line);
+                    }
                 }
             }
 
@@ -77,6 +94,10 @@ namespace StatisticsCollection.StatCollector
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            // set en locale for reading decimal point numbers
+            Thread.CurrentThread.CurrentCulture =
+                new CultureInfo("en-US", false); // English - US;
+
             // Get the BackgroundWorker that raised this event.
             var worker = sender as BackgroundWorker;
 

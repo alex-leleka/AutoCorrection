@@ -15,8 +15,8 @@ namespace StatisticsCollection.StatCollector
     /// </summary>
     class StatisticsTasksPool
     {
-        private List<String> _filesWithDistortions;
-        private List<String> _functionsText;
+        private readonly List<String> _filesWithDistortions;
+        private readonly List<String> _functionsText;
         int _distortionsIndex;
         int _funcIndex;
         List<InputWithUnitedDistortionProbabilities> _inpDist;
@@ -60,6 +60,8 @@ namespace StatisticsCollection.StatCollector
 
         private InputWithUnitedDistortionProbabilities GetInpDistProb(int distortionsIndex)
         {
+            if (_inpDist.Count <= distortionsIndex)
+                _inpDist.Add(null);
             if (_inpDist[distortionsIndex] == null)
             {
                 // load the resource first time
@@ -72,6 +74,8 @@ namespace StatisticsCollection.StatCollector
 
         private BooleanFuntionWithInputDistortion GetBoolFunctionWithInpDist(int funcIndex)
         {
+            if (_boolFunc.Count <= funcIndex)
+                _boolFunc.Add(null);
             if (_boolFunc[funcIndex] == null)
             {
                 // load the resource first time

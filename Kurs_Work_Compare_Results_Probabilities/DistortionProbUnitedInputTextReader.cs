@@ -14,31 +14,24 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         new public InputWithUnitedDistortionProbabilities GetDistortionProb()
         {
-            try
+            using (StreamReader sr = new StreamReader(_path))
             {
-                using (StreamReader sr = new StreamReader(_path))
-                {
-                    int inputDigitsCount = ReadInt(sr);
-                    int outputDigitsCount = ReadInt(sr);
-                    int inputDigitsCountWithUnited = ReadInt(sr);
-                    var inputBitMap = ReadIntArr(sr, inputDigitsCountWithUnited);
-                    double[] distortionToZeroProbability = ReadDoubleArr(sr, inputDigitsCount);
-                    double[] distortionToOneProbability = ReadDoubleArr(sr, inputDigitsCount);
-                    double[] distortionToInverseProbability = ReadDoubleArr(sr, inputDigitsCount);
-                    double[] probalityZero = ReadDoubleArr(sr, inputDigitsCount);
+                int inputDigitsCount = ReadInt(sr);
+                int outputDigitsCount = ReadInt(sr);
+                int inputDigitsCountWithUnited = ReadInt(sr);
+                var inputBitMap = ReadIntArr(sr, inputDigitsCountWithUnited);
+                double[] distortionToZeroProbability = ReadDoubleArr(sr, inputDigitsCount);
+                double[] distortionToOneProbability = ReadDoubleArr(sr, inputDigitsCount);
+                double[] distortionToInverseProbability = ReadDoubleArr(sr, inputDigitsCount);
+                double[] probalityZero = ReadDoubleArr(sr, inputDigitsCount);
 
-                    double[] distortionToZeroProbabilityWithUnited = ReadDoubleArr(sr, inputDigitsCountWithUnited);
-                    double[] distortionToOneProbabilityWithUnited = ReadDoubleArr(sr, inputDigitsCountWithUnited);
-                    double[] distortionToInverseProbabilityWithUnited = ReadDoubleArr(sr, inputDigitsCountWithUnited);
-                    return new InputWithUnitedDistortionProbabilities(distortionToZeroProbability,
-                        distortionToOneProbability, distortionToInverseProbability, probalityZero, 
-                        distortionToZeroProbabilityWithUnited, distortionToOneProbabilityWithUnited, 
-                        distortionToInverseProbabilityWithUnited, inputBitMap);
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("The file could not be read:" + e.Message);
+                double[] distortionToZeroProbabilityWithUnited = ReadDoubleArr(sr, inputDigitsCountWithUnited);
+                double[] distortionToOneProbabilityWithUnited = ReadDoubleArr(sr, inputDigitsCountWithUnited);
+                double[] distortionToInverseProbabilityWithUnited = ReadDoubleArr(sr, inputDigitsCountWithUnited);
+                return new InputWithUnitedDistortionProbabilities(distortionToZeroProbability,
+                    distortionToOneProbability, distortionToInverseProbability, probalityZero,
+                    distortionToZeroProbabilityWithUnited, distortionToOneProbabilityWithUnited,
+                    distortionToInverseProbabilityWithUnited, inputBitMap);
             }
         }
     }

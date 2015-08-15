@@ -10,17 +10,17 @@ namespace StatisticsCollection.StatCollector
     /// </summary>
     class StatisticsWriter
     {
-        private String _fileName;
-        private StreamWriter _sw;
-        DisposableDelegate _swDisposer;
+        private readonly String _fileName;
+        //private StreamWriter _sw;
+        //DisposableDelegate _swDisposer;
         public StatisticsWriter(String fileNamePrefix = "")
         {
             _fileName = fileNamePrefix + string.Format("Stats-{0:yyyy-MM-dd_hh-mm-ss-tt}.csv",
                 DateTime.Now);
             // Open stream only once in constructor
-            _sw = new StreamWriter(_fileName, true);
+            //_sw = new StreamWriter(_fileName, true);
             // Colse stream when _swDisposer leave scope
-            _swDisposer = new DisposableDelegate(() => _sw.Close());
+            //_swDisposer = new DisposableDelegate(() => _sw.Close());
         }
         public void WiteStatistics(StatisticsWorker worker)
         {
@@ -33,25 +33,18 @@ namespace StatisticsCollection.StatCollector
             {
                 WriteLine(kv.Key + ";" + "\t" + kv.Value);
             }
+            WriteLine("");
         }
 
         // contains exception handling, couldn't be inline
         private void WriteLine(string line)
         {
-            try
+            using (StreamWriter sw = new StreamWriter(_fileName, true))
             {
-                _sw.WriteLine(line);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("StatisticsWriter: Error while witing statistics:" + e.Message);
+                sw.WriteLine(line);
             }
         }
 
-        private void WriteLineFast(string line)
-        {
-            _sw.WriteLine(line);
-        }
     }
 
     public class DisposableDelegate : IDisposable
