@@ -40,6 +40,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.openDistortionsFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.openBoolFuncFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.buttonViewResult = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -83,7 +84,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(489, 354);
+            this.button3.Location = new System.Drawing.Point(408, 354);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 54);
             this.button3.TabIndex = 4;
@@ -95,7 +96,7 @@
             // 
             this.progressBar1.Location = new System.Drawing.Point(96, 368);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(306, 26);
+            this.progressBar1.Size = new System.Drawing.Size(225, 26);
             this.progressBar1.TabIndex = 5;
             // 
             // label1
@@ -121,7 +122,7 @@
             // button4
             // 
             this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(408, 354);
+            this.button4.Location = new System.Drawing.Point(327, 354);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 54);
             this.button4.TabIndex = 8;
@@ -133,6 +134,7 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // openDistortionsFilesDialog
             // 
@@ -143,11 +145,23 @@
             // 
             this.openBoolFuncFileDialog.FileName = "BoolFuncFileName";
             // 
+            // buttonViewResult
+            // 
+            this.buttonViewResult.Enabled = false;
+            this.buttonViewResult.Location = new System.Drawing.Point(489, 354);
+            this.buttonViewResult.Name = "buttonViewResult";
+            this.buttonViewResult.Size = new System.Drawing.Size(75, 54);
+            this.buttonViewResult.TabIndex = 9;
+            this.buttonViewResult.Text = "View Result";
+            this.buttonViewResult.UseVisualStyleBackColor = true;
+            this.buttonViewResult.Click += new System.EventHandler(this.buttonViewResult_Click);
+            // 
             // StatCollectorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 420);
+            this.Controls.Add(this.buttonViewResult);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -179,5 +193,6 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.OpenFileDialog openDistortionsFilesDialog;
         private System.Windows.Forms.OpenFileDialog openBoolFuncFileDialog;
+        private System.Windows.Forms.Button buttonViewResult;
     }
 }

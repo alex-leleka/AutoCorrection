@@ -34,6 +34,7 @@ namespace StatisticsCollection.StatCollector
                 // run in main thread (to see all exception)
                 var sm = new StatisticsManager(_input);
                 sm.Run();
+                buttonViewResult.Enabled = true;
                 return;
             }
             else
@@ -41,6 +42,7 @@ namespace StatisticsCollection.StatCollector
                 backgroundWorker1.RunWorkerAsync(/*_input*/);
                 button4.Enabled = true;
                 button3.Enabled = false;
+                buttonViewResult.Enabled = false;
             }
 
         }
@@ -117,6 +119,29 @@ namespace StatisticsCollection.StatCollector
 
             // Disable the Cancel button.
             button4.Enabled = false;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+            if (e.Cancelled == true)
+            {
+                MessageBox.Show(@"Canceled!");
+            }
+            else if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+            else
+            {
+                string resultFileName = (string) e.Result;
+                buttonViewResult.Enabled = true;
+            }
+        }
+
+        private void buttonViewResult_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

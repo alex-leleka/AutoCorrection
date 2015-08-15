@@ -22,6 +22,11 @@ namespace StatisticsCollection.StatCollector
             // Colse stream when _swDisposer leave scope
             //_swDisposer = new DisposableDelegate(() => _sw.Close());
         }
+
+        public String GetFileName()
+        {
+            return _fileName;
+        }
         public void WiteStatistics(StatisticsWorker worker)
         {
             var resultsProbs = worker.GetResult();

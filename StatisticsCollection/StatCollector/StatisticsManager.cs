@@ -90,6 +90,7 @@ namespace StatisticsCollection.StatCollector
                     ReportProgress(maxWorkers, workersIndex + 1, bworker);
                 }
             }
+            e.Result = statWriter.GetFileName();
         }
     }
 
