@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace StatisticsCollection.StatCollector
@@ -11,6 +12,7 @@ namespace StatisticsCollection.StatCollector
     public partial class StatCollectorForm : Form
     {
         private StatisticsInput _input;
+        private String _resultFileName;
 
         public StatCollectorForm()
         {
@@ -28,7 +30,6 @@ namespace StatisticsCollection.StatCollector
         {
             progressBar1.Value = 0;
             if (null == _input) return;
-            var worker = sender as BackgroundWorker;
             if(false)
             {
                 // run in main thread (to see all exception)
@@ -96,6 +97,7 @@ namespace StatisticsCollection.StatCollector
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            // we need to do it again in a new thread
             // set en locale for reading decimal point numbers
             Thread.CurrentThread.CurrentCulture =
                 new CultureInfo("en-US", false); // English - US;
@@ -130,18 +132,29 @@ namespace StatisticsCollection.StatCollector
             }
             else if (e.Error != null)
             {
-                MessageBox.Show(e.Error.Message);
+                MessageBox.Show(e.Error.Message, @"Error in background worker.");
             }
             else
             {
-                string resultFileName = (string) e.Result;
+                _resultFileName = (string) e.Result;
                 buttonViewResult.Enabled = true;
             }
         }
 
         private void buttonViewResult_Click(object sender, EventArgs e)
         {
-
+            if (_resultFileName == null) 
+                return;
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo()
+                {
+                    UseShellExecute = true,
+                    FileName = _resultFileName
+                }
+            };
+            process.Start();
+            process.WaitForExit();
         }
     }
 }
