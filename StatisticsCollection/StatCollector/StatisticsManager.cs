@@ -94,12 +94,4 @@ namespace StatisticsCollection.StatCollector
         }
     }
 
-    /// <summary>
-    /// Initialize StatisticsManager with next input.
-    /// </summary>
-    class StatisticsInput
-    {
-        public List<String> FilesWithDistortions;
-        public List<String> FunctionsText;
-    }
 }
