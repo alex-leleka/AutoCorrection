@@ -11,26 +11,26 @@ namespace StatisticsCollection.StatCollector
     /// </summary>
     class StatisticsManager
     {
-        private StatisticsInput _input;
+        private StatisticsInputAnaliticFunc _inputAnaliticFunc;
         private int _oldProgressPercent;
 
-        public StatisticsManager(StatisticsInput input)
+        public StatisticsManager(StatisticsInputAnaliticFunc inputAnaliticFunc)
         {
-            SetInput(input);
+            SetInput(inputAnaliticFunc);
             // disable logger, we don't need it
             Diplom_Work_Compare_Results_Probabilities.Logger.ResetLogger(false);
         }
 
         public void Run()
         {
-            if (_input == null)
+            if (_inputAnaliticFunc == null)
                 throw new Exception("StatisticsManager has no input");
 
-            int maxWorkers = _input.FunctionsText.Count * _input.FilesWithDistortions.Count;
+            int maxWorkers = _inputAnaliticFunc.FunctionsText.Count * _inputAnaliticFunc.FilesWithDistortions.Count;
             if(maxWorkers < 1)
                 return;
         
-            var statTasksPool = new StatisticsTasksPool(_input);
+            var statTasksPool = new StatisticsTasksPool(_inputAnaliticFunc);
             var statWriter = new StatisticsWriter();
 
             for(int workersIndex = 0; workersIndex < maxWorkers; ++workersIndex)
@@ -43,13 +43,13 @@ namespace StatisticsCollection.StatCollector
             }
         }
 
-        private void SetInput(StatisticsInput input)
+        private void SetInput(StatisticsInputAnaliticFunc inputAnaliticFunc)
         {
-            _input = input;
-            Debug.Assert(input != null);
-            Debug.Assert(input.FilesWithDistortions != null);
-            Debug.Assert(input.FunctionsText != null);
-            Debug.Assert(input.FunctionsText != input.FilesWithDistortions);
+            _inputAnaliticFunc = inputAnaliticFunc;
+            Debug.Assert(inputAnaliticFunc != null);
+            Debug.Assert(inputAnaliticFunc.FilesWithDistortions != null);
+            Debug.Assert(inputAnaliticFunc.FunctionsText != null);
+            Debug.Assert(inputAnaliticFunc.FunctionsText != inputAnaliticFunc.FilesWithDistortions);
             _oldProgressPercent = 0;
         }
 
@@ -64,14 +64,14 @@ namespace StatisticsCollection.StatCollector
 
         internal void Run(BackgroundWorker bworker, DoWorkEventArgs e)
         {
-            if (_input == null)
+            if (_inputAnaliticFunc == null)
                 throw new Exception("StatisticsManager has no input");
 
-            int maxWorkers = _input.FunctionsText.Count * _input.FilesWithDistortions.Count;
+            int maxWorkers = _inputAnaliticFunc.FunctionsText.Count * _inputAnaliticFunc.FilesWithDistortions.Count;
             if (maxWorkers < 1)
                 return;
 
-            var statTasksPool = new StatisticsTasksPool(_input);
+            var statTasksPool = new StatisticsTasksPool(_inputAnaliticFunc);
             var statWriter = new StatisticsWriter();
 
             for (int workersIndex = 0; workersIndex < maxWorkers; ++workersIndex)

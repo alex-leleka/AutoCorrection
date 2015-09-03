@@ -15,15 +15,15 @@ namespace StatisticsCollection.StatCollector
     /// </summary>
     class StatisticsTasksPool
     {
-        private readonly StatisticsInput _input;
+        private readonly StatisticsInputAnaliticFunc _inputAnaliticFunc;
         int _distortionsIndex;
         int _funcIndex;
         List<InputWithUnitedDistortionProbabilities> _inpDist;
         List<BooleanFuntionWithInputDistortion> _boolFunc;
 
-        public StatisticsTasksPool(StatisticsInput input)
+        public StatisticsTasksPool(StatisticsInputAnaliticFunc inputAnaliticFunc)
         {
-            _input = input;
+            _inputAnaliticFunc = inputAnaliticFunc;
             _distortionsIndex = _funcIndex = 0;
             InitResources();
         }
@@ -31,19 +31,19 @@ namespace StatisticsCollection.StatCollector
         public StatisticsWorker GetNextWorker()
         {
             // don't replace index increment without recheking of all possible outcomes
-            while (_distortionsIndex < _input.FilesWithDistortions.Count)
+            while (_distortionsIndex < _inputAnaliticFunc.FilesWithDistortions.Count)
             {
-                while (_funcIndex < _input.FunctionsText.Count)
+                while (_funcIndex < _inputAnaliticFunc.FunctionsText.Count)
                 {
                     int iFunc = _funcIndex++;
                     int jDist = _distortionsIndex;
 
                     // skip empty lines if any
-                    if (_input.FilesWithDistortions[jDist].Length < 2 || _input.FunctionsText[iFunc].Length < 2)
+                    if (_inputAnaliticFunc.FilesWithDistortions[jDist].Length < 2 || _inputAnaliticFunc.FunctionsText[iFunc].Length < 2)
                         return null;
 
                     return new StatisticsWorker(GetBoolFunctionWithInpDist(iFunc), GetInpDistProb(jDist),
-                        _input.FilesWithDistortions[jDist], _input.FunctionsText[iFunc]);
+                        _inputAnaliticFunc.FilesWithDistortions[jDist], _inputAnaliticFunc.FunctionsText[iFunc]);
                 }
                 _funcIndex = 0;
                 ++_distortionsIndex;
@@ -58,7 +58,7 @@ namespace StatisticsCollection.StatCollector
             if (_inpDist[distortionsIndex] == null)
             {
                 // load the resource first time
-                String path = _input.FilesWithDistortions[distortionsIndex];
+                String path = _inputAnaliticFunc.FilesWithDistortions[distortionsIndex];
                 var reader = new DistortionProbUnitedInputTextReader(path);
                 _inpDist[distortionsIndex] = reader.GetDistortionProb();
             }
@@ -73,7 +73,7 @@ namespace StatisticsCollection.StatCollector
             {
                 // load the resource first time
                 String[] functionText = new String[1];
-                functionText[0] = _input.FunctionsText[funcIndex];
+                functionText[0] = _inputAnaliticFunc.FunctionsText[funcIndex];
                 int inputNumberOfDigits = GetInpDistProb(0).GetSecondLevelInputsCount();
                 int outputNumberOfDigits = 1; // Always one, input data format don't allow us anything else
                 _boolFunc[funcIndex] = new BooleanFunctionAnalytic(inputNumberOfDigits, 
@@ -86,8 +86,8 @@ namespace StatisticsCollection.StatCollector
         {
             // create empty lists, we don't need to allocate all at time.
             // we will load them as needed.
-            _boolFunc = new List<BooleanFuntionWithInputDistortion>(_input.FunctionsText.Count);
-            _inpDist = new List<InputWithUnitedDistortionProbabilities>(_input.FilesWithDistortions.Count);
+            _boolFunc = new List<BooleanFuntionWithInputDistortion>(_inputAnaliticFunc.FunctionsText.Count);
+            _inpDist = new List<InputWithUnitedDistortionProbabilities>(_inputAnaliticFunc.FilesWithDistortions.Count);
             
         }
 
