@@ -11,10 +11,10 @@ namespace StatisticsCollection.StatCollector
     /// </summary>
     class StatisticsManager
     {
-        private StatisticsInputAnaliticFunc _inputAnaliticFunc;
+        private IStatisticsInput _inputAnaliticFunc;
         private int _oldProgressPercent;
 
-        public StatisticsManager(StatisticsInputAnaliticFunc inputAnaliticFunc)
+        public StatisticsManager(IStatisticsInput inputAnaliticFunc)
         {
             SetInput(inputAnaliticFunc);
             // disable logger, we don't need it
@@ -26,7 +26,7 @@ namespace StatisticsCollection.StatCollector
             if (_inputAnaliticFunc == null)
                 throw new Exception("StatisticsManager has no input");
 
-            int maxWorkers = _inputAnaliticFunc.FunctionsText.Count * _inputAnaliticFunc.FilesWithDistortions.Count;
+            int maxWorkers = _inputAnaliticFunc.FunctionsTextCount() * _inputAnaliticFunc.FilesWithDistortionsCount();
             if(maxWorkers < 1)
                 return;
         
@@ -43,13 +43,13 @@ namespace StatisticsCollection.StatCollector
             }
         }
 
-        private void SetInput(StatisticsInputAnaliticFunc inputAnaliticFunc)
+        private void SetInput(IStatisticsInput inputAnaliticFunc)
         {
             _inputAnaliticFunc = inputAnaliticFunc;
             Debug.Assert(inputAnaliticFunc != null);
             Debug.Assert(inputAnaliticFunc.FilesWithDistortions != null);
-            Debug.Assert(inputAnaliticFunc.FunctionsText != null);
-            Debug.Assert(inputAnaliticFunc.FunctionsText != inputAnaliticFunc.FilesWithDistortions);
+            //Debug.Assert(inputAnaliticFunc.FunctionsText != null);
+            //Debug.Assert(inputAnaliticFunc.FunctionsText != inputAnaliticFunc.FilesWithDistortions);
             _oldProgressPercent = 0;
         }
 
@@ -67,7 +67,7 @@ namespace StatisticsCollection.StatCollector
             if (_inputAnaliticFunc == null)
                 throw new Exception("StatisticsManager has no input");
 
-            int maxWorkers = _inputAnaliticFunc.FunctionsText.Count * _inputAnaliticFunc.FilesWithDistortions.Count;
+            int maxWorkers = _inputAnaliticFunc.FunctionsTextCount() * _inputAnaliticFunc.FilesWithDistortionsCount();
             if (maxWorkers < 1)
                 return;
 

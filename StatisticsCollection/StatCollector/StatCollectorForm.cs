@@ -11,7 +11,8 @@ namespace StatisticsCollection.StatCollector
 {
     public partial class StatCollectorForm : Form
     {
-        private StatisticsInputAnaliticFunc _inputAnaliticFunc;
+        private List<String> _filesWithDistortions;
+        private List<String> _functionsText;
         private String _resultFileName;
 
         public StatCollectorForm()
@@ -19,6 +20,7 @@ namespace StatisticsCollection.StatCollector
             InitializeComponent();
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
+            _functionsText = null;
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -28,19 +30,32 @@ namespace StatisticsCollection.StatCollector
 
         private void button3_Click(object sender, EventArgs e)
         {
+
+            // if we don't have distortions file there is nothing to do here
+            if (_filesWithDistortions == null || _filesWithDistortions.Count == 0)
+                return;
+
+            // select IStatisticsInput instance by trying cheking possible input for null
+            IStatisticsInput inputAnaliticFunc = null;
+            if (_functionsText != null)
+                inputAnaliticFunc = new StatisticsInputAnaliticFunc(_functionsText, _filesWithDistortions);
+            //if (_functionsTable != null)
+            //    inputAnaliticFunc = new StatisticsInputTableFunc(_functionsTable, _filesWithDistortions);
+
+
             progressBar1.Value = 0;
-            if (null == _inputAnaliticFunc) return;
+            if (null == inputAnaliticFunc) return;
             if(false)
             {
                 // run in main thread (to see all exception)
-                var sm = new StatisticsManager(_inputAnaliticFunc);
+                var sm = new StatisticsManager(inputAnaliticFunc);
                 sm.Run();
                 buttonViewResult.Enabled = true;
                 return;
             }
             else
             {
-                backgroundWorker1.RunWorkerAsync(/*_input*/);
+                backgroundWorker1.RunWorkerAsync(inputAnaliticFunc);
                 button4.Enabled = true;
                 button3.Enabled = false;
                 buttonViewResult.Enabled = false;
@@ -56,12 +71,12 @@ namespace StatisticsCollection.StatCollector
                 var count = openDistortionsFilesDialog.FileNames.Length;
                 if (count == 0)
                     return;
-                _inputAnaliticFunc.FilesWithDistortions = new List<String>();
-                _inputAnaliticFunc.FilesWithDistortions.AddRange(openDistortionsFilesDialog.FileNames);
+                _filesWithDistortions = new List<String>();
+                _filesWithDistortions.AddRange(openDistortionsFilesDialog.FileNames);
             }
 
             textBoxDistFileNames.Text = "";
-            foreach (var s in _inputAnaliticFunc.FilesWithDistortions)
+            foreach (var s in _filesWithDistortions)
                 textBoxDistFileNames.Text += s + Environment.NewLine;
         }
 
@@ -73,26 +88,25 @@ namespace StatisticsCollection.StatCollector
                 var count = openBoolFuncFileDialog.FileName.Length;
                 if (count == 0)
                     return;
-                _inputAnaliticFunc.FunctionsText = new List<String>();
+                _functionsText = new List<String>();
                 using (var sr = new StreamReader(openBoolFuncFileDialog.FileName))
                 {
                     while (!sr.EndOfStream)
                     {
                         var line = sr.ReadLine();
                         if (!string.IsNullOrEmpty(line))
-                            _inputAnaliticFunc.FunctionsText.Add(line);
+                            _functionsText.Add(line);
                     }
                 }
             }
 
             textBoxBoolFunc.Text = "";
-            foreach (var s in _inputAnaliticFunc.FunctionsText)
+            foreach (var s in _functionsText)
                 textBoxBoolFunc.Text += s + Environment.NewLine;
         }
 
         private void StatCollectorForm_Load(object sender, EventArgs e)
         {
-            _inputAnaliticFunc = new StatisticsInputAnaliticFunc();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -104,8 +118,8 @@ namespace StatisticsCollection.StatCollector
 
             // Get the BackgroundWorker that raised this event.
             var worker = sender as BackgroundWorker;
-
-            var sm = new StatisticsManager(_inputAnaliticFunc);
+            IStatisticsInput input = (IStatisticsInput)e.Argument;
+            var sm = new StatisticsManager(input);
             sm.Run(worker, e);
         }
 
