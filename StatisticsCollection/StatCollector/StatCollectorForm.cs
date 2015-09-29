@@ -30,7 +30,6 @@ namespace StatisticsCollection.StatCollector
 
         private void button3_Click(object sender, EventArgs e)
         {
-
             // if we don't have distortions file there is nothing to do here
             if (_filesWithDistortions == null || _filesWithDistortions.Count == 0)
                 return;
@@ -66,14 +65,13 @@ namespace StatisticsCollection.StatCollector
         private void button1_Click(object sender, EventArgs e)
         {
             var dr = openDistortionsFilesDialog.ShowDialog();
-            if (dr == DialogResult.OK)
-            {
-                var count = openDistortionsFilesDialog.FileNames.Length;
-                if (count == 0)
-                    return;
-                _filesWithDistortions = new List<String>();
-                _filesWithDistortions.AddRange(openDistortionsFilesDialog.FileNames);
-            }
+            if (dr != DialogResult.OK)
+                return;
+            var count = openDistortionsFilesDialog.FileNames.Length;
+            if (count == 0)
+                return;
+            _filesWithDistortions = new List<String>();
+            _filesWithDistortions.AddRange(openDistortionsFilesDialog.FileNames);
 
             textBoxDistFileNames.Text = "";
             foreach (var s in _filesWithDistortions)
@@ -83,20 +81,19 @@ namespace StatisticsCollection.StatCollector
         private void button2_Click(object sender, EventArgs e)
         {
             var dr = openBoolFuncFileDialog.ShowDialog();
-            if (dr == DialogResult.OK)
+            if (dr != DialogResult.OK)
+                return;
+            var count = openBoolFuncFileDialog.FileName.Length;
+            if (count == 0)
+                return;
+            _functionsText = new List<String>();
+            using (var sr = new StreamReader(openBoolFuncFileDialog.FileName))
             {
-                var count = openBoolFuncFileDialog.FileName.Length;
-                if (count == 0)
-                    return;
-                _functionsText = new List<String>();
-                using (var sr = new StreamReader(openBoolFuncFileDialog.FileName))
+                while (!sr.EndOfStream)
                 {
-                    while (!sr.EndOfStream)
-                    {
-                        var line = sr.ReadLine();
-                        if (!string.IsNullOrEmpty(line))
-                            _functionsText.Add(line);
-                    }
+                    var line = sr.ReadLine();
+                    if (!string.IsNullOrEmpty(line))
+                        _functionsText.Add(line);
                 }
             }
 
