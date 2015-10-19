@@ -7,7 +7,7 @@ namespace StatisticsCollection.StatCollector
 {
     /// <summary>
     /// Manage all work related to statistics collections for multiple distortions and 
-    /// bool functions. Report progress to main thred.
+    /// bool functions. Reports progress to main thred.
     /// </summary>
     class StatisticsManager
     {
