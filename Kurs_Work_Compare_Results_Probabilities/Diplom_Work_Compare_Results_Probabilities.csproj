@@ -258,6 +258,10 @@
       <Project>{a05e9f7c-08ff-415b-bb6c-7b886d5fa3d7}</Project>
       <Name>CodeGeneration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DotNetUtils\DotNetUtils.csproj">
+      <Project>{59d80472-8993-42d7-8100-fdb627ce9db0}</Project>
+      <Name>DotNetUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fakes\" />

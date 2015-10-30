@@ -4,6 +4,9 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
+using System.Diagnostics;
+using DotNetUtils;
+using DotNetUtils.;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -23,20 +26,24 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             double E1 = 0.0, E2 = 0.0;
             BitArray operandIt = new BitArray(_truthTable.InputNumberOfDigits, false); // the first operand in tTable 00...0
-            // int op1 = 0, opMax = 1 << ((result.length - 1) / 2);
-            // int intResult  = result.ToInt?;
+            int bitsInOp = ((result.Count - 1) / 2);
+            int op1 = 0, opMax = 1 << bitsInOp;
+            Debug.Assert((result.Count & 1) == 1, "Result shell contain 2*n + 1 bits.");
+            int intResult = BooleanFuntionWithInputDistortion.GetIntFromBitArray(result);
             // opMax - max value of a result
             do
             {
                 if (_truthTable.GetResult(operandIt).Eq(result))
                 {
-                    //int op2 = intResult - op1
-                    // operandIt = concat(bitarry(op1), bitarry(op2))
-                    // ++op1;
+                    
+                    int op2 = intResult - op1;
+                    BitArray ba1 = UtilsBitArray.ToBinary(op1, bitsInOp);
+                    BitArray ba2 = UtilsBitArray.ToBinary(op2, bitsInOp);
+                    operandIt = UtilsBitArray.Append(ba1, ba2);
+                    ++op1;
                     GetAdderTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt);
                 }
-            } while (BooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
-            // while( op1 < opMax)
+            } while( op1 < opMax);
             Gce = E1;
             Gee = E2;
         }
