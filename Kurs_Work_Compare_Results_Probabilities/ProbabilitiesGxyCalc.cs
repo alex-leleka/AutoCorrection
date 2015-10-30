@@ -9,11 +9,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
     
     public class ProbabilitiesGxyCalc : IProbabilityGxyCalculator
     {
-        private BooleanFuntionWithInputDistortion _truthTable;
+        protected BooleanFuntionWithInputDistortion _truthTable;
 
         // data members for calculating Gxy
         // input data
-        private ProductClasses _inputBitsDistortionsProbabilities; // contain probabilites g0, gcaij, geaij, p0i, p1i
+        protected ProductClasses _inputBitsDistortionsProbabilities; // contain probabilites g0, gcaij, geaij, p0i, p1i
 
         public ProbabilitiesGxyCalc(BooleanFuntionWithInputDistortion truthTable, double[] probalityZero)
         {
@@ -131,7 +131,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         // probability of autocorrection and error after distortion in the corresponding tuples 
         // intermediate calculation 
         // TODO: rename method
-        private void CalcE1E2(BitArray result, ref double Gce, ref double Gee)
+        protected virtual void CalcE1E2(BitArray result, ref double Gce, ref double Gee)
         {
             double E1 = 0.0, E2 = 0.0;
             BitArray operandIt = new BitArray(_truthTable.InputNumberOfDigits, false); // the first operand in tTable 00...0
