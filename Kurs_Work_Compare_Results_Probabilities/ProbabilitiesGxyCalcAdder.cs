@@ -12,6 +12,9 @@ namespace Diplom_Work_Compare_Results_Probabilities
         // Nested data
         //protected BooleanFuntionWithInputDistortion _truthTable;
         //protected ProductClasses _inputBitsDistortionsProbabilities; // contain probabilites g0, gcaij, geaij, p0i, p1i
+
+        ProbabilitiesGxyCalcAdder(BooleanFuntionWithInputDistortion truthTable, InputDistortionProbabilities inputDistProb)
+            : base(truthTable, inputDistProb) {}
         
         // Calculationg of E1 and E2:
         // probability of autocorrection and error after distortion in the corresponding tuples 
