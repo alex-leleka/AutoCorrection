@@ -158,7 +158,7 @@ namespace BoolFunctionGenerator
             return result;
         }
 
-        private string GetReplaceXValue(string x, RadioButton radioButtonXand)
+        private static string GetReplaceXValue(string x, RadioButton radioButtonXand)
         {
             if (radioButtonXand.Checked)
                 x = @"&" + x;
