@@ -322,21 +322,32 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
             return d;
         }
-        private double GetAutoCorrectionValueProbabilityG0(int bit, int index)
+        internal double GetAutoCorrectionValueProbabilityG0(int bit, int index)
         {
             if (index < _probalityZero.Length)
             {
                 return _correctValueProbability[0][index] * ProbabilityZeroAndOne(bit, index);
             }
+            throw new IndexOutOfRangeException("Out of range, superposition not supported code usage");
             return lastBitsProbabilities[index - _probalityZero.Length].G0[bit];
         }
-        private double GetAutoCorrectionValueProbabilityGc(int bit, int index)
+        internal double GetAutoCorrectionValueProbabilityGc(int bit, int index)
         {
             if (index < _probalityZero.Length)
             {
                 return _autoCorrectionValueProbability[bit][index] * ProbabilityZeroAndOne(bit, index);
             }
+            throw new IndexOutOfRangeException("Out of range, superposition not supported code usage");
             return lastBitsProbabilities[index - _probalityZero.Length].Gc[bit];
+        }
+        internal double GetDistortionValueProbabilityGe(int bit, int index)
+        {
+            if (index < _probalityZero.Length)
+            {
+                return _distortedValueProbability[bit][index] * ProbabilityZeroAndOne(bit, index);
+            }
+            throw new IndexOutOfRangeException("Out of range, superposition not supported code usage");
+            return lastBitsProbabilities[index - _probalityZero.Length].Ge[bit];
         }
         /// <summary>
         /// Kje
@@ -367,19 +378,10 @@ namespace Diplom_Work_Compare_Results_Probabilities
                         d *= GetDistortionValueProbabilityGe(Convert.ToInt32(tuple[i]), i);
                         break;
                 }
-                d *= ProbabilityZeroAndOne(tuple[i], i);
+                //d *= ProbabilityZeroAndOne(tuple[i], i);
 
             }
             return d;
-        }
-
-        private double GetDistortionValueProbabilityGe(int bit, int index)
-        {
-            if (index < _probalityZero.Length)
-            {
-                return _distortedValueProbability[bit][index] * ProbabilityZeroAndOne(bit, index);
-            }
-            return lastBitsProbabilities[index - _probalityZero.Length].Ge[bit];
         }
 
         private byte[] binaryToTernary(BitArray number, int size)

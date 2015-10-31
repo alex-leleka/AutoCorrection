@@ -22,21 +22,20 @@ namespace Diplom_Work_Compare_Results_Probabilities
         protected override void CalcE1E2(BitArray result, ref double Gce, ref double Gee)
         {
             double E1 = 0.0, E2 = 0.0;
-            BitArray operandIt = new BitArray(_truthTable.InputNumberOfDigits, false); // the first operand in tTable 00...0
-            int bitsInOp = ((result.Count - 1) / 2);
+            int bitsInOp = ((_truthTable.InputNumberOfDigits - 1) / 2);
             int op1 = 0, opMax = 1 << bitsInOp;
             Debug.Assert((result.Count & 1) == 1, "Result shell contain 2*n + 1 bits.");
             int intResult = BooleanFuntionWithInputDistortion.GetIntFromBitArray(result);
             // opMax - max value of a result
             do
             {
-                if (_truthTable.GetResult(operandIt).Eq(result))
+                //if (_truthTable.GetResult(operandIt).Eq(result))
                 {
                     
                     int op2 = intResult - op1;
-                    BitArray ba1 = UtilsBitArray.ToBinary(op1, bitsInOp);
-                    BitArray ba2 = UtilsBitArray.ToBinary(op2, bitsInOp);
-                    operandIt = ba1.Append(ba2);
+                    BitArray ba1 = op1.ToBinary(bitsInOp);
+                    BitArray ba2 = op2.ToBinary(bitsInOp);
+                    var operandIt = ba1.Append(ba2);
                     ++op1;
                     GetAdderTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt);
                 }
@@ -54,26 +53,33 @@ namespace Diplom_Work_Compare_Results_Probabilities
             // (aka output autocorrection probability). We don't calc distorted result probability to reduce problem complexity.
             // if and only if the same error vector influences op1 & op2 we would have correct result.
 
-            // int errVec = 1; // error vector of op1
-            // operandIt.lenth == result.length
-            // int errVecMax = 1 << ((result.length - 1) / 2);
-            // do {
-            // 
-            // double tempProbability = GetErrorVectorProbability(err);
-            // E1 += tempProbability;
-            // } while (errVec < errVecMax) 
+            //int errVec = 0; // error vector of op1
+            // important assumtion operandIt.lenth == result.length - 1
+            int errVecMax = 1 << (operandIt.Count / 2);
+            for( int errVec = 1; errVec <= errVecMax; ++errVec)
+            {
+                double tempProbability = GetErrorVectorProbability(errVec, operandIt);
+                E1 += tempProbability;
+            }
         }
 
-        private double GetErrorVectorProbability(int err, BitArray operandIt)
+        private double GetErrorVectorProbability(int errVec, BitArray operandIt)
         {
             // Bitarry err;
-            //err = concat(bitarry(errVec), bitarry(errVec))
-            // double p = 1;
-            //for( var i =0;  i < err.length; ++i)
-            //{
-            //    if(err[i]) p *= _inputBitsDistortionsProbabilities.GetDistortionValueProbabilityGe(Convert.ToInt32(operandIt[i]), i);
-            //    else p *=_inputBitsDistortionsProbabilities
-            //}
+            BitArray ba1 = errVec.ToBinary(Convert.ToInt32(operandIt.Count / 2));
+            var err = ba1.Append(ba1);
+            double p = 1.0;
+            for( var i =0;  i < err.Count; ++i)
+            {
+                if (err[i])
+                    p *= _inputBitsDistortionsProbabilities.GetDistortionValueProbabilityGe(
+                            Convert.ToInt32(operandIt[i]), i);
+                else
+                    p *= _inputBitsDistortionsProbabilities.GetAutoCorrectionValueProbabilityG0(
+                            Convert.ToInt32(operandIt[i]), i) + 
+                            _inputBitsDistortionsProbabilities.GetAutoCorrectionValueProbabilityGc(
+                            Convert.ToInt32(operandIt[i]), i);
+            }
             return 0;
         }
     }

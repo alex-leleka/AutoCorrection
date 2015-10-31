@@ -26,7 +26,7 @@ namespace DotNetUtils
             return new BitArray(bools);
         }
 
-        public static BitArray ToBinary(int numeral, int bitsCount)
+        public static BitArray ToBinary(this int numeral, int bitsCount)
         {
             BitArray ar = new BitArray(bitsCount);
             BitArray arTmp = new BitArray(new[] { numeral });
