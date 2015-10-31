@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DotNetUtils
 {
 
-    public class UtilsBitArray
+    public static class UtilsBitArray
     {
         public static BitArray Prepend(this BitArray current, BitArray before)
         {

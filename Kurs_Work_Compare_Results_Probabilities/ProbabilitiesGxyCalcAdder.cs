@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using System.Text;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 using System.Diagnostics;
 using DotNetUtils;
-using DotNetUtils.;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -39,7 +36,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     int op2 = intResult - op1;
                     BitArray ba1 = UtilsBitArray.ToBinary(op1, bitsInOp);
                     BitArray ba2 = UtilsBitArray.ToBinary(op2, bitsInOp);
-                    operandIt = UtilsBitArray.Append(ba1, ba2);
+                    operandIt = ba1.Append(ba2);
                     ++op1;
                     GetAdderTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt);
                 }
