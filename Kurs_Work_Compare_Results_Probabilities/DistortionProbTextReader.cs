@@ -81,7 +81,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             var values = line.Split();
             #if DEBUG
             if(values.Length != length)
-                throw new IndexOutOfRangeException("Index out range in ReadDoubleArr() expected, check the text file!");
+                throw new IndexOutOfRangeException("Index out range in ReadDoubleArr() expected,values.Length != length, check the text file!");
             #endif
             
             for(int i = 0; i < length;i++)

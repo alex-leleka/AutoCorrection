@@ -202,7 +202,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
             return GetIntFromBitArray(GetResultByLineIndex(index));
         }
 
-        internal static int GetIntFromBitArray(BitArray bitArray)
+        internal static int GetIntFromBitArray(BitArray bitArray) // BitArrayToInt32
         {
             if (bitArray.Length > 32)
                 throw new ArgumentException("Argument length shall be at most 32 bits.");
