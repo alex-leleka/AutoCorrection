@@ -47,7 +47,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 if ( _truthTable.GetResult(operandIt).Eq(result) )
                     ++resultCount;
             } while (BooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
-            return G0 / (1 << _truthTable.InputNumberOfDigits) * resultCount;
+            return G0 / (1 << _truthTable.InputNumberOfDigits) * resultCount; //fixme: should take into account input digits probabilities
         }
         private double GetTupleProbabilityKj0Class(BitArray tuple)
         {

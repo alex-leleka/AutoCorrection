@@ -13,8 +13,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
         //protected BooleanFuntionWithInputDistortion _truthTable;
         //protected ProductClasses _inputBitsDistortionsProbabilities; // contain probabilites g0, gcaij, geaij, p0i, p1i
 
-        ProbabilitiesGxyCalcAdder(BooleanFuntionWithInputDistortion truthTable, InputDistortionProbabilities inputDistProb)
-            : base(truthTable, inputDistProb) {}
+        public ProbabilitiesGxyCalcAdder(BooleanFuntionWithInputDistortion truthTable, double[] probalityZero)
+            : base(truthTable, probalityZero) { }
         
         // Calculationg of E1 and E2:
         // probability of autocorrection and error after distortion in the corresponding tuples 
@@ -27,7 +27,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             Debug.Assert((result.Count & 1) == 1, "Result shell contain 2*n + 1 bits.");
             int intResult = BooleanFuntionWithInputDistortion.GetIntFromBitArray(result);
             // opMax - max value of a result
-            do
+            /*do
             {
                 //if (_truthTable.GetResult(operandIt).Eq(result))
                 {
@@ -37,9 +37,17 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     BitArray ba2 = op2.ToBinary(bitsInOp);
                     var operandIt = ba1.Append(ba2);
                     ++op1;
+                    if (_truthTable.GetResult(operandIt).Eq(result))  GetAdderTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt);
+                }
+            } while( op1 < opMax);*/
+            BitArray operandIt = new BitArray(_truthTable.InputNumberOfDigits, false); // the first operand in tTable 00...0
+            do
+            {
+                if (_truthTable.GetResult(operandIt).Eq(result))
+                {
                     GetAdderTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt);
                 }
-            } while( op1 < opMax);
+            } while (BooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
             Gce = E1;
             Gee = E2;
         }
@@ -56,7 +64,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             //int errVec = 0; // error vector of op1
             // important assumtion operandIt.lenth == result.length - 1
             int errVecMax = 1 << (operandIt.Count / 2);
-            for( int errVec = 1; errVec <= errVecMax; ++errVec)
+            for( int errVec = 1; errVec < errVecMax; ++errVec)
             {
                 double tempProbability = GetErrorVectorProbability(errVec, operandIt);
                 E1 += tempProbability;
@@ -69,7 +77,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             BitArray ba1 = errVec.ToBinary(Convert.ToInt32(operandIt.Count / 2));
             var err = ba1.Append(ba1);
             double p = 1.0;
-            for( var i =0;  i < err.Count; ++i)
+            for (var i = 0; i < operandIt.Count; ++i)
             {
                 if (err[i])
                     p *= _inputBitsDistortionsProbabilities.GetDistortionValueProbabilityGe(
@@ -80,7 +88,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                             _inputBitsDistortionsProbabilities.GetAutoCorrectionValueProbabilityGc(
                             Convert.ToInt32(operandIt[i]), i);
             }
-            return 0;
+            return p;
         }
     }
 }

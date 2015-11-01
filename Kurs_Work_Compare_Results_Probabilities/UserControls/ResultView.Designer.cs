@@ -49,6 +49,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxPCorrect = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.buttonCalcAsAdder = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -235,11 +236,22 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "P(Corr) =";
             // 
+            // buttonCalcAsAdder
+            // 
+            this.buttonCalcAsAdder.Location = new System.Drawing.Point(653, 375);
+            this.buttonCalcAsAdder.Name = "buttonCalcAsAdder";
+            this.buttonCalcAsAdder.Size = new System.Drawing.Size(148, 37);
+            this.buttonCalcAsAdder.TabIndex = 19;
+            this.buttonCalcAsAdder.Text = "Запустити обчислення для суматора";
+            this.buttonCalcAsAdder.UseVisualStyleBackColor = true;
+            this.buttonCalcAsAdder.Click += new System.EventHandler(this.buttonCalcAsAdder_Click);
+            // 
             // ResultView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(843, 607);
+            this.Controls.Add(this.buttonCalcAsAdder);
             this.Controls.Add(this.textBoxPCorrect);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBoxGec);
@@ -288,5 +300,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxPCorrect;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button buttonCalcAsAdder;
     }
 }

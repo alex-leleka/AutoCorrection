@@ -46,6 +46,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             const int BinaryDigitStates = 2;
             int inputNumberOfDigits = inputDistProb.ZeroProbability.Length;
+            _correctValueProbability = new double[2][];
+            _correctValueProbability[0] = _correctValueProbability[1] = inputDistProb.CorrectValueProbability;
             AllocateDeterminedDistortionProbalilitiesVectors(ref _autoCorrectionValueProbability, inputNumberOfDigits);
             AllocateDeterminedDistortionProbalilitiesVectors(ref _distortedValueProbability, inputNumberOfDigits);
 
@@ -69,6 +71,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private void CalcDeterminedDistortionProbabilities(BooleanFuntionWithInputDistortion truthTable)
         {
             const int binaryDigitStates = 2;
+            _correctValueProbability = new double[2][];
+            _correctValueProbability[0] = _correctValueProbability[1] = truthTable.CorrectValueProbability;
             AllocateDeterminedDistortionProbalilitiesVectors(ref _autoCorrectionValueProbability, truthTable.CorrectValueProbability.Length);
             AllocateDeterminedDistortionProbalilitiesVectors(ref _distortedValueProbability, truthTable.CorrectValueProbability.Length);
 
@@ -324,7 +328,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
         internal double GetAutoCorrectionValueProbabilityG0(int bit, int index)
         {
-            if (index < _probalityZero.Length)
+            if (index < _probalityZero[0].Length)
             {
                 return _correctValueProbability[0][index] * ProbabilityZeroAndOne(bit, index);
             }
@@ -333,7 +337,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
         internal double GetAutoCorrectionValueProbabilityGc(int bit, int index)
         {
-            if (index < _probalityZero.Length)
+            if (index < _probalityZero[0].Length)
             {
                 return _autoCorrectionValueProbability[bit][index] * ProbabilityZeroAndOne(bit, index);
             }
@@ -342,7 +346,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
         internal double GetDistortionValueProbabilityGe(int bit, int index)
         {
-            if (index < _probalityZero.Length)
+            if (index < _probalityZero[0].Length)
             {
                 return _distortedValueProbability[bit][index] * ProbabilityZeroAndOne(bit, index);
             }
@@ -378,7 +382,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                         d *= GetDistortionValueProbabilityGe(Convert.ToInt32(tuple[i]), i);
                         break;
                 }
-                //d *= ProbabilityZeroAndOne(tuple[i], i);
+                d *= ProbabilityZeroAndOne(tuple[i], i);
 
             }
             return d;

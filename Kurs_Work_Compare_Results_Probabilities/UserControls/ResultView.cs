@@ -98,5 +98,49 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             double pCorrectResult = pCalc.GetCorrectResultProbability();
             textBoxTableMethP.Text = pCorrectResult.ToString();
         }
+
+        private void buttonCalcAsAdder_Click(object sender, EventArgs e)
+        {
+            if (_inpDistProb == null || _bfWithInpDist == null)
+                return;
+            _bfWithInpDist.LoadDistortionToBoolFunction(_inpDistProb);
+            _pCalc = new ProbabilitiesGxyCalcAdder(_bfWithInpDist, _inpDistProb.ZeroProbability);
+            int resultsCount = _pCalc.OutputNumberOfDigits();
+
+            double G0 = 0, Gc = 0, Gec = 0, Ge = 0;
+            BitArray result = new BitArray(resultsCount, false);
+            for (int i = 0; i < result.Count; i++)
+                result[i] = false;
+            double timeLeft = .0;
+            do
+            {
+                TimeSpan beginTime = Process.GetCurrentProcess().TotalProcessorTime;
+                var prob = _pCalc.GetGprobabilitesResult(result);
+                TimeSpan endTime = Process.GetCurrentProcess().TotalProcessorTime;
+                timeLeft += (endTime - beginTime).TotalMilliseconds;
+                string binNumStr = ConvertNumberToBinary(result);
+                dataGridView1.Rows.Add(binNumStr, prob.G0, prob.Gc + prob.Gce,
+                    prob.Gee);
+                Logger.WriteLine("p(" + binNumStr + ")" + "\t" + prob.G0 + "\t" + prob.Gc + "\t" + prob.Gce + "\t" + prob.Gee);
+                Ge += prob.Gee;
+                Gc += prob.Gc;
+                Gec += prob.Gce;
+                G0 = prob.G0;
+
+            } while (BooleanFuntionWithInputDistortion.IncrementOperand(result));
+            labelTime.Text = timeLeft + @" ms.";
+            textBoxG0.Text = G0.ToString();
+            textBoxGc.Text = Gc.ToString();
+            textBoxGec.Text = Gec.ToString();
+            textBoxGee.Text = Ge.ToString();
+            textBoxPCorrect.Text = (1 - Ge).ToString();
+            Logger.WriteLine("G0 = " + G0 + " Gc = " + Gc + " Gec = " + Gec + " Ge = " + Ge);
+            Logger.WriteLine("Results P(Fcorrect) = " + (1 - Ge).ToString());
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.IsNewRow) continue;
+                row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
+            }
+        }
     }
 }
