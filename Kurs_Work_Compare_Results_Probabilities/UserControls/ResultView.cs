@@ -58,7 +58,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
                 Ge += prob.Gee;
                 Gc += prob.Gc;
                 Gec += prob.Gce;
-                G0 = prob.G0;
+                G0 += (prob.G0 > 0) ? prob.G0 : 0;
 
             } while (BooleanFuntionWithInputDistortion.IncrementOperand(result));
             labelTime.Text = timeLeft + @" ms.";
@@ -122,20 +122,20 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
                 dataGridView1.Rows.Add(binNumStr, prob.G0, prob.Gc + prob.Gce,
                     prob.Gee);
                 Logger.WriteLine("p(" + binNumStr + ")" + "\t" + prob.G0 + "\t" + prob.Gc + "\t" + prob.Gce + "\t" + prob.Gee);
-                Ge += prob.Gee;
                 Gc += prob.Gc;
                 Gec += prob.Gce;
-                G0 = prob.G0;
+                G0 += (prob.G0 > 0) ? prob.G0 : 0;
 
             } while (BooleanFuntionWithInputDistortion.IncrementOperand(result));
             labelTime.Text = timeLeft + @" ms.";
+            Ge = 1 - G0 - Gc - Gec;
             textBoxG0.Text = G0.ToString();
             textBoxGc.Text = Gc.ToString();
             textBoxGec.Text = Gec.ToString();
             textBoxGee.Text = Ge.ToString();
-            textBoxPCorrect.Text = (1 - Ge).ToString();
+            textBoxPCorrect.Text = (G0 + Gc + Gec).ToString();
             Logger.WriteLine("G0 = " + G0 + " Gc = " + Gc + " Gec = " + Gec + " Ge = " + Ge);
-            Logger.WriteLine("Results P(Fcorrect) = " + (1 - Ge).ToString());
+            Logger.WriteLine("Results P(Fcorrect) = " + (G0 + Gc + Gec).ToString());
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.IsNewRow) continue;
