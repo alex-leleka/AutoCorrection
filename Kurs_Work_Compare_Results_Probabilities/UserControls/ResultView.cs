@@ -94,7 +94,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             ProbabilitiesCalcWithCorrection pCalc =
                 new ProbabilitiesCalcWithCorrection(_inpDistProb.DistortionToZeroProbability,
                     _inpDistProb.DistortionToOneProbability, _inpDistProb.DistortionToInverseProbability,
-                    _bfWithInpDist);
+                    _bfWithInpDist, _inpDistProb.ZeroProbability);
             double pCorrectResult = pCalc.GetCorrectResultProbability();
             textBoxTableMethP.Text = pCorrectResult.ToString();
         }

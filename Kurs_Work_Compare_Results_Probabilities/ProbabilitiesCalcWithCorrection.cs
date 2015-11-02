@@ -15,15 +15,17 @@ namespace Diplom_Work_Compare_Results_Probabilities
             // function result for i-th input operand in the left side of truth table
         private int _amountOfLinesInTruthTable;
         private BooleanFuntionWithInputDistortion _functionTruthTable;
+        private readonly double[] _zeroProbability;
 
         public ProbabilitiesCalcWithCorrection(double[] distortionToZeroProbability,
             double[] distortionToOneProbability, double[] distortionToInverseProbability,
-            BooleanFuntionWithInputDistortion functionTruthTable) : 
+            BooleanFuntionWithInputDistortion functionTruthTable, double[] zeroProbability) : 
             base(distortionToZeroProbability, distortionToOneProbability, distortionToInverseProbability,
             functionTruthTable.InputNumberOfDigits, functionTruthTable.OutputNumberOfDigits)
         {
             _amountOfLinesInTruthTable = functionTruthTable.GetLinesCount();
             _functionTruthTable = functionTruthTable;
+            _zeroProbability = zeroProbability;
         }
         private void CalculateTurnInProbabilityMatrix()
         {
@@ -95,7 +97,27 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 {
                     _correctResultProbablitiesArray[i] += _turnInProbabilityMatrix[i][j];
                 }
+                _correctResultProbablitiesArray[i] *= GetOperandAppearanceProbability(i);
             }
+        }
+
+        private double GetOperandAppearanceProbability(int inputOperand)
+        {
+            double p = 1;
+            int bitMask = 1;
+            for (int i = 0; i < _inputNumberOfDigits; ++i)
+            {
+                if((bitMask & inputOperand) == 0)
+                {
+                    p *= _zeroProbability[i];
+                }
+                else
+                {
+                    p *= (1 - _zeroProbability[i]);
+                }
+                bitMask = bitMask << 1;
+            }
+            return p;
         }
         private double CalculateCorrectResultProbability() // returns Correct Result Probability
                                                            // taking into account the auto-correction
@@ -119,7 +141,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     minProbability = _correctResultProbablitiesArray[i];
                 averageProbability += _correctResultProbablitiesArray[i];
             }
-            averageProbability /= _amountOfLinesInTruthTable;
+            //averageProbability /= _amountOfLinesInTruthTable;
             return averageProbability;// min_probability;
         }
         public double[] CalculateCorrectResultProbabilityArr() // returns Correct Result Probability

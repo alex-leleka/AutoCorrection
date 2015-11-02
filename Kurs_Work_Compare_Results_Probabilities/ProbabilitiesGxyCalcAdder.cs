@@ -22,7 +22,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         protected override void CalcE1E2(BitArray result, ref double Gce, ref double Gee)
         {
             double E1 = 0.0, E2 = 0.0;
-            int bitsInOp = ((_truthTable.InputNumberOfDigits - 1) / 2);
+            int bitsInOp = _truthTable.InputNumberOfDigits / 2;
             int op1 = 0, opMax = 1 << bitsInOp;
             Debug.Assert((result.Count & 1) == 1, "Result shell contain 2*n + 1 bits.");
             int intResult = BooleanFuntionWithInputDistortion.GetIntFromBitArray(result);
@@ -76,7 +76,8 @@ namespace Diplom_Work_Compare_Results_Probabilities
             // Bitarry err;
             BitArray ba1 = errVec.ToBinary(Convert.ToInt32(operandIt.Count / 2));
             var err = ba1.Append(ba1);
-            double p = 1.0;
+            const double factor = 1000000000.0;
+            double p = 1 * factor;
             for (var i = 0; i < operandIt.Count; ++i)
             {
                 if (err[i])
@@ -88,7 +89,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                             _inputBitsDistortionsProbabilities.GetAutoCorrectionValueProbabilityGc(
                             Convert.ToInt32(operandIt[i]), i);
             }
-            return p;
+            return p / factor;
         }
     }
 }
