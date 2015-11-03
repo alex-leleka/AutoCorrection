@@ -24,7 +24,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             double E1 = 0.0, E2 = 0.0;
             int bitsInOp = _truthTable.InputNumberOfDigits / 2;
             int op1 = 0, opMax = 1 << bitsInOp;
-            Debug.Assert((result.Count & 1) == 1, "Result shell contain 2*n + 1 bits.");
+            Debug.Assert((result.Count & 1) == 1, "Result shell contain n + 1 bits.");
             int intResult = BooleanFuntionWithInputDistortion.GetIntFromBitArray(result);
             // opMax - max value of a result
             /*do
@@ -64,30 +64,59 @@ namespace Diplom_Work_Compare_Results_Probabilities
             //int errVec = 0; // error vector of op1
             // important assumtion operandIt.lenth == result.length - 1
             int errVecMax = 1 << (operandIt.Count / 2);
+            double operandInputP = GetOperandAppearanceProbability(operandIt);
             for( int errVec = 1; errVec < errVecMax; ++errVec)
             {
-                double tempProbability = GetErrorVectorProbability(errVec, operandIt);
+                double tempProbability = GetErrorVectorProbability(errVec, operandIt) * operandInputP;
                 E1 += tempProbability;
             }
         }
 
+        private double GetOperandAppearanceProbability(BitArray operandIt)
+        {
+            double p = 1;
+            for (int i = 0; i < operandIt.Count; ++i)
+            {
+                p *= _inputBitsDistortionsProbabilities.ProbabilityZeroAndOne(operandIt[i], i);
+            }
+            return p;
+        }
+
         private double GetErrorVectorProbability(int errVec, BitArray operandIt)
         {
-            // Bitarry err;
+            // TODO: clac only products that errVec&op1 != errVec&op2
+
             BitArray ba1 = errVec.ToBinary(Convert.ToInt32(operandIt.Count / 2));
             var err = ba1.Append(ba1);
             const double factor = 1000000000.0;
             double p = 1 * factor;
-            for (var i = 0; i < operandIt.Count; ++i)
+            /*for (var i = 0; i < operandIt.Count; ++i)
             {
+             *  int bit = Convert.ToInt32(operandIt[i]);
                 if (err[i])
-                    p *= _inputBitsDistortionsProbabilities.GetDistortionValueProbabilityGe(
-                            Convert.ToInt32(operandIt[i]), i);
+                    p *= _inputBitsDistortionsProbabilities[2][bit][i];
                 else
-                    p *= _inputBitsDistortionsProbabilities.GetAutoCorrectionValueProbabilityG0(
-                            Convert.ToInt32(operandIt[i]), i) + 
-                            _inputBitsDistortionsProbabilities.GetAutoCorrectionValueProbabilityGc(
-                            Convert.ToInt32(operandIt[i]), i);
+                    p *= _inputBitsDistortionsProbabilities[0][bit][i] +
+                         _inputBitsDistortionsProbabilities[1][bit][i];
+            }*/
+            for (var i = 0; i < ba1.Count; ++i)
+            {
+                int bit = Convert.ToInt32(operandIt[i]);
+                if (ba1[i])
+                    p *= _inputBitsDistortionsProbabilities[2][bit][i];
+                else
+                    p *= _inputBitsDistortionsProbabilities[0][bit][i] +
+                         _inputBitsDistortionsProbabilities[1][bit][i];
+            }
+            int inc = ba1.Count;
+            for (var i = 0; i < ba1.Count; ++i)
+            {
+                int bit = Convert.ToInt32(operandIt[i + inc]);
+                if (ba1[i])
+                    p *= _inputBitsDistortionsProbabilities[2][bit][i + inc];
+                else
+                    p *= _inputBitsDistortionsProbabilities[0][bit][i + inc] +
+                         _inputBitsDistortionsProbabilities[1][bit][i + inc];
             }
             return p / factor;
         }
