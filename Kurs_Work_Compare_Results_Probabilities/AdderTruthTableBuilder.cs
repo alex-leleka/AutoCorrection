@@ -82,6 +82,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
         private AdderTruthTable CalculateFunctionValues(AdderTruthTable table, bool[] fixedValues)
         {                 
+            // TODO: refactor
             bool[] op1 = new bool[_inputDigits];
             bool[] op2 = new bool[_inputDigits];
             // for every line in truth table

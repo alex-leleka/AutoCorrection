@@ -27,32 +27,29 @@ namespace Diplom_Work_Compare_Results_Probabilities
             Debug.Assert((result.Count & 1) == 1, "Result shell contain n + 1 bits.");
             int intResult = BooleanFuntionWithInputDistortion.GetIntFromBitArray(result);
             // opMax - max value of a result
-            /*do
+            for (op1 = 0; op1 < opMax; ++op1)
             {
-                //if (_truthTable.GetResult(operandIt).Eq(result))
-                {
-                    
-                    int op2 = intResult - op1;
-                    BitArray ba1 = op1.ToBinary(bitsInOp);
-                    BitArray ba2 = op2.ToBinary(bitsInOp);
-                    var operandIt = ba1.Append(ba2);
-                    ++op1;
-                    if (_truthTable.GetResult(operandIt).Eq(result))  GetAdderTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt);
-                }
-            } while( op1 < opMax);*/
-            BitArray operandIt = new BitArray(_truthTable.InputNumberOfDigits, false); // the first operand in tTable 00...0
+                int op2 = intResult - op1;
+                if (op2 < 0 || op2 >= opMax)
+                    continue;
+                BitArray ba1 = op1.ToBinary(bitsInOp);
+                BitArray ba2 = op2.ToBinary(bitsInOp);
+                var operandIt = ba1.Append(ba2);
+                if (true) GetAdderTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt, op1, op2);
+            }
+            /*BitArray operandIt = new BitArray(_truthTable.InputNumberOfDigits, false); // the first operand in tTable 00...0
             do
             {
                 if (_truthTable.GetResult(operandIt).Eq(result))
                 {
                     GetAdderTupleProbabilityKjeClass(result, ref E1, ref E2, operandIt);
                 }
-            } while (BooleanFuntionWithInputDistortion.IncrementOperand(operandIt));
+            } while (BooleanFuntionWithInputDistortion.IncrementOperand(operandIt));*/
             Gce = E1;
             Gee = E2;
         }
 
-        private void GetAdderTupleProbabilityKjeClass(BitArray result, ref double E1, ref double E2, BitArray operandIt)
+        private void GetAdderTupleProbabilityKjeClass(BitArray result, ref double E1, ref double E2, BitArray operandIt, int op1, int op2)
         {
             // for every error containing tuple that return result calc probability to get it from operandIt
             // add value to E1
@@ -67,8 +64,12 @@ namespace Diplom_Work_Compare_Results_Probabilities
             double operandInputP = GetOperandAppearanceProbability(operandIt);
             for( int errVec = 1; errVec < errVecMax; ++errVec)
             {
-                double tempProbability = GetErrorVectorProbability(errVec, operandIt) * operandInputP;
-                E1 += tempProbability;
+                // clac only products that errVec&op1 != errVec&op2 ??? is not enought?
+                if ( ((errVec ^ op1) + (errVec ^ op2)) == (op1 + op2) )
+                {
+                    double tempProbability = GetErrorVectorProbability(errVec, operandIt) * operandInputP;
+                    E1 += tempProbability;
+                }
             }
         }
 
@@ -84,22 +85,21 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         private double GetErrorVectorProbability(int errVec, BitArray operandIt)
         {
-            // TODO: clac only products that errVec&op1 != errVec&op2
 
             BitArray ba1 = errVec.ToBinary(Convert.ToInt32(operandIt.Count / 2));
             var err = ba1.Append(ba1);
             const double factor = 1000000000.0;
             double p = 1 * factor;
-            /*for (var i = 0; i < operandIt.Count; ++i)
+            for (var i = 0; i < operandIt.Count; ++i)
             {
-             *  int bit = Convert.ToInt32(operandIt[i]);
+                int bit = Convert.ToInt32(operandIt[i]);
                 if (err[i])
                     p *= _inputBitsDistortionsProbabilities[2][bit][i];
                 else
                     p *= _inputBitsDistortionsProbabilities[0][bit][i] +
                          _inputBitsDistortionsProbabilities[1][bit][i];
-            }*/
-            for (var i = 0; i < ba1.Count; ++i)
+            }
+            /*for (var i = 0; i < ba1.Count; ++i)
             {
                 int bit = Convert.ToInt32(operandIt[i]);
                 if (ba1[i])
@@ -117,7 +117,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 else
                     p *= _inputBitsDistortionsProbabilities[0][bit][i + inc] +
                          _inputBitsDistortionsProbabilities[1][bit][i + inc];
-            }
+            }*/
             return p / factor;
         }
     }
