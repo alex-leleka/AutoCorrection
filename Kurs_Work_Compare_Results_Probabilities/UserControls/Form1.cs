@@ -37,12 +37,12 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             double[] distortionto0Probability =       { 0.3, 0.1, 0.2, 0.1, 0.2, 0.3, 0.1, 0.2, 0.1, 0.2 };
             double[] distortiontoInverseProbability = { 0.3, 0.5, 0.0, 0.2, 0.1, 0.3, 0.5, 0.0, 0.2, 0.1 };
             AdderTruthTableBuilder attBuilder = new AdderTruthTableBuilder(size);
-            attBuilder.SetDistortionProbabities(distortionto0Probability,
+          /*  attBuilder.SetDistortionProbabities(distortionto0Probability,
                 distortionto1Probability, distortiontoInverseProbability);
             AdderTruthTable tt = attBuilder.BuildDistortedTable();
             TruthTableView truthTableView = new TruthTableView(tt);
             DataView v = truthTableView.GetViewWithProbabilities();
-            tableGridView.DataSource = v;
+            tableGridView.DataSource = v;*/
             foreach (DataGridViewRow row in tableGridView.Rows)
             {
                 if (row.IsNewRow) continue;

@@ -32,8 +32,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
         private void DigitsApply_Click(object sender, EventArgs e)
         {
             int inputDigitsCount = Convert.ToInt32(numericInpDigitsCount.Value);
-            AdderTruthTableBuilder tBuilder = new AdderTruthTableBuilder(inputDigitsCount);
-            var adderTable = tBuilder.BuildTable();
+            var adderTable = new AdderTruthTable(inputDigitsCount);
             if (cbBitIndex.Checked)
             {
                 int bitIndex = Convert.ToInt32(numericBitIndex.Value);

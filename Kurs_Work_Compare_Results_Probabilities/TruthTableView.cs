@@ -28,13 +28,14 @@ namespace Diplom_Work_Compare_Results_Probabilities
             int maskB = (int)((uint.MaxValue << shiftValue) >> shiftValue); // Warning: cast
             int maskA = maskB << _truthTable.InputNumberOfDigits;
             // add unsorted data to the DataTable and return.
-            for (int i = 0; i < _truthTable.functionValue.Count; i++)
+            /* Unsupported
+             * for (int i = 0; i < _truthTable.functionValue.Count; i++)
             {
                 _dataTable.Rows.Add(ConvertNumberToBinary((int)((uint)i & maskA) >> _truthTable.InputNumberOfDigits,
                    _truthTable.InputNumberOfDigits), ConvertNumberToBinary(i & maskB, _truthTable.InputNumberOfDigits),
                    ConvertNumberToBinary(_truthTable.functionValue[i]));
 
-            }
+            }*/
             return _dataTable.AsDataView();
         }
         public static DataView GetView(BooleanFuntionWithInputDistortion tTable)
@@ -65,7 +66,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             int maskB = (int)((uint.MaxValue << shiftValue) >> shiftValue); // Warning: cast
             int maskA = maskB << _truthTable.InputNumberOfDigits;
             // add unsorted data to the DataTable and return.
-            int[] intTable = AdderTruthTableBuilder.ConvertBoolArrToIntTable(_truthTable);
+            //int[] intTable = AdderTruthTableBuilder.ConvertBoolArrToIntTable(_truthTable);
             double[] distortionto1Probability = { 0.1, 0.0, 0.3, 0.3, 0.1, 0.1, 0.0, 0.3, 0.3, 0.1 };
             double[] distortionto0Probability = { 0.3, 0.1, 0.2, 0.1, 0.2, 0.3, 0.1, 0.2, 0.1, 0.2 };
             double[] distortiontoInverseProbability = { 0.3, 0.5, 0.0, 0.2, 0.1, 0.3, 0.5, 0.0, 0.2, 0.1 };
@@ -73,13 +74,13 @@ namespace Diplom_Work_Compare_Results_Probabilities
             var pcalc = new ProbabilitiesCalcWithCorrection(distortionto0Probability, distortionto1Probability,
                 distortiontoInverseProbability, _truthTable, zeroProbability);
             var p = pcalc.CalculateCorrectResultProbabilityArr();
-            for (int i = 0; i < _truthTable.functionValue.Count; i++)
+            /*for (int i = 0; i < _truthTable.functionValue.Count; i++)
             {
                 _dataTable.Rows.Add(ConvertNumberToBinary((int)((uint)i & maskA) >> _truthTable.InputNumberOfDigits,
                    _truthTable.InputNumberOfDigits), ConvertNumberToBinary(i & maskB, _truthTable.InputNumberOfDigits),
                    ConvertNumberToBinary(_truthTable.functionValue[i]), p[i]);
 
-            }
+            }*/
             return _dataTable.AsDataView();
         }
         private string ConvertNumberToBinary(int number, int digits)
