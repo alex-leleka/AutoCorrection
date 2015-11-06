@@ -29,7 +29,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             List<BitArray> table = new List<BitArray>();
             int addendBitsCount = _inputDigits / 2;
             int maxOperandBorder = 1 << _inputDigits;
-            int opBitMask = 1 << addendBitsCount - 1;
+            int opBitMask = (1 << addendBitsCount) - 1;
             for (int operand = 0; operand < maxOperandBorder; ++operand)
             {
                 int op1 = opBitMask & operand;

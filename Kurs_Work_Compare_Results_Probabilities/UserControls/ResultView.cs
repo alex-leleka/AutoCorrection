@@ -81,9 +81,9 @@ namespace Diplom_Work_Compare_Results_Probabilities.UserControls
             string binary = "";
             foreach (var b in arr)
                 if ((bool)b)
-                    binary += "1";
+                    binary = "1" + binary;
                 else
-                    binary += "0";
+                    binary = "0" + binary;
             return binary;
         }
 
