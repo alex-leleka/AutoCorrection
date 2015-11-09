@@ -34,5 +34,31 @@ namespace DotNetUtils
                 ar[i] = arTmp[i];
             return ar;
         }
+
+        /// <summary>
+        /// Get op1 from adder operand.
+        /// </summary>
+        /// <param name="operand"></param>
+        /// <param name="addendBitsCount"></param>
+        /// <returns>op1 argument for adder.</returns>
+        public static int GetAdderLowerOperand(this int operand, int addendBitsCount)
+        {
+            int opBitMask = (1 << addendBitsCount) - 1;
+            int op1 = opBitMask & operand;
+            return op1;
+        }
+
+        /// <summary>
+        /// Get op2 from adder operand.
+        /// </summary>
+        /// <param name="operand"></param>
+        /// <param name="addendBitsCount"></param>
+        /// <returns>op2 argument for adder.</returns>
+        public static int GetAdderHigherOperand(this int operand, int addendBitsCount)
+        {
+            int opBitMask = (1 << addendBitsCount) - 1;
+            int op2 = opBitMask & (operand >> addendBitsCount);
+            return op2;
+        }
     }
 }
