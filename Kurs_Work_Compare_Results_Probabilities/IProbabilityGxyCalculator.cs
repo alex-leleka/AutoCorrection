@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
@@ -20,6 +21,30 @@ namespace Diplom_Work_Compare_Results_Probabilities
         public double SumCorrectionAndError()
         {
             return Gc + Gce + Gee;
+        }
+    }
+
+    public struct G4Probability
+    {
+        /// <summary>
+        /// Probabilities of bit value G[real value][expected value].
+        /// </summary>
+        public double[][] G;
+
+        public G4Probability(Gprobabilites[] p)
+        {
+            Debug.Assert(p.Length == 2);
+            const int resultsCount = 2;//p.Length;
+            G = new double[resultsCount][];
+            for (int i = 0; i < resultsCount; i++)
+            {
+                G[i] = new double[resultsCount];
+            }
+
+            G[0][0] = 1 - p[0].Gee;
+            G[1][0] = p[0].Gee;
+            G[1][1] = 1 - p[1].Gee;
+            G[0][1] = p[1].Gee;
         }
     }
 
