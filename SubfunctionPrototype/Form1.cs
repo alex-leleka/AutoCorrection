@@ -86,7 +86,7 @@ namespace SubfunctionPrototype
             return p;
         }
 
-        private void CalculateAutoCorrForSubFuncModel(double[][] turnInProbabilityMatrix, G4Probability[] subfProbs)
+        private G4Probability[] CalculateAutoCorrForSubFuncModel(double[][] turnInProbabilityMatrix, G4Probability[] subfProbs)
         {
             // calculate sum of values in row
             double[] turnInPMRowSum = new double[turnInProbabilityMatrix.Length];
@@ -100,6 +100,7 @@ namespace SubfunctionPrototype
                 subfProbs[i] = subfProbs[i] * turnInPMRowSum[i];
             }
 
+            return subfProbs;
         }
 
         private double CalculateTurnInProbability(int originalValue, int corruptedValue, InputDistortionProbabilities idp, int indexBase) // i turn in j, but not vice versa
