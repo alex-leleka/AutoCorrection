@@ -46,6 +46,31 @@ namespace Diplom_Work_Compare_Results_Probabilities
             G[1][1] = 1 - p[1].Gee;
             G[0][1] = p[1].Gee;
         }
+
+        public G4Probability(G4Probability g)
+        {
+            Debug.Assert(g.G.Length == 2);
+            const int resultsCount = 2;//p.Length;
+            G = new double[resultsCount][];
+            for (int i = 0; i < resultsCount; i++)
+            {
+                G[i] = new double[resultsCount];
+            }
+
+            G[0][0] = g.G[0][0];
+            G[1][0] = g.G[1][0];
+            G[1][1] = g.G[1][1];
+            G[0][1] = g.G[0][1];
+        }
+
+        public static G4Probability operator *(G4Probability m, double d)
+        {
+            var tmp = new G4Probability(m);
+            for(int i = 0; i < tmp.G.Length; i++)
+                for(int j = 0; j < tmp.G[i].Length; j++)
+                    tmp.G[i][j] *= d;
+            return tmp;
+        }
     }
 
     public struct BitGprobabilities

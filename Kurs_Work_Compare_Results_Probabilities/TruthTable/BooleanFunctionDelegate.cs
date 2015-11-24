@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
 {
-    class BooleanFunctionDelegate : BooleanFuntionWithInputDistortion
+    public class BooleanFunctionDelegate : BooleanFuntionWithInputDistortion
     {
         private Func<BitArray, BitArray> _boolFunction;
         public BooleanFunctionDelegate(int inputNumberOfDigits, int outputNumberOfDigits, Func<BitArray, BitArray> boolFunctionDelegate)
