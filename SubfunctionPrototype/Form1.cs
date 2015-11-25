@@ -154,6 +154,32 @@ namespace SubfunctionPrototype
             return newIdp;
         }
 
+        private G4Probability GetAutoCorrForSubFuncModel(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
+        {
+            double[][] turnInProbabilityMatrix = CalculateTurnInProbabilityMatrix(_FixedBitsCount, idp);
+            G4Probability[] subfProbs = GenerateSubfunctions(bf, idp);
+            var multipliedF = CalculateAutoCorrForSubFuncModel(turnInProbabilityMatrix, subfProbs);
+            G4Probability g4result = new G4Probability();
+            // calculate g4result value (expect to get originalF value)
+            for (int i = 0; i < multipliedF.Length; i++)
+            {
+                g4result = g4result + multipliedF[i];
+            }
+            return g4result;
+        }
+
+        private void StartRoutine(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
+        {
+            //TODO: get bf and idp values (we may use special readers at harcoded file path)
+
+            // calc original func dist
+            var originalF = CalculateFunctionDistortion(bf, idp);
+            // calc our model result
+            var modelF = GetAutoCorrForSubFuncModel(bf, idp);
+
+            //TODO: print values
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
 

@@ -24,7 +24,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
     }
 
-    public struct G4Probability
+    public class G4Probability
     {
         /// <summary>
         /// Probabilities of bit value G[real value][expected value].
@@ -45,6 +45,18 @@ namespace Diplom_Work_Compare_Results_Probabilities
             G[1][0] = p[0].Gee;
             G[1][1] = 1 - p[1].Gee;
             G[0][1] = p[1].Gee;
+        }
+
+        public G4Probability()
+        {
+            const int resultsCount = 2;//p.Length;
+            G = new double[resultsCount][];
+            for (int i = 0; i < resultsCount; i++)
+            {
+                G[i] = new double[resultsCount];
+            }
+
+            G[0][0] = G[1][0] = G[1][1] = G[0][1] = 0;
         }
 
         public G4Probability(G4Probability g)
@@ -69,6 +81,15 @@ namespace Diplom_Work_Compare_Results_Probabilities
             for(int i = 0; i < tmp.G.Length; i++)
                 for(int j = 0; j < tmp.G[i].Length; j++)
                     tmp.G[i][j] *= d;
+            return tmp;
+        }
+
+        public static G4Probability operator +(G4Probability self, G4Probability other)
+        {
+            var tmp = new G4Probability(self);
+            for (int i = 0; i < tmp.G.Length; i++)
+                for (int j = 0; j < tmp.G[i].Length; j++)
+                    tmp.G[i][j] += other.G[i][j];
             return tmp;
         }
     }
