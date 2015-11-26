@@ -5,7 +5,7 @@ using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
-    class BoolFuncTextReader
+    public class BoolFuncTextReader
     {
         const char commentChar = '%';
         private string _path;

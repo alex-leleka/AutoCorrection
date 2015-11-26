@@ -168,21 +168,54 @@ namespace SubfunctionPrototype
             return g4result;
         }
 
+        private BooleanFuntionWithInputDistortion GetBoolFunc()
+        {
+            // load the resource first time
+            String[] functionText = new String[1];
+            functionText[0] = @"path";
+            int inputNumberOfDigits = 4;
+            const int outputNumberOfDigits = 1; // Always one, input data format don't allow us anything else
+            BooleanFuntionWithInputDistortion boolFunc = new BooleanFunctionAnalytic(inputNumberOfDigits,
+                outputNumberOfDigits, functionText);
+            return boolFunc;
+        }
+
+        private InputDistortionProbabilities GetInputDistortionProb()
+        {
+            String path = @"path";
+            var reader = new DistortionProbTextReader(path);
+            var idp = reader.GetDistortionProb();
+            return idp;
+            
+        }
+
         private void StartRoutine(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
         {
-            //TODO: get bf and idp values (we may use special readers at harcoded file path)
-
             // calc original func dist
             var originalF = CalculateFunctionDistortion(bf, idp);
             // calc our model result
             var modelF = GetAutoCorrForSubFuncModel(bf, idp);
 
-            //TODO: print values
+            string origResult;
+            origResult = "G[0][0] " + originalF.G[0][0] + "\n" +
+                "G[0][1] " + originalF.G[0][1] + "\n" +
+                "G[1][0] " + originalF.G[1][0] + "\n" +
+                "G[1][1] " + originalF.G[1][1] + "\n";
+            textBoxOriginal.Text = origResult;
+            string modelResult;
+            modelResult = "G[0][0] " + modelF.G[0][0] + "\n" +
+                "G[0][1] " + modelF.G[0][1] + "\n" +
+                "G[1][0] " + modelF.G[1][0] + "\n" +
+                "G[1][1] " + modelF.G[1][1] + "\n";
+            textBoxModel.Text = modelResult;
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            var bf = GetBoolFunc();
+            var idp = GetInputDistortionProb();
+            StartRoutine(bf, idp);
         }
     }
 }
