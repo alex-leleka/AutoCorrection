@@ -20,6 +20,7 @@ namespace SubfunctionPrototype
 
         private G4Probability CalculateFunctionDistortion(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
         {
+            bf.LoadDistortionToBoolFunction(idp);
             var pCalc = new ProbabilitiesGxyCalc(bf, idp);
             const int binaryFunctionResultCount = 2;
             Gprobabilites[] prob = new Gprobabilites[binaryFunctionResultCount];
@@ -56,14 +57,14 @@ namespace SubfunctionPrototype
         {
             int fixedSize = bf.Length - fixedOperand;
             Func<BitArray, BitArray> boolFunction = inp => bf.GetResult(inp.Prepend(fixedOperand.ToBinary(fixedSize)));
-            var subFunction = new BooleanFunctionDelegate(bf.InputNumberOfDigits, bf.OutputNumberOfDigits, boolFunction);
+            var subFunction = new BooleanFunctionDelegate(newBitsCount, bf.OutputNumberOfDigits, boolFunction);
             return subFunction;
         }
 
         private double[][] CalculateTurnInProbabilityMatrix(int fixedOperandSize, InputDistortionProbabilities idp)
         {
             int matrixSize = 1 << fixedOperandSize;
-            int indexBase = idp.ZeroProbability.Length - fixedOperandSize - 1;
+            int indexBase = idp.ZeroProbability.Length - fixedOperandSize;
             double[][] turnInProbabilityMatrix = new double[matrixSize][];
             for (int i = 0; i < matrixSize; i++)
             {
@@ -106,7 +107,7 @@ namespace SubfunctionPrototype
         private double CalculateTurnInProbability(int originalValue, int corruptedValue, InputDistortionProbabilities idp, int indexBase) // i turn in j, but not vice versa
         {
             double operandTurnInProbability = 1.0;
-            for (int i = indexBase, mask = 1; i < 1 << _FixedBitsCount + indexBase; i++, mask *= 2)
+            for (int i = indexBase, mask = 1; i < idp.DistortionToOneProbability.Length; i++, mask *= 2)
             {
                 double bitTurnInProbability;
                 if ((mask & originalValue) != 0)
@@ -172,7 +173,7 @@ namespace SubfunctionPrototype
         {
             // load the resource first time
             String[] functionText = new String[1];
-            functionText[0] = @"path";
+            functionText[0] = @"x[0]&x[1]&x[2]&x[3]";
             int inputNumberOfDigits = 4;
             const int outputNumberOfDigits = 1; // Always one, input data format don't allow us anything else
             BooleanFuntionWithInputDistortion boolFunc = new BooleanFunctionAnalytic(inputNumberOfDigits,
@@ -182,7 +183,7 @@ namespace SubfunctionPrototype
 
         private InputDistortionProbabilities GetInputDistortionProb()
         {
-            String path = @"path";
+            String path = @"D:\DiplomInput\InputDistortion4bit.txt";
             var reader = new DistortionProbTextReader(path);
             var idp = reader.GetDistortionProb();
             return idp;
@@ -197,16 +198,16 @@ namespace SubfunctionPrototype
             var modelF = GetAutoCorrForSubFuncModel(bf, idp);
 
             string origResult;
-            origResult = "G[0][0] " + originalF.G[0][0] + "\n" +
-                "G[0][1] " + originalF.G[0][1] + "\n" +
-                "G[1][0] " + originalF.G[1][0] + "\n" +
-                "G[1][1] " + originalF.G[1][1] + "\n";
+            origResult = "G[0][0] " + originalF.G[0][0] + Environment.NewLine +
+                "G[0][1] " + originalF.G[0][1] + Environment.NewLine +
+                "G[1][0] " + originalF.G[1][0] + Environment.NewLine +
+                "G[1][1] " + originalF.G[1][1] + Environment.NewLine;
             textBoxOriginal.Text = origResult;
             string modelResult;
-            modelResult = "G[0][0] " + modelF.G[0][0] + "\n" +
-                "G[0][1] " + modelF.G[0][1] + "\n" +
-                "G[1][0] " + modelF.G[1][0] + "\n" +
-                "G[1][1] " + modelF.G[1][1] + "\n";
+            modelResult = "G[0][0] " + modelF.G[0][0] + Environment.NewLine +
+                "G[0][1] " + modelF.G[0][1] + Environment.NewLine +
+                "G[1][0] " + modelF.G[1][0] + Environment.NewLine +
+                "G[1][1] " + modelF.G[1][1] + Environment.NewLine;
             textBoxModel.Text = modelResult;
 
         }

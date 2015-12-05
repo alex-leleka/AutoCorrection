@@ -6,7 +6,7 @@ using System.Linq;
 namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
 {
 
-    class BooleanFunctionTruthTable : BooleanFuntionWithInputDistortion
+    public class BooleanFunctionTruthTable : BooleanFuntionWithInputDistortion
     {
         private BitArray[] _resultArr;
         public BooleanFunctionTruthTable(int inputNumberOfDigits, int outputNumberOfDigits, BitArray[] resultArr)

@@ -41,9 +41,9 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 G[i] = new double[resultsCount];
             }
 
-            G[0][0] = 1 - p[0].Gee;
+            G[0][0] = p[0].G0 + p[0].Gc + p[0].Gce;
             G[1][0] = p[0].Gee;
-            G[1][1] = 1 - p[1].Gee;
+            G[1][1] = p[1].G0 + p[1].Gc + p[1].Gce;
             G[0][1] = p[1].Gee;
         }
 
