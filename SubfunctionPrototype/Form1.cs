@@ -89,7 +89,7 @@ namespace SubfunctionPrototype
 
         private G4Probability[] CalculateAutoCorrForSubFuncModel(double[][] turnInProbabilityMatrix, G4Probability[] subfProbs)
         {
-            // calculate sum of values in row
+            // calculate the sum of values in rows
             double[] turnInPMRowSum = new double[turnInProbabilityMatrix.Length];
             for (int i = 0; i < turnInProbabilityMatrix.Length; i++)
                 foreach (var p in turnInProbabilityMatrix[i])
@@ -157,9 +157,28 @@ namespace SubfunctionPrototype
 
         private G4Probability GetAutoCorrForSubFuncModel(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
         {
-            double[][] turnInProbabilityMatrix = CalculateTurnInProbabilityMatrix(_FixedBitsCount, idp);
-            G4Probability[] subfProbs = GenerateSubfunctions(bf, idp);
-            var multipliedF = CalculateAutoCorrForSubFuncModel(turnInProbabilityMatrix, subfProbs);
+            //double[][] turnInProbabilityMatrix = CalculateTurnInProbabilityMatrix(_FixedBitsCount, idp);
+            //G4Probability[] subfProbs = GenerateSubfunctions(bf, idp);
+            //var multipliedF = CalculateAutoCorrForSubFuncModel(turnInProbabilityMatrix, subfProbs);
+
+            // 1) divide functionction arguments into groups
+            // 1) a. create all subfunctions for every group
+            // 2) b. find matching subfunctions inside each group
+            // 2) for each group of arguments CalculateTurnInProbabilityMatrix
+            // 3) for each matrix simplify matrix by adding rows and colums of matching subfunctions
+            // 4) create final table from simplified TurnInProbabilityMatrices
+            // 5) for each row in final table add product value to g4result.G[f_real][f_expected]
+
+            // TODO: implement
+
+            GXIndexes GXIndexes[] = PartitionArgumentsIntoGroups();
+
+            for(int i = 0; i < GXIndexes.count; ++i)
+            {
+
+            }
+
+
             G4Probability g4result = new G4Probability();
             // calculate g4result value (expect to get originalF value)
             for (int i = 0; i < multipliedF.Length; i++)
@@ -183,7 +202,7 @@ namespace SubfunctionPrototype
 
         private InputDistortionProbabilities GetInputDistortionProb()
         {
-            String path = @"D:\DiplomInput\InputDistortion4bit.txt";
+            String path = @"C:\Study\DiplomInput\InputDistortion4bit.txt";
             var reader = new DistortionProbTextReader(path);
             var idp = reader.GetDistortionProb();
             return idp;
