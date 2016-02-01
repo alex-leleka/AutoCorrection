@@ -34,6 +34,11 @@ namespace SubfunctionPrototype
             return _indexes.Length;
         }
 
+        public void CopyTo(int [] destination, int startIndex)
+        {
+            _indexes.CopyTo(destination, startIndex);
+        }
+
         public bool Increment()
         {
             if (_finish)

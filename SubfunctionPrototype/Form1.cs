@@ -161,16 +161,7 @@ namespace SubfunctionPrototype
             //G4Probability[] subfProbs = GenerateSubfunctions(bf, idp);
             //var multipliedF = CalculateAutoCorrForSubFuncModel(turnInProbabilityMatrix, subfProbs);
 
-            // 1) divide functionction arguments into groups
-            
-            // 1) a. create all subfunctions for every group
-            // 2) b. find matching subfunctions inside each group
-            // 2) for each group of arguments CalculateTurnInProbabilityMatrix
-            // 3) for each matrix simplify matrix by adding rows and colums of matching subfunctions
-
-
-            // TODO: implement
-
+            // divide functionction arguments into groups
             var gxIndexes = PartitionArgumentsIntoGroups(idp);
             GXProductsMatrix[] gxProductsMatrices = new GXProductsMatrix[gxIndexes.Length];
 
@@ -179,37 +170,63 @@ namespace SubfunctionPrototype
                 gxProductsMatrices[i] = GetReducedMatrix(bf, idp, gxIndexes[i]);
             }
 
+            // create indexes bounds
+            int[] gxProductsMatricesIndexesInts = new int[gxProductsMatrices.Length * 2];
+            // matrix has two dimesions, so we create pair of indexes per matrix
             for (int i = 0; i < gxProductsMatrices.Length; ++i)
             {
-                for (int j = 0; j < gxProductsMatrices.Length; ++j)
-                {
-                    for (int di = 0; di < gxProductsMatrices.Length; ++di)
-                    {
-                        for (int dj = 0; dj < gxProductsMatrices.Length; ++dj)
-                        {
-                           // f()
-                        }
-                    }
-                }
+                gxProductsMatricesIndexesInts[i] = gxProductsMatrices[i].GetRowsCount();
+                gxProductsMatricesIndexesInts[i + gxProductsMatrices.Length] = gxProductsMatrices[i].GetColumnsCount();
             }
-                // 4) create final table from simplified TurnInProbabilityMatrices
-                // 5) for each row in final table add product value to g4result.G[f_real][f_expected]
 
-                G4Probability g4result = new G4Probability();
+            var indexesIterator = new GxIndexesCombination(gxProductsMatricesIndexesInts);
 
-            return g4result;
+            // instead of creating final table from simplified TurnInProbabilityMatrices
+            // we gonna iterate all possible inputs and add product value to g4result.G[f_real][f_expected]
+
+            G4Probability g4Result = new G4Probability();
+            int[] currentIndInts = new int[gxProductsMatrices.Length];
+            do
+            {
+                // indexes that mean matrix real values
+                indexesIterator.CopyTo(currentIndInts, 0);
+                int bfReal = CalcBooleanFuntionResult(bf, currentIndInts);
+                // indexes that mean matrix expected values
+                indexesIterator.CopyTo(currentIndInts, currentIndInts.Length);
+                int bfExpected = CalcBooleanFuntionResult(bf, currentIndInts);
+                double fProduct = GetResultProbability(idp, indexesIterator);
+                g4Result.G[bfReal][bfExpected] += fProduct;
+            } while (indexesIterator.Increment());
+
+
+            return g4Result;
+        }
+
+        private int CalcBooleanFuntionResult(BooleanFuntionWithInputDistortion bf, int[] currentIndInts)
+        {
+            throw new NotImplementedException();
+        }
+
+        private double GetResultProbability(InputDistortionProbabilities idp, GxIndexesCombination indexesIterator)
+        {
+            throw new NotImplementedException();
         }
 
         private GXProductsMatrix GetReducedMatrix(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex gXIndex)
         {
             throw new NotImplementedException();
+            // TODO: implement
+            // 1) a. create all subfunctions for every group
+            // 2) b. find matching subfunctions inside each group
+            // 2) for each group of arguments CalculateTurnInProbabilityMatrix
+            // 3) for each matrix simplify matrix by adding rows and colums of matching subfunctions
         }
 
         private GXIndex[] PartitionArgumentsIntoGroups(InputDistortionProbabilities idp)
         {
-            // we have no algotithms for this step yet
-            // just divide by 2 go further 
-            // TODO: implement algotithms
+            // we have no algotithm for this step yet
+            // just divide by 2 and go further 
+            // TODO: implement algorithm
             GXIndex[] partGxIndices = new GXIndex[2];
             int first = 0;
             int last = idp.GetInputDigitsCount();

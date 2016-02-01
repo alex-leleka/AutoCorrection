@@ -64,5 +64,15 @@ namespace SubfunctionPrototype
         {
             _matrix.RemoveAt(row);
         }
+
+        public int GetRowsCount()
+        {
+            return _matrix.Count;
+        }
+
+        public int GetColumnsCount()
+        {
+            return _matrix[0].Count;
+        }
     }
 }
