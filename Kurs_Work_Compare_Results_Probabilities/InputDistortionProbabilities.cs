@@ -71,6 +71,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             get { return _probalityZero; }
         }
+
+        public int GetInputDigitsCount()
+        {
+            return _probalityZero.Length;
+        }
         // p[0] probability of zero(0) in i-th bit
         // p[1] can be calculeted as p1[i] = 1 - p0[i];
         public double ProbabilityZeroAndOne(int zeroOrOne, int index)
