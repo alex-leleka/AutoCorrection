@@ -14,6 +14,9 @@
             _last = mid;
         }
 
+        /// <summary>
+        /// The first number in sequence. Index of the function argument starting from 0.
+        /// </summary>
         public int First
         {
             get
@@ -27,6 +30,9 @@
             }
         }
 
+        /// <summary>
+        /// The last number in sequence. Index of the function argument starting from 0.
+        /// </summary>
         public int Last
         {
             get

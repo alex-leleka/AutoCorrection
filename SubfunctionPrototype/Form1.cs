@@ -104,10 +104,19 @@ namespace SubfunctionPrototype
             return subfProbs;
         }
 
-        private double CalculateTurnInProbability(int originalValue, int corruptedValue, InputDistortionProbabilities idp, int indexBase) // i turn in j, but not vice versa
+        /// <summary>
+        /// Returns probability of turning originalValue to corruptedValue based on idp distortion probabilities.
+        /// </summary>
+        /// <param name="originalValue"></param>
+        /// <param name="corruptedValue"></param>
+        /// <param name="idp"></param>
+        /// <param name="indexBase"></param>
+        /// <param name="indexBound"></param>
+        /// <returns></returns>
+        private double CalculateTurnInProbability(int originalValue, int corruptedValue, InputDistortionProbabilities idp, int indexBase, int indexBound) 
         {
             double operandTurnInProbability = 1.0;
-            for (int i = indexBase, mask = 1; i < idp.DistortionToOneProbability.Length; i++, mask *= 2)
+            for (int i = indexBase, mask = 1; i < indexBound; i++, mask *= 2)
             {
                 double bitTurnInProbability;
                 if ((mask & originalValue) != 0)
@@ -214,10 +223,25 @@ namespace SubfunctionPrototype
 
         private GXProductsMatrix GetReducedMatrix(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex gXIndex)
         {
+
+            // create turninprobability matrix
+            int rangeSize = gXIndex.Last - gXIndex.First + 1;
+            // row - actual value, column - expected value
+            var turnInProbMatrix = new GXProductsMatrix(rangeSize, rangeSize);
+            for(int i = 0; i < rangeSize; ++i)
+                for (int j = 0; j < rangeSize; ++j)
+                {
+                    double prob = CalculateTurnInProbability(i, j, idp, gXIndex.First, gXIndex.Last);
+                    turnInProbMatrix.Set(j, i, prob);
+                }
             throw new NotImplementedException();
             // TODO: implement
             // 1) a. create all subfunctions for every group
-            // 2) b. find matching subfunctions inside each group
+            // 1) b. find matching subfunctions inside each group
+            /*based on bf and gXIndex we could create all possible Boolean functions (a)
+              then we need save (b) result to reduce map (vetor of vetor) which has next structure:
+              v[i][j] - where v - vector of vectors, i - index of first fuction in set of mathing functions
+              j - index of another function in the set. if (v[i].Count == 0) then i-th function doesn't match any other function. */
             // 2) for each group of arguments CalculateTurnInProbabilityMatrix
             // 3) for each matrix simplify matrix by adding rows and colums of matching subfunctions
         }
