@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections;
+using System.Collections.Generic;
 using Diplom_Work_Compare_Results_Probabilities;
 using DotNetUtils;
 using System.Windows.Forms;
@@ -234,16 +235,41 @@ namespace SubfunctionPrototype
                     double prob = CalculateTurnInProbability(i, j, idp, gXIndex.First, gXIndex.Last);
                     turnInProbMatrix.Set(j, i, prob);
                 }
-            throw new NotImplementedException();
+
+            var reduceMap = GetReduceMap(bf, gXIndex);
+            //for each matrix simplify matrix by adding rows and colums of matching subfunctions
+            foreach (var matchingFunctionsClass in reduceMap)
+            {
+                if (matchingFunctionsClass.Count < 2) continue; // if there less than 2 functions we couldn't reduce
+                int firtstIndexInMatchingFuncClass = matchingFunctionsClass[0];
+                for (int i = 1; i < matchingFunctionsClass.Count; ++i)
+                    turnInProbMatrix.AddRow(firtstIndexInMatchingFuncClass, matchingFunctionsClass[i]);
+                for (int i = 1; i < matchingFunctionsClass.Count; ++i)
+                    turnInProbMatrix.AddColumn(firtstIndexInMatchingFuncClass, matchingFunctionsClass[i]);
+            }
+
+            return turnInProbMatrix;
+        }
+
+        /// <summary>
+        /// Reduce map (vetor of vetors) has next structure:
+        /// v[i][j] - where v - vector of vectors, i - index of matching functions class (means nothing),
+        /// j - index of fuction in set of mathing functions. Index j is the same as corresponding row and column index
+        /// in turninprobability matrix.
+        /// </summary>
+        /// <param name="bf"></param>
+        /// <param name="gXIndex"></param>
+        /// <returns></returns>
+        private List<List<int>> GetReduceMap(BooleanFuntionWithInputDistortion bf, GXIndex gXIndex)
+        {
             // TODO: implement
             // 1) a. create all subfunctions for every group
             // 1) b. find matching subfunctions inside each group
             /*based on bf and gXIndex we could create all possible Boolean functions (a)
               then we need save (b) result to reduce map (vetor of vetor) which has next structure:
-              v[i][j] - where v - vector of vectors, i - index of first fuction in set of mathing functions
-              j - index of another function in the set. if (v[i].Count == 0) then i-th function doesn't match any other function. */
-            // 2) for each group of arguments CalculateTurnInProbabilityMatrix
-            // 3) for each matrix simplify matrix by adding rows and colums of matching subfunctions
+              v[i][j] - where v - vector of vectors, i - index of matching functions class (means nothing)
+              j - index of fuction in set of mathing functions. */
+            throw new NotImplementedException();
         }
 
         private GXIndex[] PartitionArgumentsIntoGroups(InputDistortionProbabilities idp)
