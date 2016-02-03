@@ -204,7 +204,7 @@ namespace SubfunctionPrototype
                 // indexes that mean matrix expected values
                 indexesIterator.CopyTo(currentIndInts, currentIndInts.Length);
                 int bfExpected = CalcBooleanFuntionResult(bf, currentIndInts);
-                double fProduct = GetResultProbability(idp, indexesIterator);
+                double fProduct = GetResultProbability(gxProductsMatrices, indexesIterator);
                 g4Result.G[bfReal][bfExpected] += fProduct;
             } while (indexesIterator.Increment());
 
@@ -212,12 +212,12 @@ namespace SubfunctionPrototype
             return g4Result;
         }
 
-        private int CalcBooleanFuntionResult(BooleanFuntionWithInputDistortion bf, int[] currentIndInts)
+        private double GetResultProbability(GXProductsMatrix[] gxProductsMatrices, GxIndexesCombination indexesIterator)
         {
             throw new NotImplementedException();
         }
 
-        private double GetResultProbability(InputDistortionProbabilities idp, GxIndexesCombination indexesIterator)
+        private int CalcBooleanFuntionResult(BooleanFuntionWithInputDistortion bf, int[] currentIndInts)
         {
             throw new NotImplementedException();
         }
