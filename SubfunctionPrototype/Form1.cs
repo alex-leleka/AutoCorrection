@@ -72,7 +72,7 @@ namespace SubfunctionPrototype
                 turnInProbabilityMatrix[i] = new double[matrixSize];
                 for (int j = 0; j < matrixSize; j++)
                 {
-                    turnInProbabilityMatrix[i][j] = CalculateTurnInProbability(j, i, idp, indexBase) * GetInputProbability(j, indexBase, idp);
+                    turnInProbabilityMatrix[i][j] = CalculateTurnInProbability(j, i, idp, indexBase, idp.ZeroProbability.Length) * GetInputProbability(j, indexBase, idp);
                 }
             }
             return turnInProbabilityMatrix;
@@ -167,10 +167,6 @@ namespace SubfunctionPrototype
 
         private G4Probability GetAutoCorrForSubFuncModel(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
         {
-            //double[][] turnInProbabilityMatrix = CalculateTurnInProbabilityMatrix(_FixedBitsCount, idp);
-            //G4Probability[] subfProbs = GenerateSubfunctions(bf, idp);
-            //var multipliedF = CalculateAutoCorrForSubFuncModel(turnInProbabilityMatrix, subfProbs);
-
             // divide functionction arguments into groups
             var gxIndexes = PartitionArgumentsIntoGroups(idp);
             GXProductsMatrix[] gxProductsMatrices = new GXProductsMatrix[gxIndexes.Length];
@@ -282,13 +278,6 @@ namespace SubfunctionPrototype
         /// <returns></returns>
         private List<List<int>> GetReduceMap(BooleanFuntionWithInputDistortion bf, GXIndex gXIndex)
         {
-            // TODO: implement
-            // 1) a. create all subfunctions for every group
-            // 1) b. find matching subfunctions inside each group
-            /*based on bf and gXIndex we could create all possible Boolean functions (a)
-              then we need save (b) result to reduce map (vetor of vetor) which has next structure:
-              v[i][j] - where v - vector of vectors, i - index of matching functions class (means nothing)
-              j - index of fuction in set of mathing functions. */
             // Create vector of function with class index. Initial value of class index is function index in vector.
             // For every functions in vector if its class index == index in vector go through all other functions in vector and
             // if its class index == index in vector check if they are matching and if yes set other functions class index to class 
@@ -333,11 +322,32 @@ namespace SubfunctionPrototype
             return reduceMap;
         }
 
-        private BooleanFuntionWithInputDistortion CreateSubfunction(BooleanFuntionWithInputDistortion bf, GXIndex gXIndex, int i)
+        private bool[] CreateSubfunction(BooleanFuntionWithInputDistortion bf, GXIndex gXIndex, int i)
         {
+            int newBfSize = 1 << (bf.Length - gXIndex.GetBitsCount());
             // we create new subfunction as truth table so it would be easy to compare them
+            bool[] newBf = new bool[newBfSize];
 
-            throw new NotImplementedException();
+            Func<BitArray, BitArray> boolFunction;
+            if (gXIndex.First == 0)
+            {
+                boolFunction = inp => bf.GetResult(inp.Prepend(i.ToBinary(gXIndex.GetBitsCount())));
+            }
+            else if (gXIndex.Last == bf.Length - 1)
+            {
+                boolFunction = inp => bf.GetResult(inp.Append(i.ToBinary(gXIndex.GetBitsCount())));
+            }
+            else
+            {
+                boolFunction = inp => bf.GetResult(inp.Insert(gXIndex.First, gXIndex.Last, i.ToBinary(gXIndex.GetBitsCount())));
+            }
+
+            for (int argument = 0; argument < newBf.Length; ++argument)
+            {
+                newBf[argument] = boolFunction(argument.ToBinary(gXIndex.GetBitsCount()))[0];
+            }
+
+            return newBf;
         }
 
         private GXIndex[] PartitionArgumentsIntoGroups(InputDistortionProbabilities idp)

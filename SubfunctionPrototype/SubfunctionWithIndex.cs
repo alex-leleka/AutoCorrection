@@ -9,27 +9,30 @@ namespace SubfunctionPrototype
 {
     class SubfunctionWithIndex
     {
-        private readonly BooleanFuntionWithInputDistortion BooleanFuntion;
-        private int Index;
+        private readonly bool[] _booleanFuntion;
+        private int _index;
 
-        public SubfunctionWithIndex(BooleanFuntionWithInputDistortion bf, int index)
+        public SubfunctionWithIndex(bool[] bf, int index)
         {
-            BooleanFuntion = bf;
-            Index = index;
+            _booleanFuntion = bf;
+            _index = index;
         }
 
         public int GetIndex()
         {
-            return Index;
+            return _index;
         }
         /// <summary>
         /// Compares own BooleanFuntion to others BooleanFuntion and set Index of 
         /// other to this.Index if they are equal.
         /// </summary>
         /// <param name="other"></param>
-        public void Compare(SubfunctionWithIndex other)
+        public bool Compare(SubfunctionWithIndex other)
         {
-            throw new NotImplementedException();
+            bool isEqual = _booleanFuntion.SequenceEqual(other._booleanFuntion);
+            if (isEqual)
+                other._index = _index;
+            return isEqual;
         }
     }
 }

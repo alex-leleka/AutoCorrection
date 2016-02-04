@@ -48,7 +48,7 @@
 
         public int GetBitsCount()
         {
-            return _last - _first;
+            return _last - _first + 1;
         }
     }
 }
