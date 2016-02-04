@@ -26,6 +26,24 @@ namespace DotNetUtils
             return new BitArray(bools);
         }
 
+        public static BitArray Insert(this BitArray current, int first, int last, BitArray other)
+        {
+            var bools = new bool[current.Count + last - first + 1];
+            for (int i = 0; i < first; ++i)
+            {
+                bools[i] = current[i];
+            }
+            for (int i = first; i < last + 1; ++i)
+            {
+                bools[i] = other[i];
+            }
+            for (int i = last + 1; i < bools.Length; ++i)
+            {
+                bools[i] = current[i];
+            }
+            return new BitArray(bools);
+        }
+
         public static BitArray ToBinary(this int numeral, int bitsCount)
         {
             BitArray ar = new BitArray(bitsCount);
