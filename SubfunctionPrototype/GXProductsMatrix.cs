@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SubfunctionPrototype
 {
     public class GXProductsMatrix
     {
         // TODO: optimize matrix operations 
-        private List<List<double>> _matrix;
+        private Dictionary<int, Dictionary<int, double>> _matrix;
 
         public GXProductsMatrix(int rowsNum, int columnsNum)
         {
-            _matrix = new List<List<double>>(rowsNum);
+            _matrix = new Dictionary<int, Dictionary<int, double>>(rowsNum);
             for (int i = 0; i < rowsNum; i++)
             {
-                _matrix.Add(new List<double>(columnsNum));
+                _matrix.Add(i, new Dictionary<int, double>(columnsNum));
                 for (int j = 0; j < columnsNum; j++)
                 {
-                    _matrix[i].Add(0.0);
+                    _matrix[i].Add(j, 0.0);
                 }
             }
         }
 
         public double Get(int row,int column)
         {
-            return _matrix[row][column];
+            return _matrix.ElementAt(row).Value.ElementAt(column).Value; // HACK , access elements by index not by key (original matrix index)
         }
 
         public void Set(int row, int column, double val)
@@ -45,24 +46,24 @@ namespace SubfunctionPrototype
 
         public void AddColumn(int colAddTo, int colToAdd)
         {
-            for (int i = 0; i < _matrix.Count; ++i)
+            foreach (var row in _matrix)
             {
-                _matrix[i][colAddTo] += _matrix[i][colToAdd];
+                row.Value[colAddTo] += row.Value[colToAdd];
             }
             RemoveCol(colToAdd);
         }
 
         private void RemoveCol(int col)
         {
-            for (int i = 0; i < _matrix.Count; ++i)
+            foreach (var row in _matrix)
             {
-                _matrix[i].RemoveAt(col);
+                row.Value.Remove(col);
             }
         }
 
         private void RemoveRow(int row)
         {
-            _matrix.RemoveAt(row);
+            _matrix.Remove(row);
         }
 
         public int GetRowsCount()

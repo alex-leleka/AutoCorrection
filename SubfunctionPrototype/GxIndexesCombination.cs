@@ -36,7 +36,8 @@ namespace SubfunctionPrototype
 
         public void CopyTo(int [] destination, int startIndex)
         {
-            _indexes.CopyTo(destination, startIndex);
+            for (int i = 0; i < destination.Length; ++i)
+                destination[i] = _indexes[startIndex + i];
         }
 
         public bool Increment()

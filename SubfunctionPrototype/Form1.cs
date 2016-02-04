@@ -56,7 +56,7 @@ namespace SubfunctionPrototype
 
         private BooleanFuntionWithInputDistortion GenerateReducedFunction(BooleanFuntionWithInputDistortion bf, int newBitsCount, int fixedOperand)
         {
-            int fixedSize = bf.Length - fixedOperand;
+            int fixedSize = bf.InputNumberOfDigits - fixedOperand;
             Func<BitArray, BitArray> boolFunction = inp => bf.GetResult(inp.Prepend(fixedOperand.ToBinary(fixedSize)));
             var subFunction = new BooleanFunctionDelegate(newBitsCount, bf.OutputNumberOfDigits, boolFunction);
             return subFunction;
@@ -187,6 +187,8 @@ namespace SubfunctionPrototype
 
             // first half of indexes for a bfReal and next for a bfExpected
             var indexesIterator = new GxIndexesCombination(gxProductsMatricesIndexesInts);
+            /* TODO: check does we cover all cases: statements "matrix has two dimesions" and "first half of indexes for a bfReal and next for a bfExpected" are mutually exclusive.
+            */
 
             // instead of creating final table from simplified TurnInProbabilityMatrices
             // we gonna iterate all possible inputs and add product value to g4result.G[f_real][f_expected]
@@ -215,7 +217,7 @@ namespace SubfunctionPrototype
 
             for (int i = 1; i < currentIndInts.Length; ++i)
             {
-                bfArgument.Append(currentIndInts[i].ToBinary(gxIndexes[i].GetBitsCount()));
+                bfArgument = bfArgument.Append(currentIndInts[i].ToBinary(gxIndexes[i].GetBitsCount()));
             }
             int result = bf.GetIntResult(bfArgument);
             return result;
@@ -240,9 +242,8 @@ namespace SubfunctionPrototype
         /// <returns></returns>
         private GXProductsMatrix GetReducedMatrix(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex gXIndex)
         {
-
+            int rangeSize = 1 << gXIndex.GetBitsCount();
             // create turninprobability matrix
-            int rangeSize = gXIndex.Last - gXIndex.First + 1;
             // row - actual value, column - expected value
             var turnInProbMatrix = new GXProductsMatrix(rangeSize, rangeSize);
             for(int i = 0; i < rangeSize; ++i)
@@ -315,8 +316,10 @@ namespace SubfunctionPrototype
             for (int i = 0; i < reduceMap.Count; ++i)
             {
                 if (reduceMap[i].Count == 0)
+                {
                     reduceMap.RemoveAt(i);
-                --i;
+                    --i;
+                }
             }
 
             return reduceMap;
@@ -324,7 +327,7 @@ namespace SubfunctionPrototype
 
         private bool[] CreateSubfunction(BooleanFuntionWithInputDistortion bf, GXIndex gXIndex, int i)
         {
-            int newBfSize = 1 << (bf.Length - gXIndex.GetBitsCount());
+            int newBfSize = 1 << (bf.InputNumberOfDigits - gXIndex.GetBitsCount());
             // we create new subfunction as truth table so it would be easy to compare them
             bool[] newBf = new bool[newBfSize];
 
@@ -333,7 +336,7 @@ namespace SubfunctionPrototype
             {
                 boolFunction = inp => bf.GetResult(inp.Prepend(i.ToBinary(gXIndex.GetBitsCount())));
             }
-            else if (gXIndex.Last == bf.Length - 1)
+            else if (gXIndex.Last == bf.InputNumberOfDigits - 1)
             {
                 boolFunction = inp => bf.GetResult(inp.Append(i.ToBinary(gXIndex.GetBitsCount())));
             }
@@ -357,10 +360,10 @@ namespace SubfunctionPrototype
             // TODO: implement algorithm
             GXIndex[] partGxIndices = new GXIndex[2];
             int first = 0;
-            int last = idp.GetInputDigitsCount();
-            int mid = (last + first)/2;
+            int last = idp.GetInputDigitsCount() - 1;
+            int mid = idp.GetInputDigitsCount() / 2 - 1;
             partGxIndices[0] = new GXIndex(first, mid);
-            partGxIndices[1] = new GXIndex(mid + 1, last - 1);
+            partGxIndices[1] = new GXIndex(mid + 1, last);
             return partGxIndices;
         }
 
