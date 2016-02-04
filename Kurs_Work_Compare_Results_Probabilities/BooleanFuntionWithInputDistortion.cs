@@ -202,6 +202,11 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
             return GetIntFromBitArray(GetResultByLineIndex(index));
         }
 
+        public int GetIntResult(BitArray operand)
+        {
+            return GetIntFromBitArray(GetResult(operand));
+        }
+
         internal static int GetIntFromBitArray(BitArray bitArray) // BitArrayToInt32
         {
             if (bitArray.Length > 32)
