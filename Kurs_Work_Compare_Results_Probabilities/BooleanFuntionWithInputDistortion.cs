@@ -202,7 +202,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
             return GetIntFromBitArray(GetResultByLineIndex(index));
         }
 
-        public int GetIntResult(BitArray operand)
+        public virtual int GetIntResult(BitArray operand)
         {
             return GetIntFromBitArray(GetResult(operand));
         }

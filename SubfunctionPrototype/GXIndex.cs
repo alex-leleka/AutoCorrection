@@ -45,5 +45,10 @@
                 _last = value;
             }
         }
+
+        public int GetBitsCount()
+        {
+            return _last - _first;
+        }
     }
 }

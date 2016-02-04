@@ -189,6 +189,7 @@ namespace SubfunctionPrototype
                 gxProductsMatricesIndexesInts[i + gxProductsMatrices.Length] = gxProductsMatrices[i].GetColumnsCount();
             }
 
+            // first half of indexes for a bfReal and next for a bfExpected
             var indexesIterator = new GxIndexesCombination(gxProductsMatricesIndexesInts);
 
             // instead of creating final table from simplified TurnInProbabilityMatrices
@@ -200,10 +201,10 @@ namespace SubfunctionPrototype
             {
                 // indexes that mean matrix real values
                 indexesIterator.CopyTo(currentIndInts, 0);
-                int bfReal = CalcBooleanFuntionResult(bf, currentIndInts);
+                int bfReal = CalcBooleanFuntionResult(bf, currentIndInts, gxIndexes);
                 // indexes that mean matrix expected values
                 indexesIterator.CopyTo(currentIndInts, currentIndInts.Length);
-                int bfExpected = CalcBooleanFuntionResult(bf, currentIndInts);
+                int bfExpected = CalcBooleanFuntionResult(bf, currentIndInts, gxIndexes);
                 double fProduct = GetResultProbability(gxProductsMatrices, indexesIterator);
                 g4Result.G[bfReal][bfExpected] += fProduct;
             } while (indexesIterator.Increment());
@@ -212,16 +213,35 @@ namespace SubfunctionPrototype
             return g4Result;
         }
 
+        private int CalcBooleanFuntionResult(BooleanFuntionWithInputDistortion bf, int[] currentIndInts, GXIndex[] gxIndexes)
+        {
+            BitArray bfArgument = currentIndInts[0].ToBinary(gxIndexes[0].GetBitsCount());
+
+            for (int i = 1; i < currentIndInts.Length; ++i)
+            {
+                bfArgument.Append(currentIndInts[i].ToBinary(gxIndexes[i].GetBitsCount()));
+            }
+            int result = bf.GetIntResult(bfArgument);
+            return result;
+        }
+
         private double GetResultProbability(GXProductsMatrix[] gxProductsMatrices, GxIndexesCombination indexesIterator)
         {
-            throw new NotImplementedException();
+            double product = 1;
+            for (int i = 0; i < gxProductsMatrices.Length; ++i)
+            {
+                product *= gxProductsMatrices[i].Get(indexesIterator.GetIndexOf(i) /*actual*/,
+                    indexesIterator.GetIndexOf(i + gxProductsMatrices.Length) /*expected*/);
+            }
+            return product;
         }
-
-        private int CalcBooleanFuntionResult(BooleanFuntionWithInputDistortion bf, int[] currentIndInts)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// row - actual value, column - expected value
+        /// </summary>
+        /// <param name="bf"></param>
+        /// <param name="idp"></param>
+        /// <param name="gXIndex"></param>
+        /// <returns></returns>
         private GXProductsMatrix GetReducedMatrix(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex gXIndex)
         {
 
@@ -269,6 +289,54 @@ namespace SubfunctionPrototype
               then we need save (b) result to reduce map (vetor of vetor) which has next structure:
               v[i][j] - where v - vector of vectors, i - index of matching functions class (means nothing)
               j - index of fuction in set of mathing functions. */
+            // Create vector of function with class index. Initial value of class index is function index in vector.
+            // For every functions in vector if its class index == index in vector go through all other functions in vector and
+            // if its class index == index in vector check if they are matching and if yes set other functions class index to class 
+            // index of current function.
+            int subfunctionsCount = 1 << gXIndex.GetBitsCount();
+            List<SubfunctionWithIndex> subfunctionWithIndices = new List<SubfunctionWithIndex>(subfunctionsCount);
+
+            for (int i = 0; i < subfunctionsCount; ++i)
+            {
+                var subfunc = CreateSubfunction(bf, gXIndex, i);
+                subfunctionWithIndices.Add(new SubfunctionWithIndex(subfunc, i));
+            }
+
+            for (int i = 0; i < subfunctionsCount; ++i)
+            {
+                if (subfunctionWithIndices[i].GetIndex() != i) continue; // function already has its class, skip it
+                for (int otherIndex = i + 1; otherIndex < subfunctionsCount; ++otherIndex)
+                {
+                    if (subfunctionWithIndices[otherIndex].GetIndex() != otherIndex) continue; // function already has its class, skip it
+                    subfunctionWithIndices[i].Compare(subfunctionWithIndices[otherIndex]);
+                }
+            }
+
+            List < List < int >> reduceMap = new List<List<int>>(subfunctionsCount);
+            for (int i = 0; i < subfunctionsCount; ++i)
+                reduceMap.Add(new List<int>());
+
+            for (int i = 0; i < reduceMap.Count; ++i)
+            {
+                int index = subfunctionWithIndices[i].GetIndex();
+                reduceMap[index].Add(i);
+            }
+
+            // remove empty lists from reduceMap
+            for (int i = 0; i < reduceMap.Count; ++i)
+            {
+                if (reduceMap[i].Count == 0)
+                    reduceMap.RemoveAt(i);
+                --i;
+            }
+
+            return reduceMap;
+        }
+
+        private BooleanFuntionWithInputDistortion CreateSubfunction(BooleanFuntionWithInputDistortion bf, GXIndex gXIndex, int i)
+        {
+            // we create new subfunction as truth table so it would be easy to compare them
+
             throw new NotImplementedException();
         }
 
