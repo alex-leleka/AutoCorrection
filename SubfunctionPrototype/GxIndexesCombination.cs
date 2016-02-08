@@ -63,7 +63,7 @@ namespace SubfunctionPrototype
             }
 
             _finish = true;
-            return true;
+            return false;
         }
 
 

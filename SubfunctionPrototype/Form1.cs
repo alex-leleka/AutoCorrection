@@ -72,16 +72,16 @@ namespace SubfunctionPrototype
                 turnInProbabilityMatrix[i] = new double[matrixSize];
                 for (int j = 0; j < matrixSize; j++)
                 {
-                    turnInProbabilityMatrix[i][j] = CalculateTurnInProbability(j, i, idp, indexBase, idp.ZeroProbability.Length) * GetInputProbability(j, indexBase, idp);
+                    turnInProbabilityMatrix[i][j] = CalculateTurnInProbability(j, i, idp, indexBase, idp.ZeroProbability.Length) * GetInputProbability(j, indexBase, idp.ZeroProbability.Length, idp);
                 }
             }
             return turnInProbabilityMatrix;
         }
 
-        private double GetInputProbability(int inputValue, int indexBase, InputDistortionProbabilities idp)
+        private double GetInputProbability(int inputValue, int indexBase, int indexBound, InputDistortionProbabilities idp)
         {
             double p = 1.0;
-            for (int i = indexBase; i < idp.ZeroProbability.Length; i++, inputValue = inputValue >> 1)
+            for (int i = indexBase; i < indexBound; i++, inputValue = inputValue >> 1)
             {
                 p *= idp.ProbabilityZeroAndOne(inputValue & 1, i);
             }
@@ -199,16 +199,35 @@ namespace SubfunctionPrototype
             {
                 // indexes that mean matrix real values
                 indexesIterator.CopyTo(currentIndInts, 0);
-                int bfReal = CalcBooleanFuntionResult(bf, currentIndInts, gxIndexes);
+                int bfReal = CalcBooleanFuntionResult(bf, currentIndInts, gxIndexes, gxProductsMatrices, true);
                 // indexes that mean matrix expected values
                 indexesIterator.CopyTo(currentIndInts, currentIndInts.Length);
-                int bfExpected = CalcBooleanFuntionResult(bf, currentIndInts, gxIndexes);
+                int bfExpected = CalcBooleanFuntionResult(bf, currentIndInts, gxIndexes, gxProductsMatrices, false);
                 double fProduct = GetResultProbability(gxProductsMatrices, indexesIterator);
                 g4Result.G[bfReal][bfExpected] += fProduct;
             } while (indexesIterator.Increment());
 
 
             return g4Result;
+        }
+
+        static int GetFunctionInputFromGxProductsMatrices(GXProductsMatrix[] gxProductsMatrices, bool byRow, int matrixIndex, int index)
+        {
+            return byRow ? gxProductsMatrices[matrixIndex].GetRowKeyByIndex(index) : gxProductsMatrices[matrixIndex].GetColumnKeyByIndex(index);
+        }
+
+        private int CalcBooleanFuntionResult(BooleanFuntionWithInputDistortion bf, int[] currentIndInts, GXIndex[] gxIndexes, GXProductsMatrix[] gxProductsMatrices, bool byRow)
+        {
+            int argument = GetFunctionInputFromGxProductsMatrices(gxProductsMatrices, byRow, 0, currentIndInts[0]);
+            BitArray bfArgument = argument.ToBinary(gxIndexes[0].GetBitsCount());
+
+            for (int i = 1; i < currentIndInts.Length; ++i)
+            {
+                argument = GetFunctionInputFromGxProductsMatrices(gxProductsMatrices, byRow, i, currentIndInts[i]);
+                bfArgument = bfArgument.Append(argument.ToBinary(gxIndexes[i].GetBitsCount()));
+            }
+            int result = bf.GetIntResult(bfArgument);
+            return result;
         }
 
         private int CalcBooleanFuntionResult(BooleanFuntionWithInputDistortion bf, int[] currentIndInts, GXIndex[] gxIndexes)
@@ -249,9 +268,11 @@ namespace SubfunctionPrototype
             for(int i = 0; i < rangeSize; ++i)
                 for (int j = 0; j < rangeSize; ++j)
                 {
-                    double prob = CalculateTurnInProbability(i, j, idp, gXIndex.First, gXIndex.Last);
+                    double prob = CalculateTurnInProbability(i, j, idp, gXIndex.First, gXIndex.Last + 1) * GetInputProbability(i, gXIndex.First, gXIndex.Last + 1, idp);
                     turnInProbMatrix.Set(j, i, prob);
                 }
+            //Debug step
+            TestGxProductsMatrix(turnInProbMatrix);
 
             var reduceMap = GetReduceMap(bf, gXIndex);
             //for each matrix simplify matrix by adding rows and colums of matching subfunctions
@@ -264,8 +285,27 @@ namespace SubfunctionPrototype
                 for (int i = 1; i < matchingFunctionsClass.Count; ++i)
                     turnInProbMatrix.AddColumn(firtstIndexInMatchingFuncClass, matchingFunctionsClass[i]);
             }
-
+            //Debug step
+            TestGxProductsMatrix(turnInProbMatrix);
             return turnInProbMatrix;
+        }
+
+        private static void TestGxProductsMatrix(GXProductsMatrix turnInProbMatrix)
+        {
+#if DEBUG
+            // test sum of all matrix elements to be 1
+            double sum = 0.0;
+            double eps = 0.0001;
+            foreach (var rowKey in turnInProbMatrix.GetRowsKeys())
+            {
+                foreach (var columnKey in turnInProbMatrix.GetColumsKeys(rowKey))
+                {
+                    sum += turnInProbMatrix.GetByKey(rowKey, columnKey);
+                }
+            }
+            if (sum - eps > 1.0 || sum + eps < 1.0)
+                throw new Exception("GXProductsMatrix is bad.");
+#endif
         }
 
         /// <summary>

@@ -47,10 +47,11 @@ namespace ProbabilitiesCalculatorTester
             actualIsIncremented = gxIC.Increment();
             Assert.AreEqual(expectedBool, actualIsIncremented, "Increment #3 failed");
             actualIsIncremented = gxIC.Increment();
-            Assert.AreEqual(expectedBool, actualIsIncremented, "Increment #4 failed");
+            expectedBool = false;
+            Assert.AreEqual(expectedBool, actualIsIncremented, "We should stop increment this time. Increment #4 failed");
             actualIsIncremented = gxIC.Increment();
             expectedBool = false;
-            Assert.AreEqual(expectedBool, actualIsIncremented, "We should stop increment this time. Increment #5 failed.");
+            Assert.AreEqual(expectedBool, actualIsIncremented, "Increment #5 failed.");
         }
 
         private void CopyIndexesToArray(ref int[] actualIncremented, GxIndexesCombination gxIC)

@@ -21,9 +21,29 @@ namespace SubfunctionPrototype
             }
         }
 
+        public Dictionary<int, Dictionary<int, double>>.KeyCollection GetRowsKeys()
+        {
+            return _matrix.Keys;
+        }
+
+        public Dictionary<int, double>.KeyCollection GetColumsKeys(int rowKey)
+        {
+            return _matrix[rowKey].Keys;
+        }
+
         public double Get(int row,int column)
         {
             return _matrix.ElementAt(row).Value.ElementAt(column).Value; // HACK , access elements by index not by key (original matrix index)
+        }
+
+        public int GetRowKeyByIndex(int index)
+        {
+            return _matrix.ElementAt(index).Key;
+        }
+
+        public int GetColumnKeyByIndex(int index)
+        {
+            return _matrix.ElementAt(0).Value.ElementAt(index).Key;
         }
 
         public void Set(int row, int column, double val)
@@ -74,6 +94,11 @@ namespace SubfunctionPrototype
         public int GetColumnsCount()
         {
             return _matrix[0].Count;
+        }
+
+        public double GetByKey(int rowKey, int columnKey)
+        {
+            return _matrix[rowKey][columnKey];
         }
     }
 }
