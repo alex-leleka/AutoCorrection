@@ -57,9 +57,9 @@ namespace SubfunctionPrototype
         /// <param name="rowToAdd"></param>
         public void AddRow(int rowAddTo, int rowToAdd)
         {
-            for (int i = 0; i < _matrix[rowAddTo].Count; ++i)
+            foreach (var columnKey in _matrix[rowToAdd].Keys)
             {
-                _matrix[rowAddTo][i] += _matrix[rowToAdd][i];
+                _matrix[rowAddTo][columnKey] += _matrix[rowToAdd][columnKey];
             }
             RemoveRow(rowToAdd);
         }

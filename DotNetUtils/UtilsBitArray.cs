@@ -35,11 +35,11 @@ namespace DotNetUtils
             }
             for (int i = first; i < last + 1; ++i)
             {
-                bools[i] = other[i];
+                bools[i] = other[i - first];
             }
             for (int i = last + 1; i < bools.Length; ++i)
             {
-                bools[i] = current[i];
+                bools[i] = current[i - other.Length];
             }
             return new BitArray(bools);
         }

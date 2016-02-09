@@ -47,18 +47,18 @@
             // 
             // textBoxOriginal
             // 
-            this.textBoxOriginal.Location = new System.Drawing.Point(38, 153);
+            this.textBoxOriginal.Location = new System.Drawing.Point(38, 172);
             this.textBoxOriginal.Multiline = true;
             this.textBoxOriginal.Name = "textBoxOriginal";
-            this.textBoxOriginal.Size = new System.Drawing.Size(137, 93);
+            this.textBoxOriginal.Size = new System.Drawing.Size(179, 159);
             this.textBoxOriginal.TabIndex = 1;
             // 
             // textBoxModel
             // 
-            this.textBoxModel.Location = new System.Drawing.Point(298, 153);
+            this.textBoxModel.Location = new System.Drawing.Point(298, 172);
             this.textBoxModel.Multiline = true;
             this.textBoxModel.Name = "textBoxModel";
-            this.textBoxModel.Size = new System.Drawing.Size(137, 93);
+            this.textBoxModel.Size = new System.Drawing.Size(179, 159);
             this.textBoxModel.TabIndex = 2;
             // 
             // label1

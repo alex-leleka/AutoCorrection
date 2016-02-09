@@ -72,7 +72,7 @@ namespace SubfunctionPrototype
                 turnInProbabilityMatrix[i] = new double[matrixSize];
                 for (int j = 0; j < matrixSize; j++)
                 {
-                    turnInProbabilityMatrix[i][j] = CalculateTurnInProbability(j, i, idp, indexBase, idp.ZeroProbability.Length) * GetInputProbability(j, indexBase, idp.ZeroProbability.Length, idp);
+                    turnInProbabilityMatrix[i][j] = CalculateTurnInProbability(j, i, idp, indexBase, idp.ZeroProbability.Length);
                 }
             }
             return turnInProbabilityMatrix;
@@ -117,12 +117,14 @@ namespace SubfunctionPrototype
         private double CalculateTurnInProbability(int originalValue, int corruptedValue, InputDistortionProbabilities idp, int indexBase, int indexBound) 
         {
             double operandTurnInProbability = 1.0;
-            for (int i = indexBase, mask = 1; i < indexBound; i++, mask *= 2)
+            double inputProbability = 1.0; 
+            for (int i = indexBase; i < indexBound; i++, originalValue >>= 1, corruptedValue >>= 1)
             {
+                inputProbability *= idp.ProbabilityZeroAndOne(originalValue & 1, i);
                 double bitTurnInProbability;
-                if ((mask & originalValue) != 0)
+                if ((1 & originalValue) != 0)
                 {
-                    if ((mask & corruptedValue) != 0) // 1 -> 1 /*(d)*/
+                    if ((1 & corruptedValue) != 0) // 1 -> 1 /*(d)*/
                     {
                         bitTurnInProbability = idp.DistortionToOneProbability[i] + idp.CorrectValueProbability[i];
                     }
@@ -133,7 +135,7 @@ namespace SubfunctionPrototype
                 }
                 else
                 {
-                    if ((mask & corruptedValue) != 0) // 0 -> 1 /*(b)*/
+                    if ((1 & corruptedValue) != 0) // 0 -> 1 /*(b)*/
                     {
                         bitTurnInProbability = idp.DistortionToOneProbability[i] + idp.DistortionToInverseProbability[i];
                     }
@@ -144,7 +146,7 @@ namespace SubfunctionPrototype
                 }
                 operandTurnInProbability *= bitTurnInProbability;
             }
-            return operandTurnInProbability;
+            return operandTurnInProbability * inputProbability;
         }
 
         private InputDistortionProbabilities GenerateReducedInpDistProbs(InputDistortionProbabilities idp, int newBitsCount)
@@ -165,15 +167,13 @@ namespace SubfunctionPrototype
             return newIdp;
         }
 
-        private G4Probability GetAutoCorrForSubFuncModel(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
+        private G4Probability GetAutoCorrForSubFuncModel(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex [] gxIndexes, List<List<int>>[] reduceMaps)
         {
-            // divide functionction arguments into groups
-            var gxIndexes = PartitionArgumentsIntoGroups(idp);
             GXProductsMatrix[] gxProductsMatrices = new GXProductsMatrix[gxIndexes.Length];
 
             for (int i = 0; i < gxIndexes.Length; ++i)
             {
-                gxProductsMatrices[i] = GetReducedMatrix(bf, idp, gxIndexes[i]);
+                gxProductsMatrices[i] = GetReducedMatrix(bf, idp, gxIndexes[i], reduceMaps[i]);
             }
 
             // create indexes bounds
@@ -192,7 +192,6 @@ namespace SubfunctionPrototype
 
             // instead of creating final table from simplified TurnInProbabilityMatrices
             // we gonna iterate all possible inputs and add product value to g4result.G[f_real][f_expected]
-
             G4Probability g4Result = new G4Probability();
             int[] currentIndInts = new int[gxProductsMatrices.Length];
             do
@@ -259,7 +258,7 @@ namespace SubfunctionPrototype
         /// <param name="idp"></param>
         /// <param name="gXIndex"></param>
         /// <returns></returns>
-        private GXProductsMatrix GetReducedMatrix(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex gXIndex)
+        private GXProductsMatrix GetReducedMatrix(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex gXIndex, List<List<int>> reduceMap)
         {
             int rangeSize = 1 << gXIndex.GetBitsCount();
             // create turninprobability matrix
@@ -268,13 +267,13 @@ namespace SubfunctionPrototype
             for(int i = 0; i < rangeSize; ++i)
                 for (int j = 0; j < rangeSize; ++j)
                 {
-                    double prob = CalculateTurnInProbability(i, j, idp, gXIndex.First, gXIndex.Last + 1) * GetInputProbability(i, gXIndex.First, gXIndex.Last + 1, idp);
+                    double prob = CalculateTurnInProbability(i, j, idp, gXIndex.First, gXIndex.Last + 1);
                     turnInProbMatrix.Set(j, i, prob);
                 }
             //Debug step
-            TestGxProductsMatrix(turnInProbMatrix);
+            //TestGxProductsMatrix(turnInProbMatrix);
 
-            var reduceMap = GetReduceMap(bf, gXIndex);
+            //var reduceMap = GetReduceMap(bf, gXIndex);
             //for each matrix simplify matrix by adding rows and colums of matching subfunctions
             foreach (var matchingFunctionsClass in reduceMap)
             {
@@ -286,7 +285,7 @@ namespace SubfunctionPrototype
                     turnInProbMatrix.AddColumn(firtstIndexInMatchingFuncClass, matchingFunctionsClass[i]);
             }
             //Debug step
-            TestGxProductsMatrix(turnInProbMatrix);
+            //TestGxProductsMatrix(turnInProbMatrix);
             return turnInProbMatrix;
         }
 
@@ -367,7 +366,8 @@ namespace SubfunctionPrototype
 
         private bool[] CreateSubfunction(BooleanFuntionWithInputDistortion bf, GXIndex gXIndex, int i)
         {
-            int newBfSize = 1 << (bf.InputNumberOfDigits - gXIndex.GetBitsCount());
+            int newBfArgBitsCount = bf.InputNumberOfDigits - gXIndex.GetBitsCount();
+            int newBfSize = 1 << newBfArgBitsCount;
             // we create new subfunction as truth table so it would be easy to compare them
             bool[] newBf = new bool[newBfSize];
 
@@ -387,7 +387,7 @@ namespace SubfunctionPrototype
 
             for (int argument = 0; argument < newBf.Length; ++argument)
             {
-                newBf[argument] = boolFunction(argument.ToBinary(gXIndex.GetBitsCount()))[0];
+                newBf[argument] = boolFunction(argument.ToBinary(newBfArgBitsCount))[0];
             }
 
             return newBf;
@@ -395,6 +395,18 @@ namespace SubfunctionPrototype
 
         private GXIndex[] PartitionArgumentsIntoGroups(InputDistortionProbabilities idp)
         {
+            if (idp.ZeroProbability.Length%3 == 0)
+            {
+                // if we could create 3 groups, lets do it
+                const int N = 3;
+                int numberInGroup = idp.ZeroProbability.Length/N;
+                GXIndex[] partGxIndices3 = new GXIndex[N];
+                for (int i = 0, first3 = 0, last3 = numberInGroup; i < N; i++, first3 = last3, last3 += numberInGroup)
+                {
+                    partGxIndices3[i] = new GXIndex(first3, last3 - 1);
+                }
+                return partGxIndices3;
+            }
             // we have no algotithm for this step yet
             // just divide by 2 and go further 
             // TODO: implement algorithm
@@ -409,19 +421,27 @@ namespace SubfunctionPrototype
 
         private BooleanFuntionWithInputDistortion GetBoolFunc()
         {
+            BooleanFuntionWithInputDistortion boolFuncD = new BooleanFunctionDelegate(8, 1, f8);
+            return boolFuncD;
             // load the resource first time
             String[] functionText = new String[1];
-            functionText[0] = @"x[0]&x[1]&x[2]&x[3]";
-            int inputNumberOfDigits = 4;
+            functionText[0] = @"x[5]|x[4]|x[0]|x[1]&x[2]&(x[3]^x[0])";
+            int inputNumberOfDigits = 8;
             const int outputNumberOfDigits = 1; // Always one, input data format don't allow us anything else
             BooleanFuntionWithInputDistortion boolFunc = new BooleanFunctionAnalytic(inputNumberOfDigits,
                 outputNumberOfDigits, functionText);
             return boolFunc;
         }
 
+        public static BitArray f8(BitArray x)
+        {
+            BitArray result = new BitArray(1, false) {[0] = x[5] | x[4] | x[0] | x[1] & x[2] & (x[3] ^ x[0])};
+            return result;
+        }
+
         private InputDistortionProbabilities GetInputDistortionProb()
         {
-            String path = @"C:\Study\DiplomInput\InputDistortion4bit.txt";
+            String path = @"C:\Study\DiplomInput\InputDistortion8bit.txt";
             var reader = new DistortionProbTextReader(path);
             var idp = reader.GetDistortionProb();
             return idp;
@@ -430,23 +450,40 @@ namespace SubfunctionPrototype
 
         private void StartRoutine(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
             // calc original func dist
             var originalF = CalculateFunctionDistortion(bf, idp);
+            stopwatch.Stop();
+            var originalTime = stopwatch.ElapsedMilliseconds;
             // calc our model result
-            var modelF = GetAutoCorrForSubFuncModel(bf, idp);
+            // some preparations for test model:
+            //***************************************************
+            // divide functionction arguments into groups
+            var gxIndexes = PartitionArgumentsIntoGroups(idp);
+            // create reduce map based on matching functions
+            List<List<int>>[] reduceMaps = new List<List<int>>[gxIndexes.Length];
+            for (int i = 0; i < gxIndexes.Length; ++i)
+            {
+                reduceMaps[i] = GetReduceMap(bf, gxIndexes[i]);
+            }
+            //***************************************************
+            stopwatch = Stopwatch.StartNew();
+            var modelF = GetAutoCorrForSubFuncModel(bf, idp, gxIndexes, reduceMaps);
+            stopwatch.Stop();
+            var modelTime = stopwatch.ElapsedMilliseconds;
 
             string origResult;
             origResult = "G[0][0] " + originalF.G[0][0] + Environment.NewLine +
                 "G[0][1] " + originalF.G[0][1] + Environment.NewLine +
                 "G[1][0] " + originalF.G[1][0] + Environment.NewLine +
                 "G[1][1] " + originalF.G[1][1] + Environment.NewLine;
-            textBoxOriginal.Text = origResult;
+            textBoxOriginal.Text = origResult + Environment.NewLine + originalTime;
             string modelResult;
             modelResult = "G[0][0] " + modelF.G[0][0] + Environment.NewLine +
                 "G[0][1] " + modelF.G[0][1] + Environment.NewLine +
                 "G[1][0] " + modelF.G[1][0] + Environment.NewLine +
                 "G[1][1] " + modelF.G[1][1] + Environment.NewLine;
-            textBoxModel.Text = modelResult;
+            textBoxModel.Text = modelResult + Environment.NewLine + modelTime;
 
         }
 

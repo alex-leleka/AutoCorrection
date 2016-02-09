@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SubfunctionPrototype
+﻿namespace SubfunctionPrototype
 {
     /// <summary>
     /// Class allow us to get all combinations of elements indexes in range of their bounds.
