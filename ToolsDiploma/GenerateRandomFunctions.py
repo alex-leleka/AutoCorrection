@@ -111,8 +111,18 @@ class BooleanFunction:
 		for result in self.table:
 			fileVar.write(result)
 			fileVar.write("\n")
-		fileVar.close()
 
+
+class GenerationManager:
+	""" Creates functions and saves them on disk"""
+	def __init__(self, inputbitsCount, outputbitsCount, numberoffunctionstogenerate, filename):
+		self.inputbitsCount = inputbitsCount
+		self.outputbitsCount = outputbitsCount
+		self.numberoffunctionstogenerate = numberoffunctionstogenerate
+		self.filename = filename
+
+	def run(self):
+		
 
 # arguments 
 inputbitsCount = 4 # integer > 0
