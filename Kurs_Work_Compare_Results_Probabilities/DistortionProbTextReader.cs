@@ -14,24 +14,18 @@ namespace Diplom_Work_Compare_Results_Probabilities
         }
         public InputDistortionProbabilities GetDistortionProb()
         {
-            try
+
+            using (StreamReader sr = new StreamReader(_path))
             {
-                using (StreamReader sr = new StreamReader(_path))
-                {
-                    int inputDigitsCount = ReadInt(sr);
-                    int outputDigitsCount = ReadInt(sr);
-                    double[] distortionToZeroProbability = ReadDoubleArr(sr, inputDigitsCount);
-                    double[] distortionToOneProbability = ReadDoubleArr(sr, inputDigitsCount);
-                    double[] distortionToInverseProbability = ReadDoubleArr(sr, inputDigitsCount);
-                    double[] probalityZero = ReadDoubleArr(sr, inputDigitsCount);
-                    return new InputDistortionProbabilities(distortionToZeroProbability,
-                        distortionToOneProbability, distortionToInverseProbability,
-                        probalityZero);
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("The file could not be read:"+ e.Message);
+                int inputDigitsCount = ReadInt(sr);
+                int outputDigitsCount = ReadInt(sr);
+                double[] distortionToZeroProbability = ReadDoubleArr(sr, inputDigitsCount);
+                double[] distortionToOneProbability = ReadDoubleArr(sr, inputDigitsCount);
+                double[] distortionToInverseProbability = ReadDoubleArr(sr, inputDigitsCount);
+                double[] probalityZero = ReadDoubleArr(sr, inputDigitsCount);
+                return new InputDistortionProbabilities(distortionToZeroProbability,
+                    distortionToOneProbability, distortionToInverseProbability,
+                    probalityZero);
             }
         }
         protected int ReadInt(StreamReader sr)
