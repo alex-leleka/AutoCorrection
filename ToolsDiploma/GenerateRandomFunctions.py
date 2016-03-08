@@ -4,6 +4,31 @@ print ("Generate random Boolean functions and save them in txt file")
 print (sys.version)
 
 
+class MyMath:
+
+	def numTo32Str(num):
+		if (num < 10):
+			return str(num)
+		c = chr(ord('A') + num - 10)
+		return "".join(c)
+
+
+	def binaryTo32(binList):
+		step = 5
+		i = 0
+		result = ""
+		while i < len(binList):
+			num = 0
+			for wordIndex in range(i, i+step):
+				if (wordIndex >= len(binList)):
+					i = wordIndex;
+					break
+				num = num + (binList[wordIndex] << (wordIndex - i))
+			result += MyMath.numTo32Str(num)
+			i = i + step
+		return result
+
+
 class BooleanFunction:
 	""" Boolean function. Truth table stored as list. """
 	def __init__(self, inputbitsCount, outputbitsCount):
@@ -22,6 +47,8 @@ class BooleanFunction:
 		return random.randint(0, maxValue)
 
 	def writetofile(self, fileVar):
+		values = "# " + MyMath.binaryTo32(self.table) + "\n"
+		fileVar.write(values)
 		fileVar.write("# function created by GenerateRandomFunctions.py \n")
 		fileVar.write("# inputbitsCount \n")
 		fileVar.write(str(self.operandbitsCount))
@@ -53,7 +80,7 @@ class GenerationManager:
 
 
 # arguments 
-inputbitsCount = 4 # integer > 0
+inputbitsCount = 5 # integer > 0
 outputbitsCount = 1 # integer > 0
 numberoffunctionstogenerate = 10
 filename = "randomfunction"
@@ -64,4 +91,3 @@ genSpeed = 1 # integer > 0
 
 m = GenerationManager(inputbitsCount, outputbitsCount, numberoffunctionstogenerate, filename)
 m.run()
-
