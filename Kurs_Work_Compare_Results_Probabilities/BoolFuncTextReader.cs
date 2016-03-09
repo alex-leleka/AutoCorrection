@@ -31,8 +31,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
 
         public BooleanFunctionTruthTable GetBoolFunc()
         {
-            try
-            {
+
                 using (StreamReader sr = new StreamReader(_path))
                 {
                     int inputDigitsCount = ReadInt(sr);
@@ -44,11 +43,6 @@ namespace Diplom_Work_Compare_Results_Probabilities
                     bfTruthTable.SetResultTable(bfResults);
                     return bfTruthTable;
                 }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("The file could not be read:" + e.Message);
-            }
         }
     }
 }

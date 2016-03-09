@@ -4,6 +4,8 @@ print ("Generate random Boolean functions and save them in txt file")
 print (sys.version)
 
 
+CommentChar = "%"
+
 class MyMath:
 
 	def numTo32Str(num):
@@ -47,16 +49,16 @@ class BooleanFunction:
 		return random.randint(0, maxValue)
 
 	def writetofile(self, fileVar):
-		values = "# " + MyMath.binaryTo32(self.table) + "\n"
+		values = CommentChar + " " + MyMath.binaryTo32(self.table) + "\n"
 		fileVar.write(values)
-		fileVar.write("# function created by GenerateRandomFunctions.py \n")
-		fileVar.write("# inputbitsCount \n")
+		fileVar.write(CommentChar + " function created by GenerateRandomFunctions.py \n")
+		fileVar.write(CommentChar + " inputbitsCount \n")
 		fileVar.write(str(self.operandbitsCount))
 		fileVar.write("\n")
-		fileVar.write("# outputbitsCount \n")
+		fileVar.write(CommentChar + " outputbitsCount \n")
 		fileVar.write(str(self.outputbitsCount))
 		fileVar.write("\n")
-		fileVar.write("# truth table: \n")
+		fileVar.write(CommentChar + " truth table: \n")
 		for result in self.table:
 			fileVar.write(str(result))
 			fileVar.write("\n")
@@ -87,30 +89,30 @@ class InputDistortion:
 			self.zeroinput.append(InputDistortion.getrandom(0.4, 0.6))
 
 	def writetofile(self, fileVar):
-		fileVar.write("# Input Distortions created by GenerateRandomFunctions.py \n")
-		fileVar.write("# inputbitsCount \n")
+		fileVar.write(CommentChar + "Input Distortions created by GenerateRandomFunctions.py \n")
+		fileVar.write(CommentChar + " inputbitsCount \n")
 		fileVar.write(str(self.operandbitsCount))
 		fileVar.write("\n")
-		fileVar.write("# outputbitsCount \n")
+		fileVar.write(CommentChar + " outputbitsCount \n")
 		fileVar.write(str(self.outputbitsCount))
 		fileVar.write("\n")
 
-		fileVar.write("# dist to const zero : \n")
+		fileVar.write(CommentChar + " dist to const zero : \n")
 		for value in self.disttozero:
 			fileVar.write(str(value) + " ")
 		fileVar.write("\n")
 
-		fileVar.write("# dist to const one : \n")
+		fileVar.write(CommentChar + " dist to const one : \n")
 		for value in self.disttoone:
 			fileVar.write(str(value) + " ")
 		fileVar.write("\n")
 
-		fileVar.write("# dist to inverse : \n")
+		fileVar.write(CommentChar + " dist to inverse : \n")
 		for value in self.disttoinverse:
 			fileVar.write(str(value) + " ")
 		fileVar.write("\n")
 
-		fileVar.write("# input zero probability: \n")
+		fileVar.write(CommentChar + " input zero probability: \n")
 		for value in self.zeroinput:
 			fileVar.write(str(value) + " ")
 		fileVar.write("\n")
@@ -145,7 +147,7 @@ class GenerationManager:
 # arguments 
 inputbitsCount = 5 # integer > 0
 outputbitsCount = 1 # integer > 0
-numberoffunctionstogenerate = 10
+numberoffunctionstogenerate = 4
 filename = "randomfunction"
 # optinal arguent
 genSpeed = 1 # integer > 0 

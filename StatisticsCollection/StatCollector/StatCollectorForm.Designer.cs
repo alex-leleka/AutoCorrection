@@ -41,6 +41,8 @@
             this.openDistortionsFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.openBoolFuncFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.buttonViewResult = new System.Windows.Forms.Button();
+            this.buttonSelectTruthTables = new System.Windows.Forms.Button();
+            this.checkBoxMultiThead = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -156,11 +158,33 @@
             this.buttonViewResult.UseVisualStyleBackColor = true;
             this.buttonViewResult.Click += new System.EventHandler(this.buttonViewResult_Click);
             // 
+            // buttonSelectTruthTables
+            // 
+            this.buttonSelectTruthTables.Location = new System.Drawing.Point(489, 247);
+            this.buttonSelectTruthTables.Name = "buttonSelectTruthTables";
+            this.buttonSelectTruthTables.Size = new System.Drawing.Size(75, 54);
+            this.buttonSelectTruthTables.TabIndex = 10;
+            this.buttonSelectTruthTables.Text = "Select files with truth tables";
+            this.buttonSelectTruthTables.UseVisualStyleBackColor = true;
+            this.buttonSelectTruthTables.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // checkBoxMultiThead
+            // 
+            this.checkBoxMultiThead.AutoSize = true;
+            this.checkBoxMultiThead.Location = new System.Drawing.Point(450, 320);
+            this.checkBoxMultiThead.Name = "checkBoxMultiThead";
+            this.checkBoxMultiThead.Size = new System.Drawing.Size(114, 17);
+            this.checkBoxMultiThead.TabIndex = 11;
+            this.checkBoxMultiThead.Text = "Run MultiTheaded";
+            this.checkBoxMultiThead.UseVisualStyleBackColor = true;
+            // 
             // StatCollectorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 420);
+            this.Controls.Add(this.checkBoxMultiThead);
+            this.Controls.Add(this.buttonSelectTruthTables);
             this.Controls.Add(this.buttonViewResult);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label2);
@@ -194,5 +218,7 @@
         private System.Windows.Forms.OpenFileDialog openDistortionsFilesDialog;
         private System.Windows.Forms.OpenFileDialog openBoolFuncFileDialog;
         private System.Windows.Forms.Button buttonViewResult;
+        private System.Windows.Forms.Button buttonSelectTruthTables;
+        private System.Windows.Forms.CheckBox checkBoxMultiThead;
     }
 }

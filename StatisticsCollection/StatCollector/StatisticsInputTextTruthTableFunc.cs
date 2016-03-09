@@ -50,15 +50,20 @@ namespace StatisticsCollection.StatCollector
             // load the resource first time
             String path = FilesPathText[iFunc];
             var reader = new BoolFuncTextReader(path);
+#if !DEBUG
             try
             {
+#endif             
                 _boolFunc = reader.GetBoolFunc();
+#if !DEBUG
             }
             catch (Exception e)
             {
+
                 Logger.WriteLine("StatisticsInputTextTruthTableFunc.FunctionValidate error: " + e.Message);
                 return false;
             }
+#endif
             return true; // text bool function should be fine
         }
 

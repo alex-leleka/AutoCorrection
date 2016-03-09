@@ -14,6 +14,7 @@ namespace StatisticsCollection.StatCollector
         private List<String> _filesWithDistortions;
         private List<String> _functionsText;
         private String _resultFileName;
+        private bool _useTruthTableFiles;
 
         public StatCollectorForm()
         {
@@ -21,6 +22,7 @@ namespace StatisticsCollection.StatCollector
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
             _functionsText = null;
+            _useTruthTableFiles = false;
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -37,14 +39,19 @@ namespace StatisticsCollection.StatCollector
             // select IStatisticsInput instance by trying cheking possible input for null
             IStatisticsInput inputAnaliticFunc = null;
             if (_functionsText != null)
-                inputAnaliticFunc = new StatisticsInputAnaliticFunc(_functionsText, _filesWithDistortions);
+            {
+                if (!_useTruthTableFiles)
+                    inputAnaliticFunc = new StatisticsInputAnaliticFunc(_functionsText, _filesWithDistortions);
+                else
+                    inputAnaliticFunc = new StatisticsInputTextTruthTableFunc(_functionsText, _filesWithDistortions);
+            }
             //if (_functionsTable != null)
             //    inputAnaliticFunc = new StatisticsInputTableFunc(_functionsTable, _filesWithDistortions);
 
 
             progressBar1.Value = 0;
             if (null == inputAnaliticFunc) return;
-            if(false)
+            if(!checkBoxMultiThead.Checked)
             {
                 // run in main thread (to see all exception)
                 var sm = new StatisticsManager(inputAnaliticFunc);
@@ -80,6 +87,7 @@ namespace StatisticsCollection.StatCollector
 
         private void button2_Click(object sender, EventArgs e)
         {
+            openBoolFuncFileDialog.Multiselect = false;
             var dr = openBoolFuncFileDialog.ShowDialog();
             if (dr != DialogResult.OK)
                 return;
@@ -100,6 +108,7 @@ namespace StatisticsCollection.StatCollector
             textBoxBoolFunc.Text = "";
             foreach (var s in _functionsText)
                 textBoxBoolFunc.Text += s + Environment.NewLine;
+            _useTruthTableFiles = false;
         }
 
         private void StatCollectorForm_Load(object sender, EventArgs e)
@@ -166,6 +175,24 @@ namespace StatisticsCollection.StatCollector
             };
             process.Start();
             process.WaitForExit();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            openBoolFuncFileDialog.Multiselect = true;
+            var dr = openBoolFuncFileDialog.ShowDialog();
+            if (dr != DialogResult.OK)
+                return;
+            var count = openBoolFuncFileDialog.FileNames.Length;
+            if (count == 0)
+                return;
+            _functionsText = new List<String>();
+            _functionsText.AddRange(openBoolFuncFileDialog.FileNames);
+
+            textBoxBoolFunc.Text = "";
+            foreach (var s in _functionsText)
+                textBoxBoolFunc.Text += s + Environment.NewLine;
+            _useTruthTableFiles = true;
         }
     }
 }
