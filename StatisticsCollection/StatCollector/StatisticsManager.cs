@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using Diplom_Work_Compare_Results_Probabilities;
 
 namespace StatisticsCollection.StatCollector
 {
@@ -29,8 +30,8 @@ namespace StatisticsCollection.StatCollector
             int maxWorkers = _inputAnaliticFunc.FunctionsTextCount() * _inputAnaliticFunc.FilesWithDistortionsCount();
             if(maxWorkers < 1)
                 return;
-        
-            var statTasksPool = new StatisticsTasksPool(_inputAnaliticFunc);
+
+            var statTasksPool = GetStatisticsTasksPool();
             var statWriter = new StatisticsWriter();
 
             for(int workersIndex = 0; workersIndex < maxWorkers; ++workersIndex)
@@ -60,6 +61,34 @@ namespace StatisticsCollection.StatCollector
             worker.ReportProgress(_oldProgressPercent);
         }
 
+        private dynamic GetStatisticsTasksPool()
+        {
+            if (_inputAnaliticFunc.FilesWithDistortions.Count > 0)
+            {
+                String path = _inputAnaliticFunc.FilesWithDistortions[0];
+                try
+                {
+                    var reader = new DistortionProbUnitedInputTextReader(path);
+                    reader.GetDistortionProb();
+                    return new StatisticsTasksPool<InputWithUnitedDistortionProbabilities>(_inputAnaliticFunc);
+                }
+                catch (Exception )
+                {
+                    // ignore
+                }
+                try
+                {
+                    var reader = new DistortionProbTextReader(path);
+                    reader.GetDistortionProb();
+                    return new StatisticsTasksPool<InputDistortionProbabilities>(_inputAnaliticFunc);
+                }
+                catch (Exception)
+                {
+                    // ignore
+                }
+            }
+            return null;
+        }
         internal void Run(BackgroundWorker bworker, DoWorkEventArgs e)
         {
             if (_inputAnaliticFunc == null)
@@ -69,7 +98,7 @@ namespace StatisticsCollection.StatCollector
             if (maxWorkers < 1)
                 return;
 
-            var statTasksPool = new StatisticsTasksPool(_inputAnaliticFunc);
+            var statTasksPool = GetStatisticsTasksPool();
             var statWriter = new StatisticsWriter();
 
             for (int workersIndex = 0; workersIndex < maxWorkers; ++workersIndex)

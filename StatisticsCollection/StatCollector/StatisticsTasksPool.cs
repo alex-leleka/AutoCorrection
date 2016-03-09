@@ -14,12 +14,12 @@ namespace StatisticsCollection.StatCollector
     /// and array of analytic boolean functions. All of them should have the same number of 2nd level inputs
     /// and the same number of inputs in function.
     /// </summary>
-    class StatisticsTasksPool
+    class StatisticsTasksPool<InputDistortionType> where InputDistortionType : class
     {
         private readonly IStatisticsInput _inputAnaliticFunc;
         int _distortionsIndex;
         int _funcIndex;
-        List<InputWithUnitedDistortionProbabilities> _inpDist;
+        List<InputDistortionType> _inpDist;
         List<BooleanFuntionWithInputDistortion> _boolFunc;
 
         public StatisticsTasksPool(IStatisticsInput inputAnaliticFunc)
@@ -29,7 +29,7 @@ namespace StatisticsCollection.StatCollector
             InitResources();
         }
 
-        public StatisticsWorker GetNextWorker()
+        public StatisticsWorker<InputDistortionType> GetNextWorker()
         {
             // don't replace index increment without recheking of all possible outcomes
             while (_distortionsIndex < _inputAnaliticFunc.FilesWithDistortionsCount())
@@ -43,7 +43,7 @@ namespace StatisticsCollection.StatCollector
                     if ((_inputAnaliticFunc.FilesWithDistortions[jDist].Length < 2) || !_inputAnaliticFunc.FunctionValidate(iFunc))
                         return null;
 
-                    return new StatisticsWorker(GetBoolFunctionWithInpDist(iFunc), GetInpDistProb(jDist),
+                    return new StatisticsWorker<InputDistortionType>(GetBoolFunctionWithInpDist(iFunc), GetInpDistProb(jDist),
                         _inputAnaliticFunc.FilesWithDistortions[jDist], _inputAnaliticFunc.GetFunctionText(iFunc));
                 }
                 _funcIndex = 0;
@@ -54,7 +54,7 @@ namespace StatisticsCollection.StatCollector
             return null;
         }
 
-        private InputWithUnitedDistortionProbabilities GetInpDistProb(int distortionsIndex)
+        private InputDistortionType GetInpDistProb(int distortionsIndex)
         {
             if (_inpDist.Count <= distortionsIndex)
                 _inpDist.Add(null);
@@ -62,8 +62,25 @@ namespace StatisticsCollection.StatCollector
             {
                 // load the resource first time
                 String path = _inputAnaliticFunc.FilesWithDistortions[distortionsIndex];
-                var reader = new DistortionProbUnitedInputTextReader(path);
-                _inpDist[distortionsIndex] = reader.GetDistortionProb();
+                if (typeof(InputDistortionType) == typeof(InputWithUnitedDistortionProbabilities))
+                {
+                    var reader = new DistortionProbUnitedInputTextReader(path);
+                    InputDistortionType dp = reader.GetDistortionProb() as InputDistortionType;
+                    if (dp != null) // dp is never null
+                        _inpDist[distortionsIndex] = dp;
+                }
+                else if (typeof (InputDistortionType) == typeof (InputDistortionProbabilities))
+                {
+                    var reader = new DistortionProbTextReader(path);
+                    InputDistortionType dp = reader.GetDistortionProb() as InputDistortionType;
+                    if (dp != null) // dp is never null
+                        _inpDist[distortionsIndex] = dp;
+                }
+                else
+                {
+                    //undefined type
+                    throw new Exception("InputDistortionType is unknown type!");
+                }
             }
             return _inpDist[distortionsIndex];
         }
@@ -74,7 +91,13 @@ namespace StatisticsCollection.StatCollector
                 _boolFunc.Add(null);
             if (_boolFunc[funcIndex] == null)
             {
-                int inputNumberOfDigits = GetInpDistProb(0).GetSecondLevelInputsCount();
+                int inputNumberOfDigits = 0;
+                var dp = GetInpDistProb(0) as InputWithUnitedDistortionProbabilities;
+                if (dp != null)
+                    inputNumberOfDigits = dp.GetSecondLevelInputsCount();
+                var idp = GetInpDistProb(0) as InputDistortionProbabilities;
+                if (idp != null)
+                    inputNumberOfDigits = idp.GetInputDigitsCount();
 
                 _boolFunc[funcIndex] = _inputAnaliticFunc.GetBoolFunc(funcIndex, inputNumberOfDigits);
             }
@@ -86,7 +109,7 @@ namespace StatisticsCollection.StatCollector
             // create empty lists, we don't need to allocate all at time.
             // we will load them as needed.
             _boolFunc = new List<BooleanFuntionWithInputDistortion>(_inputAnaliticFunc.FunctionsTextCount());
-            _inpDist = new List<InputWithUnitedDistortionProbabilities>(_inputAnaliticFunc.FilesWithDistortionsCount());
+            _inpDist = new List<InputDistortionType>(_inputAnaliticFunc.FilesWithDistortionsCount());
             
         }
 

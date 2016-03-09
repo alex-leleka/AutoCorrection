@@ -27,7 +27,7 @@ namespace StatisticsCollection.StatCollector
         {
             return _fileName;
         }
-        public void WiteStatistics(StatisticsWorker worker)
+        public void WiteStatistics<T>(StatisticsWorker<T> worker)
         {
             var resultsProbs = worker.GetResult();
             double pCorrectResult = resultsProbs.Sum(a => a.Value);

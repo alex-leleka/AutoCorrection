@@ -14,16 +14,16 @@ namespace StatisticsCollection.StatCollector
     /// Return autocorrection result.
     /// Only for logical networks with united inputs.
     /// </summary>
-    class StatisticsWorker
+    class StatisticsWorker<InputDistortionType> //InputWithUnitedDistortionProbabilities
     {
         private BooleanFuntionWithInputDistortion _bfWithInpDist;
-        private InputWithUnitedDistortionProbabilities _inpDistProb;
+        private InputDistortionType _inpDistProb;
         // data for stat writer
         private String _boolFunctionText;
         private String _distFileName;
 
-        public StatisticsWorker(BooleanFuntionWithInputDistortion bfWithInpDist, 
-            InputWithUnitedDistortionProbabilities inpDistProb, 
+        public StatisticsWorker(BooleanFuntionWithInputDistortion bfWithInpDist,
+            InputDistortionType inpDistProb, 
             String distFileName = "None", String boolFunctionText = "None")
         {
             _bfWithInpDist = bfWithInpDist;
@@ -35,7 +35,7 @@ namespace StatisticsCollection.StatCollector
 
         public Dictionary<int, double> GetResult()
         {
-            var pCalc = new ProbabilitiesCorrLogicNetWithUnitedInputs(_inpDistProb, _bfWithInpDist);
+            var pCalc = new GenericProbCalculator<InputDistortionType>(_inpDistProb, _bfWithInpDist);
             var pCorrectResult = pCalc.GetCorrectResultProbability();
             return pCorrectResult;
         }

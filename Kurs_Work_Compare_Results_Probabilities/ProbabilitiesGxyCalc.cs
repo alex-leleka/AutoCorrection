@@ -4,6 +4,8 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
+using DotNetUtils;
+
 namespace Diplom_Work_Compare_Results_Probabilities
 {
     
@@ -241,6 +243,19 @@ namespace Diplom_Work_Compare_Results_Probabilities
         public int OutputNumberOfDigits()
         {
             return _truthTable.OutputNumberOfDigits;
+        }
+
+        public static G4Probability CalculateFunctionDistortion(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
+        {
+            bf.LoadDistortionToBoolFunction(idp);
+            var pCalc = new ProbabilitiesGxyCalc(bf, idp);
+            const int binaryFunctionResultCount = 2;
+            Gprobabilites[] prob = new Gprobabilites[binaryFunctionResultCount];
+            for (int i = 0; i < binaryFunctionResultCount; i++)
+            {
+                prob[i] = pCalc.GetGprobabilitesResult(i.ToBinary(1));
+            }
+            return new G4Probability(prob);
         }
     }
 }
