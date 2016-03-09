@@ -55,6 +55,7 @@
       <DependentUpon>StatCollectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StatCollector\StatisticsInputGenFunc.cs" />
+    <Compile Include="StatCollector\StatisticsInputTextTruthTableFunc.cs" />
     <Compile Include="StatCollector\StatisticsManager.cs" />
     <Compile Include="StatCollector\StatisticsTasksPool.cs" />
     <Compile Include="StatCollector\StatisticsWorker.cs" />

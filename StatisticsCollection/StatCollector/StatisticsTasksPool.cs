@@ -75,14 +75,7 @@ namespace StatisticsCollection.StatCollector
             if (_boolFunc[funcIndex] == null)
             {
                 int inputNumberOfDigits = GetInpDistProb(0).GetSecondLevelInputsCount();
-                /*
-                 // load the resource first time
-                String[] functionText = new String[1];
-                functionText[0] = _inputAnaliticFunc.FunctionsText[funcIndex];
-                int outputNumberOfDigits = 1; // Always one, input data format don't allow us anything else
-                _boolFunc[funcIndex] = new BooleanFunctionAnalytic(inputNumberOfDigits, 
-                    outputNumberOfDigits,functionText);
-                 */
+
                 _boolFunc[funcIndex] = _inputAnaliticFunc.GetBoolFunc(funcIndex, inputNumberOfDigits);
             }
             return _boolFunc[funcIndex];

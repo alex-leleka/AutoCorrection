@@ -48,8 +48,6 @@ namespace StatisticsCollection.StatCollector
             _inputAnaliticFunc = inputAnaliticFunc;
             Debug.Assert(inputAnaliticFunc != null);
             Debug.Assert(inputAnaliticFunc.FilesWithDistortions != null);
-            //Debug.Assert(inputAnaliticFunc.FunctionsText != null);
-            //Debug.Assert(inputAnaliticFunc.FunctionsText != inputAnaliticFunc.FilesWithDistortions);
             _oldProgressPercent = 0;
         }
 

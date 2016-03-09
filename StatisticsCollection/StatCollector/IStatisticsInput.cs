@@ -7,7 +7,6 @@ namespace StatisticsCollection.StatCollector
     interface IStatisticsInput
     {
         BooleanFuntionWithInputDistortion GetBoolFunc(int funcIndex, int inputNumberOfDigits);
-        //List<String> FunctionsText { get; }
         List<string> FilesWithDistortions { get; }
         int FunctionsTextCount();
         int FilesWithDistortionsCount();
