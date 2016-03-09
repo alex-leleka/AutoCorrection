@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using Diplom_Work_Compare_Results_Probabilities;
 using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 
