@@ -14,10 +14,12 @@ namespace StatisticsCollection.StatCollector
     {
         private IStatisticsInput _inputAnaliticFunc;
         private int _oldProgressPercent;
+        private static bool _bSubfunctionMethodCalculationEnabled = false;
 
-        public StatisticsManager(IStatisticsInput inputAnaliticFunc)
+        public StatisticsManager(IStatisticsInput inputAnaliticFunc, bool bSubfunctionMethodCalculationEnabled)
         {
             SetInput(inputAnaliticFunc);
+            _bSubfunctionMethodCalculationEnabled = bSubfunctionMethodCalculationEnabled;
             // disable logger, we don't need it
             Diplom_Work_Compare_Results_Probabilities.Logger.ResetLogger(false);
         }
@@ -82,9 +84,10 @@ namespace StatisticsCollection.StatCollector
                     reader.GetDistortionProb();
                     return new StatisticsTasksPool<InputDistortionProbabilities>(_inputAnaliticFunc);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     // ignore
+                    throw;
                 }
             }
             return null;
@@ -118,6 +121,11 @@ namespace StatisticsCollection.StatCollector
                 }
             }
             e.Result = statWriter.GetFileName();
+        }
+
+        public static bool IsSubfunctionMethodCalculationEnabled()
+        {
+            return _bSubfunctionMethodCalculationEnabled;
         }
     }
 

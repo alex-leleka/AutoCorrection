@@ -35,7 +35,7 @@ namespace StatisticsCollection.StatCollector
 
         public Dictionary<int, double> GetResult()
         {
-            var pCalc = new GenericProbCalculator<InputDistortionType>(_inpDistProb, _bfWithInpDist);
+            var pCalc = new GenericProbCalculator<InputDistortionType>(_inpDistProb, _bfWithInpDist, StatisticsManager.IsSubfunctionMethodCalculationEnabled());
             var pCorrectResult = pCalc.GetCorrectResultProbability();
             return pCorrectResult;
         }

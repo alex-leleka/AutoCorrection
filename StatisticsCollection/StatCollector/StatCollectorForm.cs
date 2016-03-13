@@ -15,6 +15,7 @@ namespace StatisticsCollection.StatCollector
         private List<String> _functionsText;
         private String _resultFileName;
         private bool _useTruthTableFiles;
+        private bool _bSubfunctionMethodCalculationEnabled;
 
         public StatCollectorForm()
         {
@@ -23,6 +24,7 @@ namespace StatisticsCollection.StatCollector
             backgroundWorker1.WorkerSupportsCancellation = true;
             _functionsText = null;
             _useTruthTableFiles = false;
+            _bSubfunctionMethodCalculationEnabled = false;
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -48,13 +50,13 @@ namespace StatisticsCollection.StatCollector
             //if (_functionsTable != null)
             //    inputAnaliticFunc = new StatisticsInputTableFunc(_functionsTable, _filesWithDistortions);
 
-
+            _bSubfunctionMethodCalculationEnabled = checkBoxUseSubfunctionMethods.Checked;
             progressBar1.Value = 0;
             if (null == inputAnaliticFunc) return;
             if(!checkBoxMultiThead.Checked)
             {
                 // run in main thread (to see all exception)
-                var sm = new StatisticsManager(inputAnaliticFunc);
+                var sm = new StatisticsManager(inputAnaliticFunc, _bSubfunctionMethodCalculationEnabled);
                 sm.Run();
                 buttonViewResult.Enabled = true;
                 return;
@@ -63,7 +65,7 @@ namespace StatisticsCollection.StatCollector
             {
                 backgroundWorker1.RunWorkerAsync(inputAnaliticFunc);
                 button4.Enabled = true;
-                button3.Enabled = false;
+                buttonRun.Enabled = false;
                 buttonViewResult.Enabled = false;
             }
 
@@ -83,6 +85,9 @@ namespace StatisticsCollection.StatCollector
             textBoxDistFileNames.Text = "";
             foreach (var s in _filesWithDistortions)
                 textBoxDistFileNames.Text += s + Environment.NewLine;
+
+            if(!buttonRun.Enabled && buttonViewResult.Enabled)
+                buttonRun.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -125,7 +130,7 @@ namespace StatisticsCollection.StatCollector
             // Get the BackgroundWorker that raised this event.
             var worker = sender as BackgroundWorker;
             IStatisticsInput input = (IStatisticsInput)e.Argument;
-            var sm = new StatisticsManager(input);
+            var sm = new StatisticsManager(input, _bSubfunctionMethodCalculationEnabled);
             sm.Run(worker, e);
         }
 

@@ -91,6 +91,10 @@
       <Project>{909c56e7-e019-4766-a923-7e23e933e162}</Project>
       <Name>Diplom_Work_Compare_Results_Probabilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SubfunctionPrototype\SubfunctionPrototype.csproj">
+      <Project>{409F656B-3F8E-42F2-9ED6-F77EDA2F9121}</Project>
+      <Name>SubfunctionPrototype</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

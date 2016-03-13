@@ -32,7 +32,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.textBoxBoolFunc = new System.Windows.Forms.TextBox();
             this.textBoxDistFileNames = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonRun = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -43,6 +43,7 @@
             this.buttonViewResult = new System.Windows.Forms.Button();
             this.buttonSelectTruthTables = new System.Windows.Forms.Button();
             this.checkBoxMultiThead = new System.Windows.Forms.CheckBox();
+            this.checkBoxUseSubfunctionMethods = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -84,15 +85,15 @@
             this.textBoxDistFileNames.TabIndex = 3;
             this.textBoxDistFileNames.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
-            // button3
+            // buttonRun
             // 
-            this.button3.Location = new System.Drawing.Point(408, 354);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 54);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Run";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.buttonRun.Location = new System.Drawing.Point(408, 354);
+            this.buttonRun.Name = "buttonRun";
+            this.buttonRun.Size = new System.Drawing.Size(75, 54);
+            this.buttonRun.TabIndex = 4;
+            this.buttonRun.Text = "Run";
+            this.buttonRun.UseVisualStyleBackColor = true;
+            this.buttonRun.Click += new System.EventHandler(this.button3_Click);
             // 
             // progressBar1
             // 
@@ -178,11 +179,22 @@
             this.checkBoxMultiThead.Text = "Run MultiTheaded";
             this.checkBoxMultiThead.UseVisualStyleBackColor = true;
             // 
+            // checkBoxUseSubfunctionMethods
+            // 
+            this.checkBoxUseSubfunctionMethods.AutoSize = true;
+            this.checkBoxUseSubfunctionMethods.Location = new System.Drawing.Point(327, 320);
+            this.checkBoxUseSubfunctionMethods.Name = "checkBoxUseSubfunctionMethods";
+            this.checkBoxUseSubfunctionMethods.Size = new System.Drawing.Size(111, 17);
+            this.checkBoxUseSubfunctionMethods.TabIndex = 12;
+            this.checkBoxUseSubfunctionMethods.Text = "Subfunctions calc";
+            this.checkBoxUseSubfunctionMethods.UseVisualStyleBackColor = true;
+            // 
             // StatCollectorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 420);
+            this.Controls.Add(this.checkBoxUseSubfunctionMethods);
             this.Controls.Add(this.checkBoxMultiThead);
             this.Controls.Add(this.buttonSelectTruthTables);
             this.Controls.Add(this.buttonViewResult);
@@ -190,7 +202,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.buttonRun);
             this.Controls.Add(this.textBoxDistFileNames);
             this.Controls.Add(this.textBoxBoolFunc);
             this.Controls.Add(this.button2);
@@ -209,7 +221,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBoxBoolFunc;
         private System.Windows.Forms.TextBox textBoxDistFileNames;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonRun;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -220,5 +232,6 @@
         private System.Windows.Forms.Button buttonViewResult;
         private System.Windows.Forms.Button buttonSelectTruthTables;
         private System.Windows.Forms.CheckBox checkBoxMultiThead;
+        private System.Windows.Forms.CheckBox checkBoxUseSubfunctionMethods;
     }
 }
