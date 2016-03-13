@@ -23,10 +23,32 @@ namespace Diplom_Work_Compare_Results_Probabilities
                 double[] distortionToOneProbability = ReadDoubleArr(sr, inputDigitsCount);
                 double[] distortionToInverseProbability = ReadDoubleArr(sr, inputDigitsCount);
                 double[] probalityZero = ReadDoubleArr(sr, inputDigitsCount);
+                /*/ < remove next code
+                StreamWriter sw = new StreamWriter(_path + ".csv");
+                for (int i = 0; i < inputDigitsCount; ++i)
+                {
+                    double pcorr = 1.0 - distortionToZeroProbability[i] - distortionToOneProbability[i]
+                                   - distortionToInverseProbability[i];
+
+                    double g00 = (pcorr + distortionToZeroProbability[i]) * probalityZero[i];
+                    double g01 = (distortionToZeroProbability[i] + distortionToInverseProbability[i]) * (1.0 - probalityZero[i]);
+                    double g10 = (distortionToOneProbability[i] + distortionToInverseProbability[i]) * probalityZero[i];
+                    double g11 = (pcorr + distortionToOneProbability[i]) * (1.0 - probalityZero[i]);
+                    sw.Write(g00 + " ;");
+                    sw.Write(g01 + " ;");
+                    sw.Write(g10 + " ;");
+                    sw.Write(g11 + " ;");
+                    sw.WriteLine("");
+                }
+                sw.Close();
+                // /> */
                 return new InputDistortionProbabilities(distortionToZeroProbability,
                     distortionToOneProbability, distortionToInverseProbability,
                     probalityZero);
+
+
             }
+
         }
         protected int ReadInt(StreamReader sr)
         {
