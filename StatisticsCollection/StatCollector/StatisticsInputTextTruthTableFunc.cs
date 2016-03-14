@@ -13,10 +13,10 @@ namespace StatisticsCollection.StatCollector
     {
         private readonly List<String> _filesPathText;
         private readonly List<String> _filesWithDistortions;
-        private BooleanFuntionWithInputDistortion _boolFunc;
+        private List<BooleanFuntionWithInputDistortion> _boolFunc;
         public StatisticsInputTextTruthTableFunc(List<String> filesPathText, List<String> filesWithDistortions)
         {
-            _boolFunc = null;
+            _boolFunc = new List<BooleanFuntionWithInputDistortion>();
             _filesPathText = filesPathText;
             _filesWithDistortions = filesWithDistortions;
         }
@@ -45,7 +45,7 @@ namespace StatisticsCollection.StatCollector
 
         public bool FunctionValidate(int iFunc)
         {
-            if (_boolFunc != null)
+            if (_boolFunc.Count > iFunc)
                 return true;
             // load the resource first time
             String path = FilesPathText[iFunc];
@@ -54,7 +54,8 @@ namespace StatisticsCollection.StatCollector
             try
             {
 #endif             
-                _boolFunc = reader.GetBoolFunc();
+                var boolFunc = reader.GetBoolFunc();
+                _boolFunc.Add(boolFunc);
 #if !DEBUG
             }
             catch (Exception e)
@@ -74,13 +75,14 @@ namespace StatisticsCollection.StatCollector
 
         public BooleanFuntionWithInputDistortion GetBoolFunc(int funcIndex, int inputNumberOfDigits)
         {
-            if (_boolFunc != null)
-                return _boolFunc;
+            if (_boolFunc.Count > funcIndex)
+                return _boolFunc[funcIndex];
             // load the resource first time
             String path = FilesPathText[funcIndex];
             var reader = new BoolFuncTextReader(path);
-            _boolFunc = reader.GetBoolFunc();
-            return _boolFunc;
+            var boolFunc = reader.GetBoolFunc();
+            _boolFunc.Add(boolFunc);
+            return boolFunc;
         }
     }
 }

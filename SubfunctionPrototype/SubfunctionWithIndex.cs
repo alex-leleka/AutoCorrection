@@ -29,6 +29,7 @@ namespace SubfunctionPrototype
         /// <param name="other"></param>
         public bool Compare(SubfunctionWithIndex other)
         {
+            if (_booleanFuntion.Length < 2) return false;
             bool isEqual = _booleanFuntion.SequenceEqual(other._booleanFuntion);
             if (isEqual)
                 other._index = _index;
