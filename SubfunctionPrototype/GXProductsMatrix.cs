@@ -7,9 +7,10 @@ namespace SubfunctionPrototype
     {
         // TODO: optimize matrix operations 
         private Dictionary<int, Dictionary<int, double>> _matrix;
-
+        private double[][] _arrInts;
         public GXProductsMatrix(int rowsNum, int columnsNum)
         {
+            _arrInts = null;
             _matrix = new Dictionary<int, Dictionary<int, double>>(rowsNum);
             for (int i = 0; i < rowsNum; i++)
             {
@@ -21,6 +22,18 @@ namespace SubfunctionPrototype
             }
         }
 
+        /// <summary>
+        /// Optimization for accessing elements by index.
+        /// </summary>
+        public void ConvertDictionatyToArray()
+        {
+            int size = _matrix.Count;
+            _arrInts = new double[size][];
+            for (int i = 0; i < size; ++i)
+            {
+                _arrInts[i] = _matrix.ElementAt(i).Value.Values.ToArray();
+            }
+        }
         public Dictionary<int, Dictionary<int, double>>.KeyCollection GetRowsKeys()
         {
             return _matrix.Keys;
@@ -33,6 +46,8 @@ namespace SubfunctionPrototype
 
         public double Get(int row,int column)
         {
+            if (_arrInts != null)
+                return _arrInts[row][column];
             return _matrix.ElementAt(row).Value.ElementAt(column).Value; // HACK , access elements by index not by key (original matrix index)
         }
 
@@ -43,7 +58,7 @@ namespace SubfunctionPrototype
 
         public int GetColumnKeyByIndex(int index)
         {
-            return _matrix.ElementAt(0).Value.ElementAt(index).Key;
+            return _matrix[0].ElementAt(index).Key;
         }
 
         public void Set(int row, int column, double val)
