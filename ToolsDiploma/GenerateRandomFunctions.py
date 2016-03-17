@@ -46,7 +46,12 @@ class BooleanFunction:
 
 	def getrandomResult(self):
 		maxValue = (1 << self.outputbitsCount) - 1
-		return random.randint(0, maxValue)
+		n = 20
+		randInt = random.randint(0, n*maxValue)
+		# clamp number between 0 and maxValue
+		n = n - 1
+		result = max(0, randInt - n*maxValue)
+		return result
 
 	def writetofile(self, fileVar):
 		values = CommentChar + " " + MyMath.binaryTo32(self.table) + "\n"
@@ -145,15 +150,15 @@ class GenerationManager:
 				distprob.writetofile(outfile)
 
 # arguments 
-inputbitsCount = 5 # integer > 0
+inputbitsCount = 12 # integer > 0
 outputbitsCount = 1 # integer > 0
-numberoffunctionstogenerate = 4
-filename = "randomfunction"
+numberoffunctionstogenerate = 1
+filename = "randomfunction0max"
 # optinal arguent
 genSpeed = 1 # integer > 0 
 
 # generate new boolean function
 
-m = GenerationManager(inputbitsCount, outputbitsCount, numberoffunctionstogenerate, filename, 4)
+m = GenerationManager(inputbitsCount, outputbitsCount, numberoffunctionstogenerate, filename, 1)
 m.genfunctionsrun()
-m.gendistporbsrun()
+#m.gendistporbsrun()

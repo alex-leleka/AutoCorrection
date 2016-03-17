@@ -90,7 +90,7 @@ namespace SubfunctionPrototype
                 Logger.ResetLogger(true);
                 oldLoggerOn = false;
             }
-            Logger.Write("Execution time (subfunction): " + originalTime );
+            Logger.WriteLine("Execution time (subfunction): " + originalTime + "\n time" + DateTime.Now );
             Logger.ResetLogger(oldLoggerOn); // timing
 
             return modelF;
@@ -105,6 +105,24 @@ namespace SubfunctionPrototype
             for (int i = 0; i < gxIndexes.Length; ++i)
             {
                 reduceMaps[i] = GetReduceMap(_bf, gxIndexes[i]);
+            }
+
+            const bool logSubfunctionsCount = true;
+            if (logSubfunctionsCount)
+            {
+                bool oldLoggerOn = true;
+                if (!Logger.Init())
+                {
+                    Logger.ResetLogger(true);
+                    oldLoggerOn = false;
+                }
+
+                foreach (var reduceMap in reduceMaps)
+                {
+                    Logger.WriteLine("logSubfunctionsCount = " + reduceMap.Count);
+                }
+                Logger.WriteLine("------------");
+                Logger.ResetLogger(oldLoggerOn);
             }
         }
 
@@ -135,6 +153,9 @@ namespace SubfunctionPrototype
             // we gonna iterate all possible inputs and add product value to g4result.G[f_real][f_expected]
             G4Probability g4Result = new G4Probability();
             int[] currentIndInts = new int[gxProductsMatrices.Length];
+            for(int i = 0; i < gxProductsMatrices.Length; ++i)
+                gxProductsMatrices[i].ConvertDictionatyToArray();
+
             do
             {
                 // indexes that mean matrix real values
@@ -302,7 +323,13 @@ namespace SubfunctionPrototype
             bool[] newBf = new bool[newBfSize];
 
             Func<BitArray, BitArray> boolFunction;
-            if (gXIndex.First == 0)
+
+            if (newBfArgBitsCount == 0) // handle calculation without partition
+            {
+                newBf[0] = false;
+                return newBf;
+            }
+                if (gXIndex.First == 0)
             {
                 boolFunction = inp => bf.GetResult(inp.Prepend(i.ToBinary(gXIndex.GetBitsCount())));
             }

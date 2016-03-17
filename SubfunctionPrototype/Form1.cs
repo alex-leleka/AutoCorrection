@@ -113,7 +113,7 @@ namespace SubfunctionPrototype
 
         private BooleanFuntionWithInputDistortion GetBoolFunc()
         {
-            BooleanFuntionWithInputDistortion boolFuncD = new BooleanFunctionDelegate(5, 1, f16);
+            BooleanFuntionWithInputDistortion boolFuncD = new BooleanFunctionDelegate(10, 1, f16);
             return boolFuncD;
             // load the resource first time
             String[] functionText = new String[1];
@@ -129,15 +129,15 @@ namespace SubfunctionPrototype
         {
             BitArray result = new BitArray(1, false);
             bool r = false;
-            for (int i = 0; i < 5; ++i)
-                r |= x[i];
+            for (int i = 0; i < 10; ++i)
+            r ^= x[i];
             result[0] = r;///*x[15] | (x[14] & x[13] )*/ x[12] | x[11] & x[0] | x[10] & x[9] | x[8] & x[7] | x[6] & x[5] | x[4] | x[0] | x[1] & x[2] & (x[3] ^ x[0]);
             return result;
         }
 
         private InputDistortionProbabilities GetInputDistortionProb()
         {
-            String path = @"C:\Study\DiplomInput\InputDistortion5bit.txt";
+            String path = @"C:\Study\DiplomInput\InputDistortion10bitEN.txt";
             var reader = new DistortionProbTextReader(path);
             var idp = reader.GetDistortionProb();
             return idp;
@@ -148,7 +148,7 @@ namespace SubfunctionPrototype
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             // calc original func dist
-            var originalF = new G4Probability();//CalculateFunctionDistortion(bf, idp);  // 
+            var originalF = CalculateFunctionDistortion(bf, idp);  // new G4Probability();//
             stopwatch.Stop();
             var originalTime = stopwatch.ElapsedMilliseconds;
             // calc our model result
