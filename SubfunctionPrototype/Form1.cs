@@ -185,5 +185,71 @@ namespace SubfunctionPrototype
             var idp = GetInputDistortionProb();
             StartRoutine(bf, idp);
         }
+
+        private void MultFuncCalcButton_Click(object sender, EventArgs e)
+        {
+            var bf = GetDelegateFunc();
+            var idp = GetG4InputDistortionProb();
+            StartMFRoutine(bf, idp);
+        }
+
+        private void StartMFRoutine(Func<int, int> bf, InputDistortionG4 idp)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            // calc original func dist
+            //var originalF = CalculateFunctionDistortion(bf, idp);  // new G4Probability();//
+            stopwatch.Stop();
+            var originalTime = stopwatch.ElapsedMilliseconds;
+            // calc our model result
+            // some preparations for test model:
+            //***************************************************
+            var pCalc = new MultifunctionDistortionCalcAdadapter(idp, bf);
+            //***************************************************
+            stopwatch = Stopwatch.StartNew();
+            var modelFArr = pCalc.GetResultDistortinProbabilities();
+            stopwatch.Stop();
+            var modelTime = stopwatch.ElapsedMilliseconds;
+
+            string origResult = "";
+
+            textBoxOriginal.Text = origResult + Environment.NewLine + originalTime;
+            string modelResult = "";
+            for (int i = 0; i < modelFArr.Length; ++i)
+            {
+                var modelF = modelFArr[i];
+                modelResult += "G[0][0] " + modelF.G[0][0] + Environment.NewLine +
+                "G[0][1] " + modelF.G[0][1] + Environment.NewLine +
+                "G[1][0] " + modelF.G[1][0] + Environment.NewLine +
+                "G[1][1] " + modelF.G[1][1] + Environment.NewLine + Environment.NewLine;
+            }
+            textBoxModel.Text = modelResult + Environment.NewLine + modelTime;
+        }
+
+        private InputDistortionG4 GetG4InputDistortionProb()
+        {
+            String path = @"C:\Study\DiplomInput\G4InputDistortion8bitOUT8Test.txt";
+            var reader = new DistortionProbTextReader(path);
+            var idp = reader.GetG4DistortionProb();
+            return idp;
+        }
+
+        private Func<int,int> GetDelegateFunc()
+        {
+            return Repeater;
+        }
+
+        private static int Adder4(int a)
+        {
+            const int shift = 4;
+            const int mask = 15;
+            int op1 = a & mask;
+            int op2 = a >> shift;
+            return op1 + op2;
+        }
+
+        private static int Repeater(int a)
+        {
+            return a;
+        }
     }
 }

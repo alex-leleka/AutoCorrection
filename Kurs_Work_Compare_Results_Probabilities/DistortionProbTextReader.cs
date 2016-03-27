@@ -50,6 +50,25 @@ namespace Diplom_Work_Compare_Results_Probabilities
             }
 
         }
+
+        public InputDistortionG4 GetG4DistortionProb()
+        {
+
+            using (StreamReader sr = new StreamReader(_path))
+            {
+                int inputDigitsCount = ReadInt(sr);
+                int outputDigitsCount = ReadInt(sr);
+                double[] ZeroToZeroProbability = ReadDoubleArr(sr, inputDigitsCount);
+                double[] OneToZeroProbability = ReadDoubleArr(sr, inputDigitsCount);
+                double[] OneToOneProbability = ReadDoubleArr(sr, inputDigitsCount);
+
+                return new InputDistortionG4(ZeroToZeroProbability,
+                    OneToZeroProbability, OneToOneProbability, outputDigitsCount);
+
+
+            }
+
+        }
         protected int ReadInt(StreamReader sr)
         {
             string line;

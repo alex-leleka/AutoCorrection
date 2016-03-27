@@ -116,4 +116,92 @@ namespace SubfunctionPrototype
             return _matrix[rowKey][columnKey];
         }
     }
+
+    public class GFProductsMatrix
+    {
+        // TODO: optimize matrix operations 
+        private double[][] _matrix;
+        public GFProductsMatrix(int rowsNum, int columnsNum)
+        {
+            _matrix = new double[(rowsNum)][];
+            for (int i = 0; i < rowsNum; i++)
+            {
+                _matrix[i] = new double[columnsNum];
+            }
+        }
+
+        /// <summary>
+        /// Optimization for accessing elements by index.
+        /// </summary>
+        public void ConvertDictionatyToArray()
+        {
+
+        }
+
+
+        public double Get(int row, int column)
+        {
+            return _matrix[row][column];
+        }
+
+        public void Reset(int row, int column)
+        {
+            _matrix[row][column] = 0;
+        }
+
+        public void AddNumber(int row, int column, double p)
+        {
+            _matrix[row][column] += p;
+        }
+
+        public void Set(int row, int column, double val)
+        {
+            _matrix[row][column] = val;
+        }
+        /// <summary>
+        /// Add values in rows, save result to rowAddTo, removes rowToAdd row.
+        /// </summary>
+        /// <param name="rowAddTo"></param>
+        /// <param name="rowToAdd"></param>
+        public void AddRow(int rowAddTo, int rowToAdd)
+        {
+            for(var i =0; i < _matrix[0].Length; ++i)
+            {
+                _matrix[rowAddTo][i] += _matrix[rowToAdd][i];
+            }
+            RemoveRow(rowToAdd);
+        }
+
+        public void AddColumn(int colAddTo, int colToAdd)
+        {
+            for (var i = 0; i < _matrix.Length; ++i)
+            {
+                _matrix[i][colAddTo] += _matrix[i][colToAdd];
+            }
+            RemoveCol(colToAdd);
+        }
+
+        private void RemoveCol(int col)
+        {
+        }
+
+        private void RemoveRow(int row)
+        {
+        }
+
+        public int GetRowsCount()
+        {
+            return _matrix.Length;
+        }
+
+        public int GetColumnsCount()
+        {
+            return _matrix[0].Length;
+        }
+
+        public double GetByKey(int rowKey, int columnKey)
+        {
+            return _matrix[rowKey][columnKey];
+        }
+    }
 }
