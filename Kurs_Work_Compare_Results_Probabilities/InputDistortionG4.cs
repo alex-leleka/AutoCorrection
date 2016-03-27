@@ -12,6 +12,11 @@ namespace Diplom_Work_Compare_Results_Probabilities
         private int _inputBitsNumber;
         private int _outputDigitsNumber;
 
+        public InputDistortionG4(G4Probability[] inputDistG4Probability)
+        {
+            _inputDistG4Probability = inputDistG4Probability;
+        }
+
         public InputDistortionG4(int n)
         {
             _inputBitsNumber = n;
@@ -69,6 +74,25 @@ namespace Diplom_Work_Compare_Results_Probabilities
         public int GetOutputBitsNumber()
         {
             return _outputDigitsNumber;
+        }
+
+        public InputDistortionG4 GetAdderLowerBitsDistortion(int separateBitsNumber)
+        {
+            int size = 2*separateBitsNumber;
+            G4Probability[] inputDistG4Probability = new G4Probability[size];
+            // copy op1 lower bits distotions
+            for (int i = 0; i < separateBitsNumber; ++i)
+            {
+                inputDistG4Probability[i] = _inputDistG4Probability[i];
+                inputDistG4Probability[separateBitsNumber + i] = _inputDistG4Probability[_inputBitsNumber/2 + i];
+            }
+            var inpDist = new InputDistortionG4(inputDistG4Probability);
+            return inpDist;
+        }
+
+        public InputDistortionG4 GetAdderHigherBitsDistortion(int separateBitsNumber, G4Probability g4Probability)
+        {
+            throw new NotImplementedException();
         }
     }
 }
