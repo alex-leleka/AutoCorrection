@@ -113,12 +113,14 @@ namespace SubfunctionPrototype
 
         private BooleanFuntionWithInputDistortion GetBoolFunc()
         {
+            var adderbf = new BitAdderTruthTable(4, 8);
+            //return adderbf;
             BooleanFuntionWithInputDistortion boolFuncD = new BooleanFunctionDelegate(10, 1, f16);
-            return boolFuncD;
+            //return boolFuncD;
             // load the resource first time
             String[] functionText = new String[1];
-            functionText[0] = @"x[5]|x[4]|x[0]|x[1]&x[2]&(x[3]^x[0])";
-            int inputNumberOfDigits = 8;
+            functionText[0] = @"x[2]^x[1]^x[0]";
+            int inputNumberOfDigits = 3;
             const int outputNumberOfDigits = 1; // Always one, input data format don't allow us anything else
             BooleanFuntionWithInputDistortion boolFunc = new BooleanFunctionAnalytic(inputNumberOfDigits,
                 outputNumberOfDigits, functionText);
@@ -129,7 +131,7 @@ namespace SubfunctionPrototype
         {
             BitArray result = new BitArray(1, false);
             bool r = false;
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 8; ++i)
             r ^= x[i];
             result[0] = r;///*x[15] | (x[14] & x[13] )*/ x[12] | x[11] & x[0] | x[10] & x[9] | x[8] & x[7] | x[6] & x[5] | x[4] | x[0] | x[1] & x[2] & (x[3] ^ x[0]);
             return result;
@@ -137,18 +139,21 @@ namespace SubfunctionPrototype
 
         private InputDistortionProbabilities GetInputDistortionProb()
         {
-            String path = @"C:\Study\DiplomInput\InputDistortion10bitEN.txt";
+            String path = @"C:\Study\DiplomInput\ADDER_DIV\InputDistortion4bitOUT3TestADD_FULL.txt";
             var reader = new DistortionProbTextReader(path);
             var idp = reader.GetDistortionProb();
             return idp;
             
         }
 
-        private void StartRoutine(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
+        private void StartRoutine(BooleanFuntionWithInputDistortion bf, IinputDistortionProbabilities idp)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             // calc original func dist
-            var originalF = CalculateFunctionDistortion(bf, idp);  // new G4Probability();//
+            var originalF = new G4Probability();//
+            InputDistortionProbabilities inpDst = idp as InputDistortionProbabilities;
+            if (inpDst != null)
+                originalF = CalculateFunctionDistortion(bf, inpDst);  // 
             stopwatch.Stop();
             var originalTime = stopwatch.ElapsedMilliseconds;
             // calc our model result
@@ -182,7 +187,7 @@ namespace SubfunctionPrototype
         private void button1_Click(object sender, EventArgs e)
         {
             var bf = GetBoolFunc();
-            var idp = GetInputDistortionProb();
+            var idp = GetG4InputDistortionProb();//GetInputDistortionProb();//
             StartRoutine(bf, idp);
         }
 
@@ -197,6 +202,9 @@ namespace SubfunctionPrototype
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             // calc original func dist
+            var bfsArr = GetDelegateFuncArr();
+            var compositePCalc = new MultifunctionDistortionCalcAdadapter(idp, bfsArr, idp.GetInputDigitsCount()/4);
+            var compositeFArr = compositePCalc.GetResultDistortinProbabilities();
             //var originalF = CalculateFunctionDistortion(bf, idp);  // new G4Probability();//
             stopwatch.Stop();
             var originalTime = stopwatch.ElapsedMilliseconds;
@@ -210,24 +218,30 @@ namespace SubfunctionPrototype
             stopwatch.Stop();
             var modelTime = stopwatch.ElapsedMilliseconds;
 
-            string origResult = "";
+            string origResult = G4ArrayToString(compositeFArr);
 
             textBoxOriginal.Text = origResult + Environment.NewLine + originalTime;
+            var modelResult = G4ArrayToString(modelFArr);
+            textBoxModel.Text = modelResult + Environment.NewLine + modelTime;
+        }
+
+        private static String G4ArrayToString(G4Probability[] modelFArr)
+        {
             string modelResult = "";
             for (int i = 0; i < modelFArr.Length; ++i)
             {
                 var modelF = modelFArr[i];
                 modelResult += "G[0][0] " + modelF.G[0][0] + Environment.NewLine +
-                "G[0][1] " + modelF.G[0][1] + Environment.NewLine +
-                "G[1][0] " + modelF.G[1][0] + Environment.NewLine +
-                "G[1][1] " + modelF.G[1][1] + Environment.NewLine + Environment.NewLine;
+                               "G[0][1] " + modelF.G[0][1] + Environment.NewLine +
+                               "G[1][0] " + modelF.G[1][0] + Environment.NewLine +
+                               "G[1][1] " + modelF.G[1][1] + Environment.NewLine + Environment.NewLine;
             }
-            textBoxModel.Text = modelResult + Environment.NewLine + modelTime;
+            return modelResult;
         }
 
         private InputDistortionG4 GetG4InputDistortionProb()
         {
-            String path = @"C:\Study\DiplomInput\G4InputDistortion8bitOUT8Test.txt";
+            String path = @"C:\Study\DiplomInput\G4InputDistortion8bitAdder.txt";
             var reader = new DistortionProbTextReader(path);
             var idp = reader.GetG4DistortionProb();
             return idp;
@@ -235,7 +249,15 @@ namespace SubfunctionPrototype
 
         private Func<int,int> GetDelegateFunc()
         {
-            return Repeater;
+            return Adder8;
+        }
+
+        private Func<int, int>[] GetDelegateFuncArr()
+        {
+            Func<int, int>[] arr = new Func<int, int>[2];
+            arr[0] = Adder4;
+            arr[1] = Adder4WithCarry;
+            return arr;
         }
 
         private static int Adder4(int a)
@@ -245,6 +267,66 @@ namespace SubfunctionPrototype
             int op1 = a & mask;
             int op2 = a >> shift;
             return op1 + op2;
+        }
+
+        private static int Adder8(int a)
+        {
+            const int shift = 8;
+            const int mask = 255;
+            int op1 = a & mask;
+            int op2 = a >> shift;
+            return op1 + op2;
+        }
+
+        private static int Adder2(int a)
+        {
+            const int shift = 2;
+            const int mask = 3;
+            int op1 = a & mask;
+            int op2 = a >> shift;
+            return op1 + op2;
+        }
+
+        private static int Adder1(int a)
+        {
+            const int shift = 1;
+            const int mask = 1;
+            int op1 = a & mask;
+            int op2 = a >> shift;
+            return op1 + op2;
+        }
+
+        private static int Adder1WithCarry(int a)
+        {
+            const int shift = 1;
+            const int mask = 1;
+            int carry = a & 1; // get carry bit
+            a = a >> 1; // remove carry bit from operand
+            int op1 = a & mask;
+            int op2 = a >> shift;
+            return op1 + op2 + carry;
+        }
+
+        private static int Adder2WithCarry(int a)
+        {
+            const int shift = 2;
+            const int mask = 3;
+            int carry = a & 1; // get carry bit
+            a = a >> 1; // remove carry bit from operand
+            int op1 = a & mask;
+            int op2 = a >> shift;
+            return op1 + op2 + carry;
+        }
+
+        private static int Adder4WithCarry(int a)
+        {
+            const int shift = 4;
+            const int mask = 15;
+            int carry = a & 1; // get carry bit
+            a = a >> 1; // remove carry bit from operand
+            int op1 = a & mask;
+            int op2 = a >> shift;
+            return op1 + op2 + carry;
         }
 
         private static int Repeater(int a)

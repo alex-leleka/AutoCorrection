@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
-    public class InputDistortionG4
+    public class InputDistortionG4 : IinputDistortionProbabilities
     {
         private G4Probability[] _inputDistG4Probability;
         private int _inputBitsNumber;
         private int _outputDigitsNumber;
 
-        public InputDistortionG4(G4Probability[] inputDistG4Probability)
+        public InputDistortionG4(G4Probability[] inputDistG4Probability, int outputDigitsNumber)
         {
             _inputDistG4Probability = inputDistG4Probability;
+            _inputBitsNumber = inputDistG4Probability.Length;
+            _outputDigitsNumber = outputDigitsNumber;
         }
 
         public InputDistortionG4(int n)
@@ -66,7 +68,7 @@ namespace Diplom_Work_Compare_Results_Probabilities
             
         }
 
-        public int GetInputBitsNumber()
+        public int GetInputDigitsCount()
         {
             return _inputBitsNumber;
         }
@@ -80,19 +82,32 @@ namespace Diplom_Work_Compare_Results_Probabilities
         {
             int size = 2*separateBitsNumber;
             G4Probability[] inputDistG4Probability = new G4Probability[size];
-            // copy op1 lower bits distotions
+
             for (int i = 0; i < separateBitsNumber; ++i)
             {
+                // copy op1 lower bits distotions
                 inputDistG4Probability[i] = _inputDistG4Probability[i];
+                // copy op2 lower bits distotions
                 inputDistG4Probability[separateBitsNumber + i] = _inputDistG4Probability[_inputBitsNumber/2 + i];
             }
-            var inpDist = new InputDistortionG4(inputDistG4Probability);
+            var inpDist = new InputDistortionG4(inputDistG4Probability, separateBitsNumber + 1);
             return inpDist;
         }
 
         public InputDistortionG4 GetAdderHigherBitsDistortion(int separateBitsNumber, G4Probability g4Probability)
         {
-            throw new NotImplementedException();
+            int size = _inputBitsNumber - 2 * separateBitsNumber + 1;
+            int bitsInOperand = _inputBitsNumber/2 - separateBitsNumber;
+            G4Probability[] inputDistG4Probability = new G4Probability[size];
+
+            inputDistG4Probability[0] = g4Probability; // carry bit
+            for (int i = 0; i < bitsInOperand; ++i)
+            {
+                inputDistG4Probability[i + 1] = _inputDistG4Probability[separateBitsNumber + i];
+                inputDistG4Probability[bitsInOperand + i + 1] = _inputDistG4Probability[_inputBitsNumber / 2 + separateBitsNumber + i];
+            }
+            var inpDist = new InputDistortionG4(inputDistG4Probability, bitsInOperand + 1);
+            return inpDist;
         }
     }
 }

@@ -48,24 +48,24 @@
             // 
             // textBoxOriginal
             // 
-            this.textBoxOriginal.Location = new System.Drawing.Point(38, 172);
+            this.textBoxOriginal.Location = new System.Drawing.Point(38, 25);
             this.textBoxOriginal.Multiline = true;
             this.textBoxOriginal.Name = "textBoxOriginal";
-            this.textBoxOriginal.Size = new System.Drawing.Size(179, 159);
+            this.textBoxOriginal.Size = new System.Drawing.Size(179, 306);
             this.textBoxOriginal.TabIndex = 1;
             // 
             // textBoxModel
             // 
-            this.textBoxModel.Location = new System.Drawing.Point(298, 172);
+            this.textBoxModel.Location = new System.Drawing.Point(298, 25);
             this.textBoxModel.Multiline = true;
             this.textBoxModel.Name = "textBoxModel";
-            this.textBoxModel.Size = new System.Drawing.Size(179, 159);
+            this.textBoxModel.Size = new System.Drawing.Size(179, 306);
             this.textBoxModel.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 106);
+            this.label1.Location = new System.Drawing.Point(38, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 13);
             this.label1.TabIndex = 3;
@@ -74,7 +74,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(295, 106);
+            this.label2.Location = new System.Drawing.Point(295, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 4;

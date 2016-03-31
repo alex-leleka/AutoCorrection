@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
-using Diplom_Work_Compare_Results_Probabilities.TruthTable;
 using DotNetUtils;
 
-namespace Diplom_Work_Compare_Results_Probabilities
+namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
 {
     class AdderTruthTableBuilder
     {
@@ -102,19 +101,23 @@ namespace Diplom_Work_Compare_Results_Probabilities
             _outputNumberOfDigits = 1;
             _bitIndex = bitIndex;
         }
+
+        public BitAdderTruthTable(int bitIndex, int addendBitsCount)
+            : base(addendBitsCount)
+        {
+            _bitIndex = bitIndex;
+        }
         // return f(i-th operand)
         public override BitArray GetResultByLineIndex(ulong index)
         {
-            return new BitArray(1, FunctionValues[Convert.ToInt32(index)][_bitIndex]);
+            return new BitArray(1, base.GetResultByLineIndex(index)[_bitIndex]);
         }
         // return f(operand)
         public override BitArray GetResult(BitArray operand)
         {
-            if (operand.Length > 31)
-                throw new ArgumentException("Argument length shall be at most 31 bits.");
-            int[] array = new int[1];
-            operand.CopyTo(array, 0);
-            return new BitArray(1, FunctionValues[array[0]][_bitIndex]);
+            bool val = base.GetResult(operand)[_bitIndex];
+            var ba = new BitArray(1, val);
+            return ba;
         }
     }
 }

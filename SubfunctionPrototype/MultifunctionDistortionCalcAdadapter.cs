@@ -39,7 +39,7 @@ namespace SubfunctionPrototype
             if (null == _boolFunctions)
                 return base.GetResultDistortinProbabilities();
 
-            if (_separateBitsNumber >= _inputDistortions.GetInputBitsNumber())
+            if (_separateBitsNumber >= _inputDistortions.GetInputDigitsCount())
                 throw new Exception("separate bits number should be less than InputBitsNumber");
             // create inputDistortions[0]
             var inpDistLower = _inputDistortions.GetAdderLowerBitsDistortion(_separateBitsNumber);

@@ -43,17 +43,19 @@ namespace SubfunctionPrototype
             var res = new G4Probability[_outputBitsCount];
             for (int i = 0; i < _outputBitsCount; ++i)
                 res[i] = new G4Probability();
+            
+            int maxResultBound = 1 << _outputBitsCount;
 
-            for (int i = 0; i < (1 << _outputBitsCount); ++i)
+            for (int i = 0; i < maxResultBound; ++i)
             {
-                for (int j = 0; j < (1 << _outputBitsCount); ++j)
+                for (int j = 0; j < maxResultBound; ++j)
                 {
                     for (int maskedI = i, maskedJ = j, iter = 0;
                         iter < _outputBitsCount;
                         ++iter, maskedI >>= 1, maskedJ >>= 1)
                     {
-                        int corr = j & 1;
-                        int dist = i & 1;
+                        int corr = maskedJ & 1;
+                        int dist = maskedI & 1;
                         res[iter].G[dist][corr] += _matrix.Get(i, j);
                     }
                 }
@@ -66,7 +68,7 @@ namespace SubfunctionPrototype
             int mSize = 1 << _outputBitsCount;
             _matrix = new GFProductsMatrix(mSize, mSize);
 
-            int rangeSize = _inputDistortions.GetInputBitsNumber();
+            int rangeSize = _inputDistortions.GetInputDigitsCount();
             int maxOperandBound = 1 << rangeSize;
 
             for (int i = 0; i < maxOperandBound; ++i)
@@ -88,7 +90,7 @@ namespace SubfunctionPrototype
         private double CalculateTurnInProbability(int originalValue, int corruptedValue)
         {
             double operandTurnInProbability = 1.0;
-            int inputBitsCount = _inputDistortions.GetInputBitsNumber();
+            int inputBitsCount = _inputDistortions.GetInputDigitsCount();
             for (int i = 0; i < inputBitsCount; i++, originalValue >>= 1, corruptedValue >>= 1)
             {
                 int dist = 1 & corruptedValue;

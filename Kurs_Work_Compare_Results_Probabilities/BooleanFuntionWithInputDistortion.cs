@@ -213,7 +213,7 @@ namespace Diplom_Work_Compare_Results_Probabilities.TruthTable
                 throw new ArgumentException("Argument length shall be at most 32 bits.");
             int[] array = new int[1];
             bitArray.CopyTo(array, 0);
-            return array[0];
+            return array[0] & (1 << bitArray.Length) - 1;
         }
         abstract public BitArray GetResultByLineIndex(ulong index);
         // return f(operand)

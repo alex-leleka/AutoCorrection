@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Diplom_Work_Compare_Results_Probabilities
 {
-    public class InputDistortionProbabilities
+    public class InputDistortionProbabilities : IinputDistortionProbabilities
     {
         protected double[] _distortionToZeroProbability;
         protected double[] _distortionToOneProbability;

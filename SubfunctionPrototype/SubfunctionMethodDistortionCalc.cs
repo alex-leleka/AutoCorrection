@@ -11,8 +11,8 @@ namespace SubfunctionPrototype
     public class SubfunctionMethodDistortionCalc
     {
         private BooleanFuntionWithInputDistortion _bf;
-        private InputDistortionProbabilities _idp;
-        public SubfunctionMethodDistortionCalc(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp)
+        private IinputDistortionProbabilities _idp;
+        public SubfunctionMethodDistortionCalc(BooleanFuntionWithInputDistortion bf, IinputDistortionProbabilities idp)
         {
             _bf = bf;
             _idp = idp;
@@ -70,6 +70,28 @@ namespace SubfunctionPrototype
             return operandTurnInProbability * inputProbability;
         }
 
+        /// <summary>
+        /// Returns probability of turning originalValue to corruptedValue based on idp distortion probabilities.
+        /// </summary>
+        /// <param name="originalValue"></param>
+        /// <param name="corruptedValue"></param>
+        /// <param name="idp">InputDistortionG4</param>
+        /// <param name="indexBase"></param>
+        /// <param name="indexBound"></param>
+        /// <returns></returns>
+        private double CalculateTurnInProbability(int originalValue, int corruptedValue, InputDistortionG4 idp, int indexBase, int indexBound)
+        {
+            double operandTurnInProbability = 1.0;
+            int inputBitsCount = idp.GetInputDigitsCount();
+            for (int i = indexBase; i < indexBound; i++, originalValue >>= 1, corruptedValue >>= 1)
+            {
+                int dist = 1 & corruptedValue;
+                int orig = 1 & originalValue;
+                operandTurnInProbability *= idp.GetInputProbability(i).G[dist][orig];
+            }
+            return operandTurnInProbability;
+        }
+
         public G4Probability GetCorrectResultProbability()
         {
             // some preparations for test model:
@@ -99,7 +121,7 @@ namespace SubfunctionPrototype
         internal void GenerateIndicesAndRwduceMaps(out GXIndex[] gxIndexes, out List<List<int>>[] reduceMaps)
         {
 // divide functionction arguments into groups
-            gxIndexes = PartitionArgumentsIntoGroups(_idp);
+            gxIndexes = PartitionArgumentsIntoGroups(_idp.GetInputDigitsCount());
             // create reduce map based on matching functions
             reduceMaps = new List<List<int>>[gxIndexes.Length];
             for (int i = 0; i < gxIndexes.Length; ++i)
@@ -126,7 +148,7 @@ namespace SubfunctionPrototype
             }
         }
 
-        internal G4Probability GetAutoCorrForSubFuncModel(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex [] gxIndexes, List<List<int>>[] reduceMaps)
+        internal G4Probability GetAutoCorrForSubFuncModel(BooleanFuntionWithInputDistortion bf, IinputDistortionProbabilities idp, GXIndex[] gxIndexes, List<List<int>>[] reduceMaps)
         {
             GXProductsMatrix[] gxProductsMatrices = new GXProductsMatrix[gxIndexes.Length];
 
@@ -209,7 +231,7 @@ namespace SubfunctionPrototype
         /// <param name="idp"></param>
         /// <param name="gXIndex"></param>
         /// <returns></returns>
-        private GXProductsMatrix GetReducedMatrix(BooleanFuntionWithInputDistortion bf, InputDistortionProbabilities idp, GXIndex gXIndex, List<List<int>> reduceMap)
+        private GXProductsMatrix GetReducedMatrix(BooleanFuntionWithInputDistortion bf, IinputDistortionProbabilities idp, GXIndex gXIndex, List<List<int>> reduceMap)
         {
             int rangeSize = 1 << gXIndex.GetBitsCount();
             // create turninprobability matrix
@@ -218,7 +240,19 @@ namespace SubfunctionPrototype
             for(int i = 0; i < rangeSize; ++i)
                 for (int j = 0; j < rangeSize; ++j)
                 {
-                    double prob = CalculateTurnInProbability(i, j, idp, gXIndex.First, gXIndex.Last + 1);
+                    double prob = 0;
+                    
+                    var inpDist = idp as InputDistortionProbabilities;
+                    if (inpDist != null)
+                    {
+                        prob = CalculateTurnInProbability(i, j, inpDist, gXIndex.First, gXIndex.Last + 1);
+                    }
+                    var inpDistG4 = idp as InputDistortionG4;
+                    if (inpDistG4 != null)
+                    {
+                        prob = CalculateTurnInProbability(i, j, inpDistG4, gXIndex.First, gXIndex.Last + 1);
+                    }
+
                     turnInProbMatrix.Set(j, i, prob);
                 }
             //Debug step
@@ -350,20 +384,20 @@ namespace SubfunctionPrototype
             return newBf;
         }
 
-        private GXIndex[] PartitionArgumentsIntoGroups(InputDistortionProbabilities idp)
+        private GXIndex[] PartitionArgumentsIntoGroups(int inputDigitsCount)
         {
-            /*/ temp wothout patition
+            // temp wothout patition
             GXIndex[] partGxIndicest = new GXIndex[1];
             int firstt = 0;
-            int lastt = idp.GetInputDigitsCount() - 1;
+            int lastt = inputDigitsCount - 1;
             partGxIndicest[0] = new GXIndex(firstt, lastt);
             return partGxIndicest;
             //*/
-            if ((idp.ZeroProbability.Length%3 == 0) && false)
+            if ((inputDigitsCount % 3 == 0) && false)
             {
                 // if we could create 3 groups, lets do it
                 const int N = 3;
-                int numberInGroup = idp.ZeroProbability.Length/N;
+                int numberInGroup = inputDigitsCount / N;
                 GXIndex[] partGxIndices3 = new GXIndex[N];
                 for (int i = 0, first3 = 0, last3 = numberInGroup; i < N; i++, first3 = last3, last3 += numberInGroup)
                 {
@@ -376,8 +410,8 @@ namespace SubfunctionPrototype
             // TODO: implement algorithm
             GXIndex[] partGxIndices = new GXIndex[2];
             int first = 0;
-            int last = idp.GetInputDigitsCount() - 1;
-            int mid = idp.GetInputDigitsCount() / 2 - 1;
+            int last = inputDigitsCount - 1;
+            int mid = inputDigitsCount / 2 - 1;
             partGxIndices[0] = new GXIndex(first, mid);
             partGxIndices[1] = new GXIndex(mid + 1, last);
             return partGxIndices;
