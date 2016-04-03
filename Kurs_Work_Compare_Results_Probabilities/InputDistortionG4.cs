@@ -109,5 +109,27 @@ namespace Diplom_Work_Compare_Results_Probabilities
             var inpDist = new InputDistortionG4(inputDistG4Probability, bitsInOperand + 1);
             return inpDist;
         }
+
+        public InputDistortionG4 GetAdderBitsDistortion(int baseIndex, int separateBitsNumber, G4Probability carry)
+        {
+            int carrySize = 0;
+            if (carry != null) carrySize = 1;
+
+            int size = 2 * separateBitsNumber + carrySize;
+            G4Probability[] inputDistG4Probability = new G4Probability[size];
+
+            if (carry != null)
+                inputDistG4Probability[0] = carry;
+
+            for (int i = 0; i < separateBitsNumber; ++i)
+            {
+                // copy op1 bits distotions
+                inputDistG4Probability[i + carrySize] = _inputDistG4Probability[baseIndex + i];
+                // copy op2 bits distotions
+                inputDistG4Probability[separateBitsNumber + i + carrySize] = _inputDistG4Probability[_inputBitsNumber / 2 + baseIndex + i];
+            }
+            var inpDist = new InputDistortionG4(inputDistG4Probability, separateBitsNumber + 1);
+            return inpDist;
+        }
     }
 }

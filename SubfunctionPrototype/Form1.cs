@@ -203,7 +203,7 @@ namespace SubfunctionPrototype
             Stopwatch stopwatch = Stopwatch.StartNew();
             // calc original func dist
             var bfsArr = GetDelegateFuncArr();
-            var compositePCalc = new MultifunctionDistortionCalcAdadapter(idp, bfsArr, idp.GetInputDigitsCount()/4);
+            var compositePCalc = new MultifunctionDistortionCalcAdadapter(idp, bfsArr);
             var compositeFArr = compositePCalc.GetResultDistortinProbabilities();
             //var originalF = CalculateFunctionDistortion(bf, idp);  // new G4Probability();//
             stopwatch.Stop();
@@ -214,7 +214,7 @@ namespace SubfunctionPrototype
             var pCalc = new MultifunctionDistortionCalcAdadapter(idp, bf);
             //***************************************************
             stopwatch = Stopwatch.StartNew();
-            var modelFArr = pCalc.GetResultDistortinProbabilities();
+            G4Probability[] modelFArr =  null;//pCalc.GetResultDistortinProbabilities();//
             stopwatch.Stop();
             var modelTime = stopwatch.ElapsedMilliseconds;
 
@@ -227,6 +227,8 @@ namespace SubfunctionPrototype
 
         private static String G4ArrayToString(G4Probability[] modelFArr)
         {
+            if (modelFArr == null)
+                return "";
             string modelResult = "";
             for (int i = 0; i < modelFArr.Length; ++i)
             {
@@ -241,7 +243,7 @@ namespace SubfunctionPrototype
 
         private InputDistortionG4 GetG4InputDistortionProb()
         {
-            String path = @"C:\Study\DiplomInput\G4InputDistortion8bitAdder.txt";
+            String path = @"C:\Study\DiplomInput\G4InputDistortion32bitAdder.txt";
             var reader = new DistortionProbTextReader(path);
             var idp = reader.GetG4DistortionProb();
             return idp;
@@ -254,9 +256,16 @@ namespace SubfunctionPrototype
 
         private Func<int, int>[] GetDelegateFuncArr()
         {
-            Func<int, int>[] arr = new Func<int, int>[2];
-            arr[0] = Adder4;
-            arr[1] = Adder4WithCarry;
+            //Func<int, int>[] arr = new Func<int, int>[8];
+            //arr[0] = Adder4;
+            //arr[1] = arr[2] = arr[3] = arr[4] = arr[5] = arr[6] = arr[7] = Adder4WithCarry;
+            /*Func<int, int>[] arr = new Func<int, int>[16];
+            arr[0] = Adder2;
+            arr[1] = arr[2] = arr[3] = arr[4] = arr[5] = arr[6] = arr[7] =
+                arr[8] = arr[9] = arr[10] = arr[11] = arr[12] = arr[13] = arr[14] = arr[15] = Adder2WithCarry;*/
+            Func<int, int>[] arr = new Func<int, int>[4];
+            arr[0] = Adder8;
+            arr[1] = arr[2] = arr[3] = Adder8WithCarry;
             return arr;
         }
 
@@ -322,6 +331,17 @@ namespace SubfunctionPrototype
         {
             const int shift = 4;
             const int mask = 15;
+            int carry = a & 1; // get carry bit
+            a = a >> 1; // remove carry bit from operand
+            int op1 = a & mask;
+            int op2 = a >> shift;
+            return op1 + op2 + carry;
+        }
+
+        private static int Adder8WithCarry(int a)
+        {
+            const int shift = 8;
+            const int mask = 255;
             int carry = a & 1; // get carry bit
             a = a >> 1; // remove carry bit from operand
             int op1 = a & mask;

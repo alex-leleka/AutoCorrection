@@ -24,12 +24,12 @@ namespace SubfunctionPrototype
         /// <param name="inputDistortions"></param>
         /// <param name="boolFunctions"> Array of two boolean functions</param>
         /// <param name="separateBitsNumber"></param>
-        public MultifunctionDistortionCalcAdadapter(InputDistortionG4 inputDistortions, Func<int, int>[] boolFunctions, int separateBitsNumber)
+        public MultifunctionDistortionCalcAdadapter(InputDistortionG4 inputDistortions, Func<int, int>[] boolFunctions)
             : base(inputDistortions, null)
         {
             _inputDistortions = inputDistortions;
             _boolFunctions = boolFunctions;
-            _separateBitsNumber = separateBitsNumber;
+            _separateBitsNumber = inputDistortions.GetInputDigitsCount() / 2 / boolFunctions.Length;
             // _indexes = indexes;
 
         }
@@ -41,6 +41,13 @@ namespace SubfunctionPrototype
 
             if (_separateBitsNumber >= _inputDistortions.GetInputDigitsCount())
                 throw new Exception("separate bits number should be less than InputBitsNumber");
+            if (_inputDistortions.GetInputDigitsCount() < 20)
+                return ConvertToTwoAddersAndGetDistortion();
+            return ConvertToMultpleAddersGetDistortion();
+        }
+
+        private G4Probability[] ConvertToTwoAddersAndGetDistortion()
+        {
             // create inputDistortions[0]
             var inpDistLower = _inputDistortions.GetAdderLowerBitsDistortion(_separateBitsNumber);
             // calculate result g4 probabilities for adder lower bits
@@ -53,9 +60,42 @@ namespace SubfunctionPrototype
             // calculate result g4 probabilities for adder higher bits
             pCalc = new MultifunctionDistortionCalc(inpDistHigher, _boolFunctions[1]);
             var resDistHigher = pCalc.GetResultDistortinProbabilities();
+            var resG4 = GetAdderResultDistortionG4Probs(resDistLower, resDistHigher);
+            return resG4;
+        }
 
-            return resDistHigher;
+        private G4Probability[] ConvertToMultpleAddersGetDistortion()
+        {
+            int maxAdderBound = _boolFunctions.Length;
+            G4Probability carry = null;
+            G4Probability[] resG4 = null;
+            for(int adderNumber = 0; adderNumber < maxAdderBound; ++adderNumber)
+            {
+                // get input distortion for current adder
+                var inpDist = _inputDistortions.GetAdderBitsDistortion(adderNumber * _separateBitsNumber, _separateBitsNumber, carry);
+                // calc dist for current adder
+                MultifunctionDistortionCalc pCalc = new MultifunctionDistortionCalc(inpDist, _boolFunctions[adderNumber]);
+                var resDist = pCalc.GetResultDistortinProbabilities();
+                // save higher bit as carry
+                int carryBitIndex = resDist.Length - 1;
+                carry = resDist[carryBitIndex];
+                resG4 = GetAdderResultDistortionG4Probs(resG4, resDist);
+            }
 
+            return resG4;
+        }
+
+        private G4Probability[] GetAdderResultDistortionG4Probs(G4Probability[] resDistLower, G4Probability[] resDistHigher)
+        {
+            if (resDistLower == null)
+                return resDistHigher;
+            int outputBitsCount = resDistLower.Length - 1 + resDistHigher.Length; // we subtract one for carry bit
+            var res = new G4Probability[outputBitsCount];
+            for (int i = 0; i < resDistLower.Length - 1; ++i)
+                res[i] = resDistLower[i];
+            for (int i = 0; i < resDistHigher.Length; ++i)
+                res[i + resDistLower.Length - 1] = resDistHigher[i];
+            return res;
         }
     }
 }
